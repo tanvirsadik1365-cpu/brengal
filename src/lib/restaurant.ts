@@ -50,6 +50,8 @@ export const foodImages = {
     "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=1100&q=85",
   restaurant:
     "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1100&q=85",
+  exterior:
+    "https://images.unsplash.com/photo-1747135085860-1b2fa89fe1e5?auto=format&fit=crop&w=1100&q=85",
   spices:
     "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1100&q=85",
   samosa:
@@ -271,6 +273,7 @@ export const galleryImages = [
   { title: "Fresh Nan", category: "Food", src: foodImages.naan },
   { title: "Indian Spices", category: "Kitchen", src: foodImages.spices },
   { title: "Restaurant Dining", category: "Restaurant", src: foodImages.restaurant },
+  { title: "Restaurant Exterior", category: "Restaurant", src: foodImages.exterior },
   { title: "Samosa Starter", category: "Food", src: foodImages.samosa },
 ];
 

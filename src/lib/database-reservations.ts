@@ -198,8 +198,8 @@ export async function listMerchantReservations() {
     .select(
       "id, reservation_reference, reservation_date, reservation_time, guests, guest_name, guest_email, guest_phone, occasion, special_requests, status, created_at",
     )
-    .order("reservation_date", { ascending: true })
-    .order("reservation_time", { ascending: true })
+    .eq("restaurant_id", getRestaurantId())
+    .order("created_at", { ascending: false })
     .limit(100);
 
   if (error) {

@@ -3,18 +3,44 @@
 import Link from "next/link";
 import { BadgePercent, ShoppingBag, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { offers } from "@/lib/restaurant";
 
+const dismissedStorageKey = "jamals-offer-popup-dismissed-v1";
+const popupDelayMs = 6500;
 const slideDelayMs = 4200;
 
 export function OfferPopup() {
-  const [isVisible, setIsVisible] = useState(true);
+  const pathname = usePathname();
+  const [isVisible, setIsVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const isMerchantPage = pathname?.startsWith("/merchant");
+
+  function closePopup() {
+    window.sessionStorage.setItem(dismissedStorageKey, "true");
+    setIsVisible(false);
+  }
 
   useEffect(() => {
+    if (isMerchantPage || window.sessionStorage.getItem(dismissedStorageKey)) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setIsVisible(true);
+    }, popupDelayMs);
+
+    return () => window.clearTimeout(timer);
+  }, [isMerchantPage]);
+
+  useEffect(() => {
+    if (!isVisible) {
+      return;
+    }
+
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setIsVisible(false);
+        closePopup();
       }
     }
 
@@ -24,14 +50,18 @@ export function OfferPopup() {
   }, []);
 
   useEffect(() => {
+    if (!isVisible) {
+      return;
+    }
+
     const intervalId = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % offers.length);
     }, slideDelayMs);
 
     return () => window.clearInterval(intervalId);
-  }, []);
+  }, [isVisible]);
 
-  if (!isVisible) {
+  if (!isVisible || isMerchantPage) {
     return null;
   }
 
@@ -44,7 +74,7 @@ export function OfferPopup() {
       <div className="relative overflow-hidden rounded-lg border border-[#5F241F] bg-[#8A3430] px-5 pb-5 pt-6 text-white shadow-2xl shadow-black/20 sm:px-6">
         <button
           type="button"
-          onClick={() => setIsVisible(false)}
+          onClick={closePopup}
           aria-label="Close offer popup"
           className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white text-[#241D1D] transition hover:bg-white"
         >
@@ -110,7 +140,7 @@ export function OfferPopup() {
 
         <Link
           href="/menu"
-          onClick={() => setIsVisible(false)}
+          onClick={closePopup}
           className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#241D1D] shadow-lg shadow-black/15 transition hover:bg-white"
         >
           <ShoppingBag size={17} aria-hidden="true" />

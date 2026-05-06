@@ -13,6 +13,7 @@ import {
   Star,
   Truck,
 } from "lucide-react";
+import { HomeHeroSlider } from "@/components/HomeHeroSlider";
 import {
   aboutImages,
   brandHeroImage,
@@ -108,7 +109,31 @@ const contactCards = [
   },
 ];
 
-const heroDish = featuredDishes[0];
+const heroSlides = [
+  {
+    alt: "Warm Indian restaurant interior ready for dinner service",
+    eyebrow: "Interior",
+    image: foodImages.restaurant,
+    summary:
+      "A warm dining room for date nights, families, students, and group tables.",
+    title: "Settle in on Walton Street.",
+  },
+  {
+    alt: "Warmly lit restaurant exterior at night",
+    eyebrow: "Exterior",
+    image: foodImages.exterior,
+    summary:
+      "A long-standing Oxford curry house serving local diners since 1956.",
+    title: "Easy to find, easy to order.",
+  },
+  {
+    alt: featuredDishes[0].name,
+    eyebrow: "Popular Food",
+    image: featuredDishes[0].image,
+    summary: `${featuredDishes[0].name}, tandoori grills, biryani, and chef-selected feasts ready from the menu.`,
+    title: "Start with the favourites.",
+  },
+];
 
 export default function Home() {
   return (
@@ -119,10 +144,13 @@ export default function Home() {
       />
 
       <section className="relative isolate overflow-hidden bg-[#FFFCF6] text-[var(--brand-ink)]">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,#fff_0%,#FFFCF6_42%,#fff_100%)]" aria-hidden="true" />
+        <div
+          className="absolute inset-0 bg-[linear-gradient(180deg,#fff_0%,#FFFCF6_46%,#fff_100%)]"
+          aria-hidden="true"
+        />
 
-        <div className="relative mx-auto grid min-h-[calc(76svh-72px)] max-w-7xl items-center gap-10 px-4 pb-14 pt-10 sm:px-6 sm:pb-16 sm:pt-12 lg:grid-cols-[0.96fr_0.78fr] lg:px-8">
-          <div className="home-reveal max-w-3xl">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-12 sm:px-6 sm:py-14 lg:min-h-[calc(82svh-88px)] lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.82fr)] lg:gap-14 lg:px-8 lg:py-10 xl:gap-16">
+          <div className="home-reveal w-full min-w-0 max-w-[680px]">
             <p className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-black text-[var(--brand-primary)] shadow-sm">
               <Clock size={17} aria-hidden="true" />
               Open from 5.00pm
@@ -131,26 +159,26 @@ export default function Home() {
             <p className="mt-8 text-sm font-black uppercase tracking-[0.22em] text-[var(--brand-primary)]">
               Walton Street, Oxford
             </p>
-            <h1 className="mt-4 max-w-4xl text-5xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">
+            <h1 className="mt-4 max-w-4xl text-5xl font-black leading-[1.02] sm:text-6xl lg:text-[4.7rem] xl:text-[5rem]">
               Jamal&apos;s Indian Restaurant
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--brand-muted)]">
+            <p className="mt-6 max-w-full text-lg leading-8 text-[var(--brand-muted)] sm:max-w-2xl">
               Fresh curries, tandoori grills, biryani, and warm dine-in
               service on Walton Street. Order online for collection or
               delivery, or reserve a table tonight.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/menu"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[var(--brand-primary)] px-6 text-sm font-black text-white shadow-lg shadow-black/10 transition hover:bg-[var(--brand-primary-dark)]"
+                className="inline-flex h-12 w-full min-w-40 items-center justify-center gap-2 rounded-full bg-[var(--brand-primary)] px-6 text-sm font-black text-white shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--brand-primary-dark)] sm:w-auto"
               >
                 <ShoppingBag size={18} aria-hidden="true" />
                 Order Online
               </Link>
               <Link
                 href="/booking"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-6 text-sm font-black text-[var(--brand-primary)] shadow-sm transition hover:border-[var(--brand-primary)]"
+                className="inline-flex h-12 w-full min-w-40 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-6 text-sm font-black text-[var(--brand-primary)] shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-[var(--brand-primary)] sm:w-auto"
               >
                 <CalendarCheck size={18} aria-hidden="true" />
                 Book a Table
@@ -176,103 +204,36 @@ export default function Home() {
               </a>
             </div>
 
-          <div className="mt-10 grid max-w-5xl gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            {trustItems.map((item) => (
-              <div key={item.label} className="restaurant-surface rounded-lg p-4">
-                <p className="text-2xl font-black text-[var(--brand-primary)]">
-                  {item.value}
-                </p>
-                <p className="mt-1 text-sm font-semibold text-[var(--brand-muted)]">
-                  {item.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-          <div className="home-reveal home-reveal-delay mx-auto w-full max-w-[570px] lg:justify-self-end">
-            <div className="hero-showcase relative">
-              <div className="relative aspect-[4/5] min-h-[330px] overflow-hidden rounded-lg border border-[var(--brand-line)] bg-white shadow-[0_24px_70px_rgba(52,35,28,0.16)] sm:aspect-[5/4] sm:min-h-[430px] lg:aspect-[4/5]">
-                <Image
-                  src={foodImages.restaurant}
-                  alt="Warm restaurant interior ready for dinner service"
-                  fill
-                  preload
-                  sizes="(min-width: 1024px) 44vw, 100vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,rgba(33,26,24,0)_0%,rgba(33,26,24,0.82)_100%)] px-5 pb-5 pt-20 text-white sm:px-6">
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-white/76">
-                    Walton Street dining
+            <div className="mt-10 grid w-full max-w-[680px] grid-cols-2 gap-3 lg:grid-cols-4">
+              {trustItems.map((item) => (
+                <div
+                  key={item.label}
+                  className="restaurant-surface min-h-[108px] rounded-lg p-4 transition duration-300 hover:-translate-y-1 hover:border-[var(--brand-primary)]"
+                >
+                  <p className="text-2xl font-black text-[var(--brand-primary)]">
+                    {item.value}
                   </p>
-                  <p className="mt-2 max-w-xs text-2xl font-black leading-tight">
-                    A warm table, a full menu, and easy online ordering.
+                  <p className="mt-2 text-sm font-semibold leading-6 text-[var(--brand-muted)]">
+                    {item.label}
                   </p>
                 </div>
-              </div>
-
-              <div className="hero-float-card hero-float-offer restaurant-card mt-3 rounded-lg p-4 xl:absolute xl:-left-10 xl:top-8 xl:mt-0 xl:w-[232px]">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--brand-primary)] text-white">
-                    <Gift size={17} aria-hidden="true" />
-                  </span>
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-[0.14em] text-[var(--brand-primary)]">
-                      Live offers
-                    </p>
-                    <p className="text-sm font-black text-[var(--brand-ink)]">
-                      Applied in cart
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-3 grid gap-2">
-                  {offers.map((offer) => (
-                    <span
-                      key={offer.title}
-                      className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-[var(--brand-primary)] shadow-sm"
-                    >
-                      {offer.title}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="hero-float-card hero-float-dish restaurant-card mt-3 rounded-lg p-3 xl:absolute xl:-right-8 xl:bottom-10 xl:mt-0 xl:w-[252px]">
-                <div className="flex items-center gap-3">
-                  <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-white">
-                    <Image
-                      src={heroDish.image}
-                      alt={heroDish.name}
-                      fill
-                      sizes="64px"
-                      className="object-cover"
-                    />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-xs font-black uppercase tracking-[0.14em] text-[var(--brand-primary)]">
-                      Popular dish
-                    </p>
-                    <p className="mt-1 truncate text-base font-black">
-                      {heroDish.name}
-                    </p>
-                    <p className="mt-1 text-sm font-black text-[var(--brand-accent)]">
-                      &pound;{heroDish.price}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
+          </div>
+
+          <div className="home-reveal home-reveal-delay mx-auto w-full min-w-0 max-w-[570px] lg:justify-self-end">
+            <HomeHeroSlider slides={heroSlides} />
           </div>
         </div>
       </section>
 
-      <section className="relative z-10 bg-white px-4 pb-10 pt-0 sm:px-6 sm:pb-12 lg:px-8">
+      <section className="section-reveal relative z-10 bg-white px-4 pb-12 pt-0 sm:px-6 sm:pb-14 lg:px-8">
         <div className="mx-auto -mt-4 grid max-w-7xl gap-3 md:grid-cols-3">
           {quickActions.map(({ Icon, title, detail, href, label }) => (
             <Link
               key={title}
               href={href}
-              className="group restaurant-surface rounded-lg p-5 transition hover:-translate-y-0.5 hover:border-[var(--brand-primary)] sm:p-6"
+              className="group restaurant-surface min-h-[156px] rounded-lg p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--brand-primary)] sm:p-6"
             >
               <div className="flex items-start gap-4">
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--brand-primary)] text-white">
@@ -298,7 +259,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white px-4 py-14 text-[var(--brand-ink)] sm:px-6 sm:py-16 lg:px-8">
+      <section className="section-reveal bg-white px-4 py-16 text-[var(--brand-ink)] sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
@@ -326,7 +287,7 @@ export default function Home() {
             {featuredDishes.map((dish) => (
               <article
                 key={dish.name}
-                className="group overflow-hidden rounded-lg border border-[var(--brand-line)] bg-[#FFFCF6] shadow-sm"
+                className="group flex h-full flex-col overflow-hidden rounded-lg border border-[var(--brand-line)] bg-[#FFFCF6] shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(52,35,28,0.1)]"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
@@ -340,7 +301,7 @@ export default function Home() {
                     {dish.badge}
                   </span>
                 </div>
-                <div className="p-5">
+                <div className="flex flex-1 flex-col p-5">
                   <div className="flex items-start justify-between gap-4">
                     <h3 className="text-xl font-black">{dish.name}</h3>
                     <p className="shrink-0 text-xl font-black text-[var(--brand-accent)]">
@@ -352,7 +313,7 @@ export default function Home() {
                   </p>
                   <Link
                     href="/menu"
-                    className="mt-5 inline-flex h-10 items-center gap-2 rounded-full border border-black/10 px-4 text-sm font-black text-[var(--brand-primary)] transition hover:border-[var(--brand-primary)]"
+                    className="mt-auto inline-flex h-10 items-center gap-2 self-start rounded-full border border-black/10 px-4 text-sm font-black text-[var(--brand-primary)] transition hover:border-[var(--brand-primary)]"
                   >
                     Add from menu
                     <ShoppingBag size={16} aria-hidden="true" />
@@ -364,7 +325,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+      <section className="section-reveal bg-[#FFFCF6] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.68fr_1.32fr]">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.22em] text-[var(--brand-primary)]">
@@ -391,7 +352,7 @@ export default function Home() {
               <Link
                 key={category.name}
                 href="/menu"
-                className="group restaurant-surface rounded-lg p-5 transition hover:-translate-y-0.5 hover:border-[var(--brand-primary)]"
+                className="group restaurant-surface min-h-[188px] rounded-lg p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--brand-primary)]"
               >
                 <Sparkles className="text-[var(--brand-primary)]" size={24} aria-hidden="true" />
                 <p className="mt-5 text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-primary)]">
@@ -409,7 +370,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+      <section className="section-reveal bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {aboutImages.map((image) => (
@@ -462,8 +423,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white px-4 py-14 text-[var(--brand-ink)] sm:px-6 sm:py-16 lg:px-8">
-        <div className="restaurant-brand-panel mx-auto grid max-w-7xl gap-10 rounded-lg p-6 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:p-10">
+      <section className="section-reveal restaurant-brand-panel px-4 py-16 text-[var(--brand-ink)] sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
           <div>
             <div className="flex items-center gap-3">
               <Gift className="text-[var(--brand-accent)]" size={28} aria-hidden="true" />
@@ -534,7 +495,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8">
+      <section className="section-reveal bg-white px-4 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.84fr_1.16fr] lg:items-center">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.22em] text-[var(--brand-primary)]">

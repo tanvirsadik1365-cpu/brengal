@@ -1,0 +1,26 @@
+{
+  "id": "/merchant/reservations",
+  "name": "Jamal's Merchant Reservations",
+  "short_name": "Jamal's Merchant",
+  "description": "Merchant view for Jamal's Indian Restaurant table booking requests.",
+  "start_url": "/merchant/reservations",
+  "scope": "/merchant/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#7F2F2A",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

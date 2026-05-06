@@ -172,8 +172,21 @@ textarea {
   animation-delay: 140ms;
 }
 
+.section-reveal {
+  animation: section-reveal 620ms ease-out both;
+}
+
 .hero-showcase {
   isolation: isolate;
+}
+
+.hero-slide-copy {
+  animation: hero-slide-copy 520ms ease-out both;
+}
+
+.hero-slide-progress {
+  animation: hero-slide-progress 5.2s linear both;
+  transform-origin: left;
 }
 
 .hero-float-card {
@@ -184,6 +197,40 @@ textarea {
 .hero-float-dish {
   animation-name: hero-float-alt;
   animation-duration: 7.5s;
+}
+
+@keyframes hero-slide-copy {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-slide-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes section-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes checkout-pop {
@@ -219,6 +266,9 @@ textarea {
 
 @media (prefers-reduced-motion: reduce) {
   .home-reveal,
+  .section-reveal,
+  .hero-slide-copy,
+  .hero-slide-progress,
   .hero-float-card,
   .checkout-step-card,
   .smart-suggestion {
