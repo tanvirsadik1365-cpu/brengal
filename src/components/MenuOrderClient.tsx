@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import {
   BadgePercent,
+  ChevronDown,
   CheckCircle2,
   Clock,
   Gift,
@@ -161,9 +162,13 @@ export function MenuOrderClient() {
   const { cart, cartItems, itemCount, orderType } = cartStore;
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
+  const [mobileOffersOpen, setMobileOffersOpen] = useState(false);
   const { orderingAllowed, storeStatus } = useStoreStatus();
 
   const menuTopRef = useRef<HTMLDivElement>(null);
+  const compactCategoryButtonRefs = useRef<
+    Record<string, HTMLButtonElement | null>
+  >({});
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const subtotal = cartItems.reduce(
@@ -259,6 +264,14 @@ export function MenuOrderClient() {
 
     return () => observer.disconnect();
   }, [normalizedSearch, visibleBaseItems.length, visibleSections.length]);
+
+  useEffect(() => {
+    compactCategoryButtonRefs.current[activeCategory]?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }, [activeCategory]);
 
   function setSectionRef(id: string) {
     return (element: HTMLElement | null) => {
@@ -391,7 +404,7 @@ export function MenuOrderClient() {
         aria-label="Menu categories"
         className={
           compact
-            ? "scrollbar-soft flex gap-2 overflow-x-auto pb-1"
+            ? "scrollbar-soft flex snap-x gap-2 overflow-x-auto border-b border-[#E9DED2] pb-2"
             : "scrollbar-soft grid max-h-[calc(100vh-210px)] gap-2 overflow-y-auto pr-1"
         }
       >
@@ -401,21 +414,30 @@ export function MenuOrderClient() {
           return (
             <button
               key={category.id}
+              ref={
+                compact
+                  ? (element) => {
+                      compactCategoryButtonRefs.current[category.id] = element;
+                    }
+                  : undefined
+              }
               type="button"
               onClick={() => scrollToCategory(category.id)}
               aria-pressed={active}
               className={`group ${
                 compact
-                  ? "flex h-11 shrink-0 items-center gap-2 rounded-full border px-4"
+                  ? "flex h-11 min-w-[118px] shrink-0 snap-start items-center justify-center gap-2 rounded-full border px-3"
                   : "grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg border px-4 py-3 text-left"
               } transition ${
                 active
                   ? "border-[#8A3430] bg-[#8A3430] text-white shadow-md shadow-[#8A3430]/15"
-                  : "border-black/10 bg-white text-[#6B5D5B] hover:border-[#8A3430]/35 hover:text-[#8A3430]"
+                  : compact
+                    ? "border-[#E4D6C4] bg-white text-[#5F5552] hover:border-[#8A3430]/35 hover:text-[#8A3430]"
+                    : "border-black/10 bg-white text-[#6B5D5B] hover:border-[#8A3430]/35 hover:text-[#8A3430]"
               }`}
             >
               <span className="min-w-0">
-                <span className="block truncate text-sm font-black">
+                <span className="block truncate text-sm font-black leading-none">
                   {category.title}
                 </span>
                 {!compact && category.id !== "all" ? (
@@ -430,7 +452,9 @@ export function MenuOrderClient() {
               </span>
               <span
                 className={`rounded-full px-2 py-0.5 text-[11px] font-black ${
-                  active ? "bg-white/18 text-white" : "bg-white text-[#8A3430]"
+                  active
+                    ? "bg-white/18 text-white"
+                    : "bg-[#FFF7EC] text-[#8A3430]"
                 }`}
               >
                 {category.count}
@@ -439,6 +463,86 @@ export function MenuOrderClient() {
           );
         })}
       </nav>
+    );
+  }
+
+  function MobileOffersDropdown() {
+    return (
+      <div className="mt-3 lg:hidden">
+        <button
+          type="button"
+          onClick={() => setMobileOffersOpen((open) => !open)}
+          aria-expanded={mobileOffersOpen}
+          className="flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl border border-[#E4D6C4] bg-white px-3.5 text-left shadow-[0_10px_24px_rgba(52,35,28,0.08)]"
+        >
+          <span className="flex min-w-0 items-center gap-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#8A3430] text-white shadow-sm shadow-[#8A3430]/20">
+              <BadgePercent size={17} aria-hidden="true" />
+            </span>
+            <span className="min-w-0">
+              <span className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.14em] text-[#8A3430]">
+                Offers
+              </span>
+              <span className="mt-0.5 block truncate text-sm font-black leading-5 text-[#241D1D]">
+                View today&apos;s rewards
+              </span>
+            </span>
+          </span>
+          <span className="hidden shrink-0 rounded-full bg-[#FFF7EC] px-2.5 py-1 text-[11px] font-black text-[#8A3430] min-[380px]:inline-flex">
+            {offers.length}
+          </span>
+          <ChevronDown
+            className={`shrink-0 text-[#8A3430] transition ${
+              mobileOffersOpen ? "rotate-180" : ""
+            }`}
+            size={19}
+            aria-hidden="true"
+          />
+        </button>
+
+        {mobileOffersOpen ? (
+          <div className="mt-2 overflow-hidden rounded-2xl border border-[#E4D6C4] bg-white shadow-xl shadow-black/10">
+            <div className="grid divide-y divide-[#F0E3D2]">
+              {offers.map((offer) => (
+                <div key={offer.title} className="grid gap-1 px-4 py-3">
+                  <div className="flex items-start gap-3">
+                    <Gift
+                      className="mt-0.5 shrink-0 text-[#8A3430]"
+                      size={17}
+                      aria-hidden="true"
+                    />
+                    <div className="min-w-0">
+                      <p className="text-sm font-black text-[#241D1D]">
+                        {offer.title}
+                      </p>
+                      <p className="mt-1 text-xs font-semibold leading-5 text-[#6B5D5B]">
+                        {offer.detail}
+                      </p>
+                      <p className="mt-2 inline-flex rounded-full bg-[#FFF7EC] px-2.5 py-1 text-[11px] font-black uppercase text-[#8A3430]">
+                        {offer.note}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="border-t border-[#F0E3D2] bg-[#FFF9EF] p-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOffersOpen(false);
+                  scrollToPopularPicks();
+                }}
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white shadow-md shadow-[#8A3430]/15 transition hover:bg-[#6F2926]"
+              >
+                <Sparkles size={16} aria-hidden="true" />
+                Browse popular dishes
+              </button>
+            </div>
+          </div>
+        ) : null}
+      </div>
     );
   }
 
@@ -870,8 +974,8 @@ export function MenuOrderClient() {
           </aside>
 
           <div className="min-w-0">
-            <div className="sticky top-[122px] z-20 bg-white py-3 lg:top-24">
-              <label className="relative block rounded-full border border-black/10 bg-white shadow-sm">
+            <div className="sticky top-[122px] z-20 -mx-4 bg-white/95 px-4 py-3 shadow-[0_10px_24px_rgba(52,35,28,0.06)] backdrop-blur sm:-mx-6 sm:px-6 lg:top-24 lg:mx-0 lg:bg-white lg:px-0 lg:shadow-none lg:backdrop-blur-none">
+              <label className="relative block rounded-full border border-[#E4D6C4] bg-white shadow-[0_8px_20px_rgba(52,35,28,0.08)]">
                 <span className="sr-only">Search menu</span>
                 <Search
                   className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#7B6D68]"
@@ -897,8 +1001,9 @@ export function MenuOrderClient() {
                 ) : null}
               </label>
 
-              <div className="mt-3 lg:hidden">
+              <div className="mt-3 space-y-3 lg:hidden">
                 <CategoryNav compact />
+                <MobileOffersDropdown />
               </div>
             </div>
 
