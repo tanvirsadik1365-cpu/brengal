@@ -1,0 +1,422 @@
+"use client";
+
+import Link from "next/link";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  CheckCircle2,
+  Clock,
+  Loader2,
+  Phone,
+  RefreshCw,
+  Search,
+  XCircle,
+} from "lucide-react";
+import type { OrderTrackingResult } from "@/lib/order-tracking";
+
+type LookupDetails = {
+  contact: string;
+  orderNumber: string;
+};
+
+type StoredTrackingLookup = Partial<LookupDetails> & {
+  savedAt?: string;
+};
+
+type TrackingResponse = {
+  error?: string;
+  tracking?: OrderTrackingResult;
+};
+
+const lastOrderTrackingKey = "jamals-last-order-tracking-v1";
+const terminalStatuses = new Set(["completed", "cancelled"]);
+
+const progressSteps = [
+  { id: "pending", label: "Pending" },
+  { id: "preparing", label: "Accepted / Preparing" },
+  { id: "ready", label: "Ready" },
+  { id: "completed", label: "Completed" },
+] as const;
+
+function clean(value: string | null) {
+  return value?.trim() ?? "";
+}
+
+function readStoredTrackingLookup(): StoredTrackingLookup | null {
+  try {
+    const stored = window.localStorage.getItem(lastOrderTrackingKey);
+
+    if (!stored) {
+      return null;
+    }
+
+    const parsed = JSON.parse(stored) as StoredTrackingLookup;
+
+    return {
+      contact: clean(parsed.contact ?? null),
+      orderNumber: clean(parsed.orderNumber ?? null),
+      savedAt: clean(parsed.savedAt ?? null),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function phoneHref(value: string) {
+  return `tel:${value.replace(/[^\d+]/g, "")}`;
+}
+
+function formatReadyTime(value: string | null) {
+  if (!value) {
+    return "Not available yet";
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(new Date(value));
+}
+
+function pluralSecond(seconds: number) {
+  return `${seconds} second${seconds === 1 ? "" : "s"}`;
+}
+
+function getHeadline(tracking: OrderTrackingResult) {
+  switch (tracking.status) {
+    case "pending":
+      return "Waiting for restaurant confirmation";
+    case "preparing":
+      return "Accepted, preparing now";
+    case "ready":
+      return "Ready now";
+    case "completed":
+      return "Order completed";
+    case "cancelled":
+      return "Order cancelled";
+  }
+}
+
+function getDetailLine(tracking: OrderTrackingResult, remainingSeconds: number) {
+  switch (tracking.status) {
+    case "pending":
+      return remainingSeconds > 0
+        ? `Auto accepts in ${pluralSecond(remainingSeconds)}`
+        : "Confirming with the restaurant now";
+    case "preparing":
+      return `Estimated ready at ${formatReadyTime(tracking.estimatedReadyAt)}`;
+    case "ready":
+      return tracking.orderType === "delivery"
+        ? "Ready for delivery handoff"
+        : "Ready for collection";
+    case "completed":
+      return "Thank you for ordering.";
+    case "cancelled":
+      return tracking.cancellationReason ?? "The restaurant cancelled this order.";
+  }
+}
+
+function trackingHref(orderNumber: string) {
+  return orderNumber
+    ? `/track-order?order_id=${encodeURIComponent(orderNumber)}`
+    : "/track-order";
+}
+
+export function CheckoutSuccessTrackingClient() {
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lookup, setLookup] = useState<LookupDetails | null>(null);
+  const [manualOrderNumber, setManualOrderNumber] = useState("");
+  const [remainingSeconds, setRemainingSeconds] = useState(0);
+  const [tracking, setTracking] = useState<OrderTrackingResult | null>(null);
+
+  const runLookup = useCallback(
+    async (nextLookup: LookupDetails, silent = false) => {
+      if (!nextLookup.orderNumber || !nextLookup.contact) {
+        setError("");
+        setIsLoading(false);
+        return;
+      }
+
+      if (silent) {
+        setIsRefreshing(true);
+      } else {
+        setIsLoading(true);
+      }
+      setError("");
+
+      try {
+        const response = await fetch("/api/orders/track", {
+          body: JSON.stringify(nextLookup),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        });
+        const payload = (await response.json().catch(() => ({}))) as TrackingResponse;
+
+        if (!response.ok || !payload.tracking) {
+          throw new Error(payload.error ?? "Order tracking could not load.");
+        }
+
+        setLookup(nextLookup);
+        setTracking(payload.tracking);
+        setRemainingSeconds(payload.tracking.secondsUntilAutoAccept);
+      } catch (lookupError) {
+        setError(
+          lookupError instanceof Error
+            ? lookupError.message
+            : "Order tracking could not load.",
+        );
+      } finally {
+        setIsLoading(false);
+        setIsRefreshing(false);
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const orderFromUrl =
+      clean(params.get("order_id")) ||
+      clean(params.get("order")) ||
+      clean(params.get("orderNumber"));
+    const stored = readStoredTrackingLookup();
+    const orderNumber = orderFromUrl || stored?.orderNumber || "";
+    const contact = stored?.contact || "";
+
+    setManualOrderNumber(orderNumber);
+
+    if (!orderNumber || !contact) {
+      setIsLoading(false);
+      return;
+    }
+
+    void runLookup({ contact, orderNumber });
+  }, [runLookup]);
+
+  useEffect(() => {
+    if (!tracking || tracking.status !== "pending" || remainingSeconds <= 0) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setRemainingSeconds((current) => Math.max(0, current - 1));
+    }, 1000);
+
+    return () => window.clearTimeout(timeout);
+  }, [remainingSeconds, tracking]);
+
+  useEffect(() => {
+    if (!lookup || !tracking || tracking.status !== "pending" || remainingSeconds > 0) {
+      return;
+    }
+
+    void runLookup(lookup, true);
+  }, [lookup, remainingSeconds, runLookup, tracking]);
+
+  useEffect(() => {
+    if (!lookup || !tracking || terminalStatuses.has(tracking.status)) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      void runLookup(lookup, true);
+    }, 15000);
+
+    return () => window.clearInterval(interval);
+  }, [lookup, runLookup, tracking]);
+
+  const activeStepIndex = useMemo(() => {
+    if (!tracking || tracking.status === "cancelled") {
+      return -1;
+    }
+
+    return progressSteps.findIndex((step) => step.id === tracking.status);
+  }, [tracking]);
+
+  const orderNumber = tracking?.orderNumber ?? manualOrderNumber;
+
+  return (
+    <main className="bg-white px-4 py-12 text-[#241D1D] sm:px-6 lg:px-8 lg:py-16">
+      <section className="mx-auto max-w-4xl">
+        <div className="restaurant-card rounded-lg p-6 shadow-lg shadow-black/5 sm:p-8">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <CheckCircle2 className="text-[#8A3430]" size={46} aria-hidden="true" />
+              <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#8A3430]">
+                Checkout complete
+              </p>
+              <h1 className="mt-2 text-3xl font-black leading-tight sm:text-4xl">
+                {orderNumber ? `Order ${orderNumber} received` : "Order received"}
+              </h1>
+            </div>
+
+            {tracking ? (
+              <button
+                type="button"
+                onClick={() => (lookup ? void runLookup(lookup, true) : undefined)}
+                disabled={!lookup || isRefreshing}
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430] disabled:opacity-60"
+              >
+                <RefreshCw
+                  className={isRefreshing ? "animate-spin" : ""}
+                  size={16}
+                  aria-hidden="true"
+                />
+                Refresh
+              </button>
+            ) : null}
+          </div>
+
+          {isLoading ? (
+            <div className="mt-8 flex items-center gap-3 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-4 text-sm font-black text-[#6B5D5B]">
+              <Loader2 className="animate-spin text-[#8A3430]" size={19} aria-hidden="true" />
+              Loading live order tracking...
+            </div>
+          ) : tracking ? (
+            <div className="mt-8 grid gap-6">
+              <div
+                className={`rounded-lg border p-5 ${
+                  tracking.status === "cancelled"
+                    ? "border-red-200 bg-red-50 text-red-900"
+                    : "border-[#EADAC5] bg-[#FFF9EF]"
+                }`}
+              >
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <p className="text-sm font-black uppercase tracking-[0.16em] text-[#8A3430]">
+                      Live status
+                    </p>
+                    <h2 className="mt-2 text-2xl font-black">
+                      {getHeadline(tracking)}
+                    </h2>
+                    <p className="mt-2 text-sm font-bold leading-6 text-[#6B5D5B]">
+                      {getDetailLine(tracking, remainingSeconds)}
+                    </p>
+                  </div>
+                  {tracking.status === "cancelled" ? (
+                    <XCircle size={34} aria-hidden="true" />
+                  ) : (
+                    <Clock size={34} className="text-[#8A3430]" aria-hidden="true" />
+                  )}
+                </div>
+              </div>
+
+              {tracking.status === "cancelled" ? (
+                <div className="rounded-lg border border-red-200 bg-white p-4 text-sm font-bold leading-6 text-red-900">
+                  {tracking.cancellationReason ??
+                    "The restaurant cancelled this order."}
+                </div>
+              ) : (
+                <ol className="grid gap-3 sm:grid-cols-4">
+                  {progressSteps.map((step, index) => {
+                    const complete = activeStepIndex >= index;
+                    const active = activeStepIndex === index;
+
+                    return (
+                      <li
+                        key={step.id}
+                        className={`rounded-lg border p-4 ${
+                          complete
+                            ? "border-[#8A3430]/35 bg-[#FFF7EC]"
+                            : "border-[#EADAC5] bg-white"
+                        }`}
+                      >
+                        <span
+                          className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-black ${
+                            complete
+                              ? "bg-[#8A3430] text-white"
+                              : "bg-[#EADAC5] text-[#6B5D5B]"
+                          }`}
+                        >
+                          {complete ? <CheckCircle2 size={17} /> : index + 1}
+                        </span>
+                        <p className="mt-3 text-sm font-black leading-5">
+                          {step.label}
+                        </p>
+                        {active ? (
+                          <p className="mt-1 text-xs font-black uppercase tracking-wide text-[#8A3430]">
+                            Current
+                          </p>
+                        ) : null}
+                      </li>
+                    );
+                  })}
+                </ol>
+              )}
+
+              <div className="grid gap-3 sm:grid-cols-3">
+                <div className="rounded-lg border border-[#EADAC5] bg-white p-4">
+                  <p className="text-xs font-black uppercase tracking-wide text-[#8A3430]">
+                    Prep time
+                  </p>
+                  <p className="mt-2 text-2xl font-black">
+                    {tracking.prepTimeMinutes} min
+                  </p>
+                </div>
+                <div className="rounded-lg border border-[#EADAC5] bg-white p-4">
+                  <p className="text-xs font-black uppercase tracking-wide text-[#8A3430]">
+                    Estimated ready
+                  </p>
+                  <p className="mt-2 text-xl font-black">
+                    {formatReadyTime(tracking.estimatedReadyAt)}
+                  </p>
+                </div>
+                <div className="rounded-lg border border-[#EADAC5] bg-white p-4">
+                  <p className="text-xs font-black uppercase tracking-wide text-[#8A3430]">
+                    Restaurant support
+                  </p>
+                  <a
+                    href={phoneHref(tracking.restaurantSupportPhone)}
+                    className="mt-2 inline-flex items-center gap-2 text-sm font-black text-[#8A3430]"
+                  >
+                    <Phone size={16} aria-hidden="true" />
+                    {tracking.restaurantSupportPhone}
+                  </a>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="mt-8 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-5">
+              <div className="flex items-start gap-3">
+                <Search className="mt-0.5 shrink-0 text-[#8A3430]" size={21} aria-hidden="true" />
+                <div>
+                  <h2 className="text-lg font-black">
+                    Open live tracking to continue
+                  </h2>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-[#6B5D5B]">
+                    Enter the phone or email used at checkout so we can show the
+                    live status for this order.
+                  </p>
+                  {error ? (
+                    <p className="mt-3 text-sm font-black text-red-800">{error}</p>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href={trackingHref(orderNumber)}
+              className="inline-flex h-12 items-center justify-center rounded-full bg-[#8A3430] px-6 text-sm font-black text-white transition hover:bg-[#6F2926]"
+            >
+              Open full tracking
+            </Link>
+            <Link
+              href="/menu"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-black/10 bg-white px-6 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430]"
+            >
+              Back to menu
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-black/10 bg-white px-6 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430]"
+            >
+              Contact restaurant
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

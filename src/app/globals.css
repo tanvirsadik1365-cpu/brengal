@@ -1,26 +1,227 @@
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap");
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/poppins/700.css";
+@import "@fontsource/poppins/800.css";
+@import "@fontsource/poppins/900.css";
 @import "tailwindcss";
 
 :root {
+  --brand-primary: #7F2F2A;
+  --brand-primary-dark: #5E201D;
+  --brand-accent: #C99635;
+  --brand-leaf: #3F5E4B;
+  --brand-cream: #F4EBDD;
+  --brand-cream-light: #FFF9EF;
+  --brand-ink: #211A18;
+  --brand-muted: #685C57;
+  --brand-line: #E4D6C4;
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: var(--brand-ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-dark: var(--brand-primary-dark);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-leaf: var(--brand-leaf);
+  --color-brand-cream: var(--brand-cream);
+  --color-brand-cream-light: var(--brand-cream-light);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-line: var(--brand-line);
+  --font-sans: "Satoshi", "Poppins", Arial, Helvetica, sans-serif;
+  --font-serif: "Poppins", "Satoshi", Arial, Helvetica, sans-serif;
+  --font-mono: "Satoshi", "Poppins", Arial, Helvetica, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Satoshi", "Poppins", Arial, Helvetica, sans-serif;
+  font-feature-settings: "kern", "liga", "calt";
+  text-rendering: geometricPrecision;
+}
+
+h1,
+h2,
+h3,
+h4,
+button,
+summary {
+  font-family: "Poppins", "Satoshi", Arial, Helvetica, sans-serif;
+  letter-spacing: 0;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled),
+summary {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+:where(a, button, summary, input, select, textarea):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 72%, white);
+  outline-offset: 3px;
+}
+
+input,
+select,
+textarea {
+  font-family: "Satoshi", "Poppins", Arial, Helvetica, sans-serif;
+  min-width: 0;
+}
+
+::selection {
+  background: var(--brand-primary);
+  color: var(--brand-cream);
+}
+
+.scrollbar-soft {
+  scrollbar-color: color-mix(in srgb, var(--brand-primary) 45%, transparent)
+    transparent;
+  scrollbar-width: thin;
+}
+
+.restaurant-surface {
+  background: linear-gradient(180deg, #fffdf8 0%, #fff7ec 100%);
+  border: 1px solid var(--brand-line);
+  box-shadow: 0 16px 38px rgba(52, 35, 28, 0.08);
+}
+
+.restaurant-card {
+  background: #fffcf6;
+  border: 1px solid var(--brand-line);
+  box-shadow: 0 14px 32px rgba(52, 35, 28, 0.07);
+}
+
+.restaurant-brand-panel {
+  background:
+    radial-gradient(circle at top right, rgba(215, 165, 66, 0.28), transparent 38%),
+    linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-dark) 100%);
+  color: white;
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 80%, black);
+  box-shadow: 0 22px 48px rgba(94, 32, 29, 0.22);
+}
+
+@keyframes home-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes hero-float-alt {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 8px, 0);
+  }
+}
+
+.home-reveal {
+  animation: home-reveal 680ms ease-out both;
+}
+
+.home-reveal-delay {
+  animation-delay: 140ms;
+}
+
+.hero-showcase {
+  isolation: isolate;
+}
+
+.hero-float-card {
+  animation: hero-float 6.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.hero-float-dish {
+  animation-name: hero-float-alt;
+  animation-duration: 7.5s;
+}
+
+@keyframes checkout-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes smart-suggestion-pulse {
+  0%,
+  100% {
+    box-shadow: 0 14px 32px rgba(52, 35, 28, 0.06);
+  }
+
+  50% {
+    box-shadow: 0 18px 38px rgba(127, 47, 42, 0.14);
+  }
+}
+
+.checkout-step-card {
+  animation: checkout-pop 240ms ease-out;
+}
+
+.smart-suggestion {
+  animation: smart-suggestion-pulse 3.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-reveal,
+  .hero-float-card,
+  .checkout-step-card,
+  .smart-suggestion {
+    animation: none;
+  }
 }
