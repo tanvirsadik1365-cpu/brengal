@@ -1,4 +1,4 @@
-const CACHE_VERSION = "jamals-merchant-v2";
+const CACHE_VERSION = "jamals-merchant-v4";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(self.skipWaiting());

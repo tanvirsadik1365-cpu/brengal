@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AlertCircle,
@@ -7,8 +8,10 @@ import {
   Clock3,
   Phone,
   RefreshCw,
+  ShoppingBag,
   Users,
 } from "lucide-react";
+import { MerchantAppClock } from "@/components/MerchantAppClock";
 import type { ReservationRow } from "@/lib/database-reservations";
 
 type MerchantReservationsClientProps = {
@@ -21,6 +24,29 @@ type ReservationsResponse = {
   error?: string;
   reservations?: ReservationRow[];
 };
+
+function MerchantNav({ token }: { token: string }) {
+  const encodedToken = encodeURIComponent(token);
+
+  return (
+    <nav className="mt-5 flex flex-wrap gap-2">
+      <Link
+        href={`/merchant/orders?token=${encodedToken}`}
+        className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC]"
+      >
+        <ShoppingBag size={16} aria-hidden="true" />
+        Orders
+      </Link>
+      <Link
+        href={`/merchant/reservations?token=${encodedToken}`}
+        className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926]"
+      >
+        <CalendarCheck size={16} aria-hidden="true" />
+        Reservations
+      </Link>
+    </nav>
+  );
+}
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-GB", {
@@ -176,7 +202,7 @@ export function MerchantReservationsClient({
 
   return (
     <>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-sm font-black uppercase tracking-[0.18em] text-[#8A3430]">
             Merchant App
@@ -186,11 +212,13 @@ export function MerchantReservationsClient({
             New website booking requests are stored in Supabase and shown here
             for the restaurant team.
           </p>
+          <MerchantNav token={token} />
           <p className="mt-2 text-xs font-black uppercase tracking-[0.12em] text-[#8A3430]">
             {lastUpdated ? `Last checked ${formatDateTime(lastUpdated.toISOString())}` : ""}
           </p>
         </div>
-        <div className="flex flex-col gap-3 sm:items-end">
+        <div className="grid gap-3 sm:grid-cols-2 lg:min-w-[360px]">
+          <MerchantAppClock />
           <div className="restaurant-card rounded-lg px-5 py-4">
             <p className="text-3xl font-black text-[#8A3430]">
               {reservations.length}
@@ -203,7 +231,7 @@ export function MerchantReservationsClient({
             type="button"
             onClick={() => void refreshReservations()}
             disabled={refreshing}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926] disabled:opacity-60"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926] disabled:opacity-60 sm:col-span-2"
           >
             <RefreshCw
               className={refreshing ? "animate-spin" : ""}

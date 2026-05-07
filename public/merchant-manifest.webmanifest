@@ -1,9 +1,9 @@
 {
-  "id": "/merchant/reservations",
-  "name": "Jamal's Merchant Reservations",
+  "id": "/merchant/orders",
+  "name": "Jamal's Merchant App",
   "short_name": "Jamal's Merchant",
-  "description": "Merchant view for Jamal's Indian Restaurant table booking requests.",
-  "start_url": "/merchant/reservations",
+  "description": "Merchant view for Jamal's Indian Restaurant website orders and table booking requests.",
+  "start_url": "/merchant/orders",
   "scope": "/merchant/",
   "display": "standalone",
   "orientation": "portrait-primary",

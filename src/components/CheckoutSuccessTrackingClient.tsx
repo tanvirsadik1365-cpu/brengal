@@ -76,10 +76,6 @@ function formatReadyTime(value: string | null) {
   }).format(new Date(value));
 }
 
-function pluralSecond(seconds: number) {
-  return `${seconds} second${seconds === 1 ? "" : "s"}`;
-}
-
 function getHeadline(tracking: OrderTrackingResult) {
   switch (tracking.status) {
     case "pending":
@@ -87,7 +83,9 @@ function getHeadline(tracking: OrderTrackingResult) {
     case "preparing":
       return "Accepted, preparing now";
     case "ready":
-      return "Ready now";
+      return tracking.orderType === "delivery"
+        ? "Your food is on the way"
+        : "Your food is ready";
     case "completed":
       return "Order completed";
     case "cancelled":
@@ -95,18 +93,16 @@ function getHeadline(tracking: OrderTrackingResult) {
   }
 }
 
-function getDetailLine(tracking: OrderTrackingResult, remainingSeconds: number) {
+function getDetailLine(tracking: OrderTrackingResult) {
   switch (tracking.status) {
     case "pending":
-      return remainingSeconds > 0
-        ? `Auto accepts in ${pluralSecond(remainingSeconds)}`
-        : "Confirming with the restaurant now";
+      return "Waiting for the restaurant to accept your order.";
     case "preparing":
       return `Estimated ready at ${formatReadyTime(tracking.estimatedReadyAt)}`;
     case "ready":
       return tracking.orderType === "delivery"
-        ? "Ready for delivery handoff"
-        : "Ready for collection";
+        ? "Please be ready to receive your order. Our rider is on the way."
+        : "Please collect your order from the restaurant.";
     case "completed":
       return "Thank you for ordering.";
     case "cancelled":
@@ -126,7 +122,6 @@ export function CheckoutSuccessTrackingClient() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lookup, setLookup] = useState<LookupDetails | null>(null);
   const [manualOrderNumber, setManualOrderNumber] = useState("");
-  const [remainingSeconds, setRemainingSeconds] = useState(0);
   const [tracking, setTracking] = useState<OrderTrackingResult | null>(null);
 
   const runLookup = useCallback(
@@ -158,7 +153,6 @@ export function CheckoutSuccessTrackingClient() {
 
         setLookup(nextLookup);
         setTracking(payload.tracking);
-        setRemainingSeconds(payload.tracking.secondsUntilAutoAccept);
       } catch (lookupError) {
         setError(
           lookupError instanceof Error
@@ -192,26 +186,6 @@ export function CheckoutSuccessTrackingClient() {
 
     void runLookup({ contact, orderNumber });
   }, [runLookup]);
-
-  useEffect(() => {
-    if (!tracking || tracking.status !== "pending" || remainingSeconds <= 0) {
-      return;
-    }
-
-    const timeout = window.setTimeout(() => {
-      setRemainingSeconds((current) => Math.max(0, current - 1));
-    }, 1000);
-
-    return () => window.clearTimeout(timeout);
-  }, [remainingSeconds, tracking]);
-
-  useEffect(() => {
-    if (!lookup || !tracking || tracking.status !== "pending" || remainingSeconds > 0) {
-      return;
-    }
-
-    void runLookup(lookup, true);
-  }, [lookup, remainingSeconds, runLookup, tracking]);
 
   useEffect(() => {
     if (!lookup || !tracking || terminalStatuses.has(tracking.status)) {
@@ -290,7 +264,7 @@ export function CheckoutSuccessTrackingClient() {
                       {getHeadline(tracking)}
                     </h2>
                     <p className="mt-2 text-sm font-bold leading-6 text-[#6B5D5B]">
-                      {getDetailLine(tracking, remainingSeconds)}
+                      {getDetailLine(tracking)}
                     </p>
                   </div>
                   {tracking.status === "cancelled" ? (

@@ -88,28 +88,15 @@ function addMinutes(date: Date, minutes: number) {
   return new Date(date.getTime() + minutes * 60 * 1000);
 }
 
-function getAutoAcceptAt(order: UnknownRecord) {
-  const explicitAutoAcceptAt = readDate(order, "auto_accept_at");
-
-  if (explicitAutoAcceptAt) {
-    return explicitAutoAcceptAt;
-  }
-
-  const createdAt = readDate(order, "created_at");
-
-  return createdAt ? new Date(createdAt.getTime() + 15 * 1000) : null;
-}
-
 function getEffectiveStatus(
   order: UnknownRecord,
-  now: Date,
+  _now: Date,
 ): CustomerTrackingStatus {
   const rawStatus = readString(order, "order_status").toLowerCase();
   const pendingStatuses = new Set(["", "new", "pending"]);
-  const autoAcceptAt = getAutoAcceptAt(order);
 
   if (pendingStatuses.has(rawStatus)) {
-    return autoAcceptAt && autoAcceptAt <= now ? "preparing" : "pending";
+    return "pending";
   }
 
   if (rawStatus === "accepted") {
@@ -128,14 +115,14 @@ function getEffectiveStatus(
   return "pending";
 }
 
-function getStatusLabel(status: CustomerTrackingStatus) {
+function getStatusLabel(status: CustomerTrackingStatus, orderType: string) {
   switch (status) {
     case "pending":
       return "Pending";
     case "preparing":
       return "Accepted / Preparing";
     case "ready":
-      return "Ready";
+      return orderType === "delivery" ? "On the way" : "Ready for collection";
     case "completed":
       return "Completed";
     case "cancelled":
@@ -151,8 +138,8 @@ function getPhaseLabel(status: CustomerTrackingStatus, orderType: string) {
       return "The restaurant accepted your order and is preparing it.";
     case "ready":
       return orderType === "delivery"
-        ? "Your order is ready for delivery handoff."
-        : "Your order is ready for collection.";
+        ? "Your food is on the way. Please be ready to receive your order. Our rider is on the way."
+        : "Your food is ready. Please collect your order.";
     case "completed":
       return "Your order is completed.";
     case "cancelled":
@@ -219,27 +206,6 @@ async function loadSupportPhone(restaurantId: string) {
   return supportPhone || restaurant.secondaryPhone || restaurant.phone;
 }
 
-async function refreshAutoAcceptedOrder(order: UnknownRecord) {
-  const restaurantId = readString(order, "restaurant_id");
-  const autoAcceptAt = getAutoAcceptAt(order);
-  const rawStatus = readString(order, "order_status").toLowerCase();
-
-  if (
-    !restaurantId ||
-    !autoAcceptAt ||
-    autoAcceptAt > new Date() ||
-    !["", "new", "pending"].includes(rawStatus)
-  ) {
-    return;
-  }
-
-  try {
-    await getSupabaseAdmin().rpc("auto_accept_due_orders", {
-      p_restaurant_id: restaurantId,
-    });
-  } catch {}
-}
-
 export async function findCustomerOrderTracking({
   contact,
   orderNumber,
@@ -272,8 +238,6 @@ export async function findCustomerOrderTracking({
     return null;
   }
 
-  await refreshAutoAcceptedOrder(order);
-
   const { data: refreshedData } = await supabase
     .from("orders")
     .select("*")
@@ -289,22 +253,13 @@ export async function findCustomerOrderTracking({
   const orderType = readString(order, "order_type") || "collection";
   const createdAt = readDate(order, "created_at");
   const acceptedAt = readDate(order, "accepted_at");
-  const autoAcceptAt = getAutoAcceptAt(order);
-  const effectiveAcceptedAt =
-    acceptedAt ?? (status === "pending" ? null : autoAcceptAt);
   const prepTimeMinutes = Math.max(readNumber(order, "prep_time_minutes", 20), 1);
-  const estimatedReadyAt = effectiveAcceptedAt
-    ? addMinutes(effectiveAcceptedAt, prepTimeMinutes)
-    : autoAcceptAt
-      ? addMinutes(autoAcceptAt, prepTimeMinutes)
-      : null;
-  const secondsUntilAutoAccept =
-    status === "pending" && autoAcceptAt
-      ? Math.max(0, Math.ceil((autoAcceptAt.getTime() - now.getTime()) / 1000))
-      : 0;
+  const estimatedReadyAt = acceptedAt
+    ? addMinutes(acceptedAt, prepTimeMinutes)
+    : null;
 
   return {
-    acceptedAt: toIsoString(effectiveAcceptedAt),
+    acceptedAt: toIsoString(acceptedAt),
     cancellationReason: readNullableString(order, "cancellation_reason"),
     cancelledAt: toIsoString(readDate(order, "cancelled_at")),
     completedAt: toIsoString(readDate(order, "completed_at")),
@@ -319,9 +274,9 @@ export async function findCustomerOrderTracking({
     restaurantSupportPhone: await loadSupportPhone(
       readString(order, "restaurant_id"),
     ),
-    secondsUntilAutoAccept,
+    secondsUntilAutoAccept: 0,
     status,
-    statusLabel: getStatusLabel(status),
+    statusLabel: getStatusLabel(status, orderType),
     totalPence: readNumber(order, "total_pence", 0),
     updatedAt: toIsoString(readDate(order, "updated_at")),
   };

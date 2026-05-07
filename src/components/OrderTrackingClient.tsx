@@ -29,7 +29,7 @@ const terminalStatuses = new Set(["completed", "cancelled"]);
 const statusSteps = [
   { id: "pending", label: "Pending", text: "Restaurant confirmation" },
   { id: "preparing", label: "Accepted / Preparing", text: "Kitchen is preparing" },
-  { id: "ready", label: "Ready", text: "Ready for collection or handoff" },
+  { id: "ready", label: "Ready", text: "Ready or on the way" },
   { id: "completed", label: "Completed", text: "Order finished" },
 ] as const;
 
@@ -71,10 +71,6 @@ function statusTone(status: OrderTrackingResult["status"]) {
 }
 
 function compactStatusText(tracking: OrderTrackingResult) {
-  if (tracking.status === "pending" && tracking.secondsUntilAutoAccept > 0) {
-    return `Auto accepts in ${tracking.secondsUntilAutoAccept}s`;
-  }
-
   if (tracking.status === "cancelled" && tracking.cancellationReason) {
     return tracking.cancellationReason;
   }

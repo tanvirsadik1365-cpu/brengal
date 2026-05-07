@@ -62,9 +62,13 @@ export function MerchantAppUpdater({ token }: MerchantAppUpdaterProps) {
       const savedToken = window.localStorage.getItem(merchantTokenStorageKey);
 
       if (savedToken) {
-        window.location.replace(
-          `/merchant/reservations?token=${encodeURIComponent(savedToken)}`,
-        );
+        const merchantPath = window.location.pathname.startsWith("/merchant/")
+          ? window.location.pathname
+          : "/merchant/orders";
+        const params = new URLSearchParams(window.location.search);
+
+        params.set("token", savedToken);
+        window.location.replace(`${merchantPath}?${params.toString()}`);
       }
     }
 

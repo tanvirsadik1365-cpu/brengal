@@ -51,7 +51,11 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 RESTAURANT_ID=jamals-restaurant
+RESTAURANT_TIME_ZONE=Europe/London
 MERCHANT_DASHBOARD_TOKEN=
+RESEND_API_KEY=
+ORDER_EMAIL_FROM=Jamal's Indian Restaurant <orders@your-verified-domain.co.uk>
+ORDER_EMAIL_REPLY_TO=info@jamals-saffron.co.uk
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 ```
@@ -59,7 +63,15 @@ STRIPE_WEBHOOK_SECRET=
 Cash orders are saved directly to Supabase. Online card orders are created in
 Supabase first, then Stripe confirms payment through `/api/stripe/webhook`.
 Table reservations are saved through `/api/reservations` and can be viewed at
-`/merchant/reservations?token=MERCHANT_DASHBOARD_TOKEN`.
+`/merchant/reservations?token=MERCHANT_DASHBOARD_TOKEN`. Website orders can be
+viewed in the merchant app at `/merchant/orders?token=MERCHANT_DASHBOARD_TOKEN`,
+including placed date/time, ready estimates, order items, and date filtering.
+Online card orders are saved as awaiting payment until Stripe confirms payment;
+only paid online orders and cash orders appear in the merchant app. Orders are
+accepted manually from the merchant app.
+When the merchant marks an order ready, customer tracking changes to the ready
+message for collection or delivery, and a ready/on-the-way email is sent if the
+Resend email variables are configured.
 
 Run `supabase/customer_orders_and_store_status.sql` in the Supabase SQL editor
 to create or update the ordering, account history, reservations, order tracking,

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import {
   CalendarCheck,
+  CalendarDays,
   Clock,
   LogOut,
   ReceiptText,
@@ -68,9 +69,38 @@ function formatPence(value: number) {
   return formatCurrency(value / 100);
 }
 
+function getDateInputValue(value: string | null) {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function getTodayInputValue() {
+  return getDateInputValue(new Date().toISOString());
+}
+
+function formatDateInput(value: string) {
+  return new Intl.DateTimeFormat("en-GB", {
+    dateStyle: "medium",
+  }).format(new Date(`${value}T00:00:00`));
+}
+
 export function AccountDashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [orders, setOrders] = useState<CustomerOrder[]>([]);
+  const [orderDateFilter, setOrderDateFilter] = useState("");
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -142,6 +172,7 @@ export function AccountDashboard() {
     await supabase.auth.signOut();
     setUser(null);
     setOrders([]);
+    setOrderDateFilter("");
     setReservations([]);
   }
 
@@ -189,6 +220,12 @@ export function AccountDashboard() {
     );
   }
 
+  const filteredOrders = orderDateFilter
+    ? orders.filter(
+        (order) => getDateInputValue(order.createdAt) === orderDateFilter,
+      )
+    : orders;
+
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="grid gap-6 lg:items-start xl:grid-cols-[0.58fr_1fr_1fr]">
@@ -233,6 +270,47 @@ export function AccountDashboard() {
             Food orders linked to this account appear here.
           </p>
 
+          {orders.length > 0 ? (
+            <div className="mt-5 rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-4">
+              <label className="block">
+                <span className="text-sm font-black text-[#241D1D]">
+                  Filter orders by date
+                </span>
+                <input
+                  type="date"
+                  value={orderDateFilter}
+                  onChange={(event) => setOrderDateFilter(event.target.value)}
+                  className="mt-2 h-11 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-black text-[#241D1D] outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
+                />
+              </label>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setOrderDateFilter(getTodayInputValue())}
+                  className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-4 text-xs font-black uppercase text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC]"
+                >
+                  <CalendarDays size={15} aria-hidden="true" />
+                  Today
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setOrderDateFilter("")}
+                  disabled={!orderDateFilter}
+                  className="inline-flex h-10 items-center justify-center rounded-full border border-black/10 bg-white px-4 text-xs font-black uppercase text-[#6B5D5B] transition hover:border-[#8A3430] hover:text-[#8A3430] disabled:opacity-50"
+                >
+                  All
+                </button>
+              </div>
+              <p className="mt-3 text-xs font-black uppercase tracking-[0.1em] text-[#8A3430]">
+                {orderDateFilter
+                  ? `${filteredOrders.length} orders on ${formatDateInput(
+                      orderDateFilter,
+                    )}`
+                  : `${orders.length} recent orders`}
+              </p>
+            </div>
+          ) : null}
+
           {error ? (
             <p className="mt-5 rounded-lg border border-red-200 bg-red-50 p-3 text-sm font-black text-red-900">
               {error}
@@ -240,8 +318,8 @@ export function AccountDashboard() {
           ) : null}
 
           <div className="mt-6 grid gap-3">
-            {orders.length > 0 ? (
-              orders.map((order) => (
+            {filteredOrders.length > 0 ? (
+              filteredOrders.map((order) => (
                 <article
                   key={order.id}
                   className="rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-4"
@@ -296,6 +374,10 @@ export function AccountDashboard() {
                   </Link>
                 </article>
               ))
+            ) : orderDateFilter ? (
+              <div className="rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-6 text-sm leading-7 text-[#6B5D5B]">
+                No orders found for {formatDateInput(orderDateFilter)}.
+              </div>
             ) : (
               <div className="rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-6 text-sm leading-7 text-[#6B5D5B]">
                 No orders saved to this account yet.

@@ -53,7 +53,7 @@ create table if not exists public.orders (
   completed_at timestamptz,
   cancelled_at timestamptz,
   cancellation_reason text,
-  auto_accept_at timestamptz not null default (now() + interval '15 seconds'),
+  auto_accept_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -85,9 +85,13 @@ alter table public.orders
   add column if not exists completed_at timestamptz,
   add column if not exists cancelled_at timestamptz,
   add column if not exists cancellation_reason text,
-  add column if not exists auto_accept_at timestamptz not null default (now() + interval '15 seconds'),
+  add column if not exists auto_accept_at timestamptz,
   add column if not exists created_at timestamptz not null default now(),
   add column if not exists updated_at timestamptz not null default now();
+
+alter table public.orders
+  alter column auto_accept_at drop not null,
+  alter column auto_accept_at drop default;
 
 create unique index if not exists orders_order_number_key
   on public.orders (order_number);
@@ -100,6 +104,9 @@ create index if not exists orders_customer_id_created_at_idx
 
 create index if not exists orders_order_number_idx
   on public.orders (order_number);
+
+create index if not exists orders_restaurant_created_at_idx
+  on public.orders (restaurant_id, created_at desc);
 
 create table if not exists public.order_items (
   id uuid primary key default gen_random_uuid(),
@@ -238,53 +245,8 @@ values (
 )
 on conflict (restaurant_id) do nothing;
 
+-- Orders are accepted manually from the merchant app. Remove the old
+-- website timer function if it exists from a previous setup.
 drop function if exists public.auto_accept_due_orders(text);
-
-create or replace function public.auto_accept_due_orders(p_restaurant_id text)
-returns integer
-language plpgsql
-security definer
-set search_path = public
-as $$
-declare
-  updated_count integer;
-begin
-  with due_orders as (
-    select id, order_status
-    from public.orders
-    where restaurant_id = p_restaurant_id
-      and lower(coalesce(order_status, 'new')) in ('new', 'pending')
-      and auto_accept_at <= now()
-      and lower(coalesce(payment_status, 'pending')) <> 'failed'
-  ),
-  updated_orders as (
-    update public.orders
-    set order_status = 'accepted',
-        accepted_at = coalesce(accepted_at, now()),
-        updated_at = now()
-    from due_orders
-    where public.orders.id = due_orders.id
-    returning public.orders.id, due_orders.order_status as previous_status
-  ),
-  inserted_events as (
-    insert into public.order_status_events (
-      from_status,
-      note,
-      order_id,
-      to_status
-    )
-    select
-      previous_status,
-      'Order auto-accepted by website timer.',
-      id,
-      'accepted'
-    from updated_orders
-    returning 1
-  )
-  select count(*) into updated_count from inserted_events;
-
-  return updated_count;
-end;
-$$;
 
 notify pgrst, 'reload schema';
