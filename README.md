@@ -69,6 +69,8 @@ including placed date/time, ready estimates, order items, and date filtering.
 Online card orders are saved as awaiting payment until Stripe confirms payment;
 only paid online orders and cash orders appear in the merchant app. Orders are
 accepted manually from the merchant app.
+The merchant app also controls live ordering status, prep time, and the support
+phone stored in `restaurant_operations`.
 When the merchant marks an order ready, customer tracking changes to the ready
 message for collection or delivery, and a ready/on-the-way email is sent if the
 Resend email variables are configured.

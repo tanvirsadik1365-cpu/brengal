@@ -245,6 +245,38 @@ values (
 )
 on conflict (restaurant_id) do nothing;
 
+-- Keep existing merchant settings, but replace the original placeholder phone
+-- if this migration is being re-run on an older database.
+update public.restaurant_operations
+set support_phone = '01865 55 49 05',
+    updated_at = now()
+where restaurant_id = 'jamals-restaurant'
+  and support_phone in ('+44 20 7946 0100', '020 7946 0100', '');
+
+-- If an older app changed order_status without creating audit rows, add one
+-- current-state event so tracking/admin history is no longer blank.
+insert into public.order_status_events (
+  order_id,
+  from_status,
+  to_status,
+  note,
+  created_at
+)
+select
+  public.orders.id,
+  null,
+  public.orders.order_status,
+  'Backfilled from current order status.',
+  coalesce(public.orders.updated_at, public.orders.created_at, now())
+from public.orders
+where public.orders.order_status not in ('', 'new', 'pending')
+  and not exists (
+    select 1
+    from public.order_status_events
+    where public.order_status_events.order_id = public.orders.id
+      and public.order_status_events.to_status = public.orders.order_status
+  );
+
 -- Orders are accepted manually from the merchant app. Remove the old
 -- website timer function if it exists from a previous setup.
 drop function if exists public.auto_accept_due_orders(text);

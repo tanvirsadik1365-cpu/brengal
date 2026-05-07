@@ -16,6 +16,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { MerchantAppClock } from "@/components/MerchantAppClock";
+import { MerchantStoreStatusControl } from "@/components/MerchantStoreStatusControl";
 import { formatCurrency } from "@/lib/order";
 import type { MerchantOrder } from "@/lib/database-orders";
 
@@ -547,6 +548,10 @@ export function MerchantOrdersClient({
             {refreshing ? "Checking" : "Refresh"}
           </button>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <MerchantStoreStatusControl token={token} />
       </div>
 
       <div className="restaurant-card mt-8 rounded-lg p-5">

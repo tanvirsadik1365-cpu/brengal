@@ -51,6 +51,24 @@ const nextConfig: NextConfig = {
         headers: securityHeaders,
       },
       {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, max-age=0",
+          },
+        ],
+      },
+      {
+        source: "/merchant/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, max-age=0",
+          },
+        ],
+      },
+      {
         source: "/sw.js",
         headers: [
           {

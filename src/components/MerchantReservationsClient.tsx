@@ -12,6 +12,7 @@ import {
   Users,
 } from "lucide-react";
 import { MerchantAppClock } from "@/components/MerchantAppClock";
+import { MerchantStoreStatusControl } from "@/components/MerchantStoreStatusControl";
 import type { ReservationRow } from "@/lib/database-reservations";
 
 type MerchantReservationsClientProps = {
@@ -241,6 +242,10 @@ export function MerchantReservationsClient({
             {refreshing ? "Checking" : "Refresh"}
           </button>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <MerchantStoreStatusControl token={token} />
       </div>
 
       {loadError ? (

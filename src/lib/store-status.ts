@@ -7,6 +7,12 @@ import type {
 type UnknownRecord = Record<string, unknown>;
 
 const fallbackPrepTimeMinutes = 20;
+const fallbackSupportPhone = "01865 55 49 05";
+
+export type MerchantStoreStatus = PublicStoreStatus & {
+  supportPhone: string;
+  updatedAt: string | null;
+};
 
 function getRestaurantId() {
   return process.env.RESTAURANT_ID?.trim() || "jamals-restaurant";
@@ -49,6 +55,17 @@ function normalizeStatus(value: string): StoreOrderingStatus {
   }
 
   return "open";
+}
+
+function assertStoreStatus(value: string): asserts value is StoreOrderingStatus {
+  if (
+    value !== "busy" &&
+    value !== "closed" &&
+    value !== "open" &&
+    value !== "paused"
+  ) {
+    throw new Error("Choose open, busy, paused, or closed.");
+  }
 }
 
 function clampPrepTime(value: number) {
@@ -120,4 +137,83 @@ export async function getPublicStoreStatus(): Promise<PublicStoreStatus> {
   } catch {
     return buildPublicStatus("open", fallbackPrepTimeMinutes);
   }
+}
+
+function mapMerchantStoreStatus(row: UnknownRecord): MerchantStoreStatus {
+  const status = normalizeStatus(readString(row, "store_status"));
+  const prepTimeMinutes = clampPrepTime(
+    readNumber(row, "prep_time_minutes", fallbackPrepTimeMinutes),
+  );
+  const publicStatus = buildPublicStatus(status, prepTimeMinutes);
+  const supportPhone = readString(row, "support_phone") || fallbackSupportPhone;
+  const updatedAt = readString(row, "updated_at") || null;
+
+  return {
+    ...publicStatus,
+    supportPhone,
+    updatedAt,
+  };
+}
+
+export async function getMerchantStoreStatus(): Promise<MerchantStoreStatus> {
+  const { data, error } = await getSupabaseAdmin()
+    .from("restaurant_operations")
+    .select("store_status, prep_time_minutes, support_phone, updated_at")
+    .eq("restaurant_id", getRestaurantId())
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(
+      `Store status could not be loaded: ${error.message ?? "Unknown database error."}`,
+    );
+  }
+
+  if (!data || typeof data !== "object") {
+    return {
+      ...buildPublicStatus("open", fallbackPrepTimeMinutes),
+      supportPhone: fallbackSupportPhone,
+      updatedAt: null,
+    };
+  }
+
+  return mapMerchantStoreStatus(data as UnknownRecord);
+}
+
+export async function updateMerchantStoreStatus({
+  prepTimeMinutes,
+  status,
+  supportPhone,
+}: {
+  prepTimeMinutes: number;
+  status: string;
+  supportPhone?: string | null;
+}) {
+  assertStoreStatus(status);
+
+  const cleanSupportPhone = supportPhone?.trim() || fallbackSupportPhone;
+  const now = new Date().toISOString();
+  const { data, error } = await getSupabaseAdmin()
+    .from("restaurant_operations")
+    .upsert(
+      {
+        prep_time_minutes: clampPrepTime(prepTimeMinutes),
+        restaurant_id: getRestaurantId(),
+        store_status: status,
+        support_phone: cleanSupportPhone.slice(0, 80),
+        updated_at: now,
+      },
+      {
+        onConflict: "restaurant_id",
+      },
+    )
+    .select("store_status, prep_time_minutes, support_phone, updated_at")
+    .single();
+
+  if (error || !data || typeof data !== "object") {
+    throw new Error(
+      `Store status could not be updated: ${error?.message ?? "Unknown database error."}`,
+    );
+  }
+
+  return mapMerchantStoreStatus(data as UnknownRecord);
 }

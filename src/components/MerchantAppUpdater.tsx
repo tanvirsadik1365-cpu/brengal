@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 
 const merchantTokenStorageKey = "jamals-merchant-token-v1";
-const merchantReloadStorageKey = "jamals-merchant-sw-reloaded-v1";
+const merchantReloadStorageKey = "jamals-merchant-sw-reloaded-version-v1";
+const merchantServiceWorkerVersion = "2026-05-07-v5";
 
 type MerchantAppUpdaterProps = {
   token?: string | null;
@@ -17,20 +18,33 @@ function registerMerchantServiceWorker() {
   const hadController = Boolean(navigator.serviceWorker.controller);
 
   navigator.serviceWorker.addEventListener("controllerchange", () => {
-    if (!hadController || sessionStorage.getItem(merchantReloadStorageKey)) {
+    if (
+      !hadController ||
+      sessionStorage.getItem(merchantReloadStorageKey) ===
+        merchantServiceWorkerVersion
+    ) {
       return;
     }
 
-    sessionStorage.setItem(merchantReloadStorageKey, "true");
+    sessionStorage.setItem(
+      merchantReloadStorageKey,
+      merchantServiceWorkerVersion,
+    );
     window.location.reload();
   });
 
   navigator.serviceWorker
-    .register("/sw.js", {
+    .register(`/sw.js?v=${merchantServiceWorkerVersion}`, {
       scope: "/",
       updateViaCache: "none",
     })
     .then((registration) => {
+      function updateWhenVisible() {
+        if (document.visibilityState === "visible") {
+          void registration.update();
+        }
+      }
+
       if (registration.waiting) {
         registration.waiting.postMessage({ type: "SKIP_WAITING" });
       }
@@ -44,6 +58,8 @@ function registerMerchantServiceWorker() {
           }
         });
       });
+
+      document.addEventListener("visibilitychange", updateWhenVisible);
 
       return registration.update();
     })

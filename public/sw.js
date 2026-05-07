@@ -1,4 +1,5 @@
-const CACHE_VERSION = "jamals-merchant-v4";
+const CACHE_VERSION = "jamals-merchant-v5";
+const CACHE_PREFIX = "jamals-";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(self.skipWaiting());
@@ -11,7 +12,7 @@ self.addEventListener("activate", (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            .filter((key) => key.startsWith("jamals-") && key !== CACHE_VERSION)
+            .filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_VERSION)
             .map((key) => caches.delete(key)),
         ),
       )
