@@ -1,4 +1,3 @@
-@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap");
 @import "@fontsource/poppins/400.css";
 @import "@fontsource/poppins/500.css";
 @import "@fontsource/poppins/600.css";
@@ -33,9 +32,9 @@
   --color-brand-ink: var(--brand-ink);
   --color-brand-muted: var(--brand-muted);
   --color-brand-line: var(--brand-line);
-  --font-sans: "Satoshi", "Poppins", Arial, Helvetica, sans-serif;
-  --font-serif: "Poppins", "Satoshi", Arial, Helvetica, sans-serif;
-  --font-mono: "Satoshi", "Poppins", Arial, Helvetica, sans-serif;
+  --font-sans: "Poppins", Arial, Helvetica, sans-serif;
+  --font-serif: "Poppins", Arial, Helvetica, sans-serif;
+  --font-mono: "Poppins", Arial, Helvetica, sans-serif;
 }
 
 * {
@@ -49,7 +48,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Satoshi", "Poppins", Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-feature-settings: "kern", "liga", "calt";
   text-rendering: geometricPrecision;
 }
@@ -60,7 +59,7 @@ h3,
 h4,
 button,
 summary {
-  font-family: "Poppins", "Satoshi", Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   letter-spacing: 0;
 }
 
@@ -94,7 +93,7 @@ button:disabled {
 input,
 select,
 textarea {
-  font-family: "Satoshi", "Poppins", Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   min-width: 0;
 }
 
@@ -116,9 +115,9 @@ textarea {
 }
 
 .restaurant-card {
-  background: #fffcf6;
+  background: #ffffff;
   border: 1px solid var(--brand-line);
-  box-shadow: 0 14px 32px rgba(52, 35, 28, 0.07);
+  box-shadow: 0 10px 24px rgba(52, 35, 28, 0.06);
 }
 
 .restaurant-brand-panel {
@@ -261,7 +260,7 @@ textarea {
 }
 
 .smart-suggestion {
-  animation: smart-suggestion-pulse 3.8s ease-in-out infinite;
+  animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

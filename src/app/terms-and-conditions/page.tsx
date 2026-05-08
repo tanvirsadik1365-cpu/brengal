@@ -1,0 +1,142 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { AlertTriangle, CreditCard, Mail, ShoppingBag, Truck } from "lucide-react";
+import { PageIntro } from "@/components/PageIntro";
+import { foodImages, restaurant } from "@/lib/restaurant";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions",
+  description:
+    "Terms and conditions for ordering, delivery, collection, reservations, offers, and website use at Jamal's Indian Restaurant Oxford.",
+  alternates: {
+    canonical: "/terms-and-conditions",
+  },
+};
+
+const terms = [
+  {
+    Icon: ShoppingBag,
+    title: "Orders",
+    detail:
+      "Orders placed through this website are sent to Jamal's for acceptance. An order is not confirmed until it has been accepted by the restaurant or payment/order confirmation has been issued.",
+  },
+  {
+    Icon: Truck,
+    title: "Collection & Delivery",
+    detail:
+      "Collection is from 107-108 Walton Street, Oxford OX2 6AJ. Delivery availability, minimum order values, charges, times, and eligible postcodes may change during busy periods.",
+  },
+  {
+    Icon: CreditCard,
+    title: "Payment",
+    detail:
+      "Online card payments are processed securely by Stripe. Cash orders may be paid on collection or delivery where available. Prices are shown in GBP and may change without notice.",
+  },
+  {
+    Icon: AlertTriangle,
+    title: "Allergies",
+    detail:
+      "If you or anyone you are ordering for has a food allergy or intolerance, contact the restaurant before ordering. Do not rely only on website notes for allergy requests.",
+  },
+];
+
+const sections = [
+  {
+    title: "Offers & Rewards",
+    body:
+      "Collection discount and delivery rewards are applied only when the basket meets the active offer rules shown on the website. Offers cannot always be combined and may be changed, paused, or withdrawn by the restaurant.",
+  },
+  {
+    title: "Cancellations & Refunds",
+    body:
+      "Call the restaurant as soon as possible if you need to change or cancel an order. Once food preparation has started, cancellation or refund availability may be limited. Card payment refunds, where approved, are returned through the original payment method.",
+  },
+  {
+    title: "Reservations",
+    body:
+      "Booking requests are subject to availability and restaurant confirmation. For large parties, special occasions, accessibility needs, or timing changes, contact the restaurant directly.",
+  },
+  {
+    title: "Website Use",
+    body:
+      "Use this website only for lawful personal ordering, booking, account, and enquiry purposes. Do not attempt to interfere with the website, payment flow, merchant dashboard, or customer account systems.",
+  },
+  {
+    title: "Account History",
+    body:
+      "Signed-in customers may see eligible order and reservation history linked to their account email. Guest orders remain valid but may not appear in account history unless linked later.",
+  },
+  {
+    title: "Changes",
+    body:
+      "These terms may be updated as the website, menu, offers, delivery rules, or restaurant operations change. The latest version on this page applies when you use the website.",
+  },
+];
+
+export default function TermsAndConditionsPage() {
+  return (
+    <main className="bg-white text-[#241D1D]">
+      <PageIntro
+        eyebrow="Legal"
+        title="Terms & Conditions"
+        description={`Terms for using ${restaurant.website}, placing online orders, booking tables, and contacting Jamal's.`}
+        imageSrc={foodImages.exterior}
+        imageAlt="Jamal's exterior on Walton Street"
+        meta="Last updated May 8, 2026"
+      />
+
+      <section className="px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-4 md:grid-cols-2">
+            {terms.map(({ Icon, title, detail }) => (
+              <article key={title} className="restaurant-card rounded-lg p-5">
+                <Icon className="text-[#8A3430]" size={24} aria-hidden="true" />
+                <h2 className="mt-4 text-xl font-black">{title}</h2>
+                <p className="mt-3 text-sm leading-7 text-[#6B5D5B]">
+                  {detail}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-8 restaurant-card rounded-lg p-6 sm:p-8">
+            <div className="grid gap-6 md:grid-cols-2">
+              {sections.map((section) => (
+                <section key={section.title}>
+                  <h2 className="text-lg font-black">{section.title}</h2>
+                  <p className="mt-2 text-sm leading-7 text-[#6B5D5B]">
+                    {section.body}
+                  </p>
+                </section>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-6">
+            <h2 className="text-xl font-black">Questions about these terms?</h2>
+            <p className="mt-2 text-sm leading-7 text-[#6B5D5B]">
+              Contact Jamal&apos;s before ordering if anything is unclear,
+              especially for allergies, order changes, refunds, or large
+              bookings.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <a
+                href={restaurant.phoneHref}
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#8A3430] px-5 text-sm font-black text-white transition hover:bg-[#6F2926]"
+              >
+                {restaurant.phone}
+              </a>
+              <Link
+                href="/contact"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-5 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430]"
+              >
+                <Mail size={16} aria-hidden="true" />
+                Contact page
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

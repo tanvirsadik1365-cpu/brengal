@@ -120,10 +120,12 @@ export function BookingForm() {
     event.preventDefault();
     setStatus(null);
     setSubmitting(true);
+    const formData = new FormData(event.currentTarget);
+    const website = String(formData.get("website") ?? "");
 
     try {
       const response = await fetch("/api/reservations", {
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, website }),
         headers: {
           "Content-Type": "application/json",
           ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
@@ -210,6 +212,15 @@ export function BookingForm() {
       </div>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
+        <label className="sr-only" aria-hidden="true">
+          Website
+          <input
+            name="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </label>
         <label className="text-sm font-black">
           Full name
           <input

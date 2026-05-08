@@ -4,6 +4,7 @@ import { CartProvider } from "@/components/CartProvider";
 import { OfferPopup } from "@/components/OfferPopup";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { brandHeroImage, restaurant } from "@/lib/restaurant";
 import "./globals.css";
 
 const browserExtensionHydrationCleanupScript = `
@@ -70,8 +71,12 @@ const browserExtensionHydrationCleanupScript = `
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://jamals-saffron.co.uk",
+    process.env.NEXT_PUBLIC_SITE_URL ?? restaurant.siteUrl,
   ),
+  applicationName: restaurant.name,
+  alternates: {
+    canonical: "/",
+  },
   title: {
     default: "Jamal's Indian Restaurant Oxford | Indian Takeaway & Table Booking",
     template: "%s | Jamal's Indian Restaurant",
@@ -116,13 +121,15 @@ export const metadata: Metadata = {
     description:
       "Walton Street Indian restaurant for dine-in, collection, delivery, and group bookings.",
     type: "website",
+    url: restaurant.siteUrl,
+    siteName: restaurant.name,
     locale: "en_GB",
     images: [
       {
-        url: "/jamals/hero.jpeg",
+        url: brandHeroImage,
         width: 1200,
         height: 630,
-        alt: "Jamal's Indian Restaurant brand banner",
+        alt: "Jamal's Indian Restaurant food",
       },
     ],
   },

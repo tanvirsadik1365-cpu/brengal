@@ -10,8 +10,16 @@ const securityHeaders = [
     value: "nosniff",
   },
   {
+    key: "X-DNS-Prefetch-Control",
+    value: "on",
+  },
+  {
     key: "X-Frame-Options",
     value: "DENY",
+  },
+  {
+    key: "X-Permitted-Cross-Domain-Policies",
+    value: "none",
   },
   {
     key: "Referrer-Policy",
@@ -34,15 +42,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        pathname: "/**",
-      },
-    ],
-  },
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false,
   reactCompiler: true,
   async headers() {
     return [
@@ -57,6 +58,10 @@ const nextConfig: NextConfig = {
             key: "Cache-Control",
             value: "no-store, max-age=0",
           },
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow",
+          },
         ],
       },
       {
@@ -65,6 +70,10 @@ const nextConfig: NextConfig = {
           {
             key: "Cache-Control",
             value: "no-store, max-age=0",
+          },
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow",
           },
         ],
       },
@@ -120,6 +129,26 @@ const nextConfig: NextConfig = {
       {
         source: "/faq",
         destination: "/faqs",
+        permanent: true,
+      },
+      {
+        source: "/terms",
+        destination: "/terms-and-conditions",
+        permanent: true,
+      },
+      {
+        source: "/terms-and-conditions.html",
+        destination: "/terms-and-conditions",
+        permanent: true,
+      },
+      {
+        source: "/privacy",
+        destination: "/privacy-policy",
+        permanent: true,
+      },
+      {
+        source: "/privacy-policy.html",
+        destination: "/privacy-policy",
         permanent: true,
       },
     ];

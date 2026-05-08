@@ -1,6 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck } from "lucide-react";
+import {
+  Clock,
+  ExternalLink,
+  Mail,
+  MapPin,
+  Phone,
+  ShieldCheck,
+} from "lucide-react";
 import { logoImage, restaurant } from "@/lib/restaurant";
 
 function FacebookIcon() {
@@ -75,18 +82,22 @@ function GoogleIcon() {
 
 const quickLinks = [
   { label: "Menu", href: "/menu" },
+  { label: "Book Table", href: "/booking" },
   { label: "Track Order", href: "/track-order" },
   { label: "Gallery", href: "/gallery" },
-  { label: "FAQ", href: "/faqs" },
+  { label: "FAQs", href: "/faqs" },
   { label: "Contact", href: "/contact" },
+];
+
+const legalLinks = [
+  { label: "Terms & Conditions", href: "/terms-and-conditions" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
 ];
 
 const socialLinks = [
   {
     label: "Google Maps",
-    href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      restaurant.address.join(", "),
-    )}`,
+    href: restaurant.mapsUrl,
     content: <GoogleMapsIcon />,
     className: "",
   },
@@ -103,186 +114,205 @@ const socialLinks = [
     className: "text-[#e4405f]",
   },
   {
-    label: "Google Search",
-    href: `https://www.google.com/search?q=${encodeURIComponent(
-      restaurant.name,
-    )}`,
+    label: "Google Business Profile",
+    href: restaurant.mapsUrl,
     content: <GoogleIcon />,
     className: "",
   },
 ];
 
-const cards = [
+const paymentCards = [
   { label: "Mastercard", className: "bg-[#eb001b] text-white" },
   { label: "VISA", className: "bg-[#f7f9ff] text-[#1434cb]" },
-  { label: "DISCOVER", className: "bg-white text-[#f58220]" },
   { label: "AMEX", className: "bg-[#2e77bc] text-white" },
 ];
 
-const brandHoverClass = "transition hover:text-[#C99635]";
+const footerLinkClass =
+  "inline-flex items-center gap-2 text-sm font-semibold text-white/78 transition hover:text-[#D7A542]";
 
 export function SiteFooter() {
   return (
     <footer className="bg-[#111111] text-white">
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 md:grid-cols-[1.05fr_0.95fr_0.95fr] lg:px-8 lg:py-16">
-        <div className="flex flex-col items-start">
-          <Link
-            href="/"
-            className="group relative block h-36 w-56 max-w-full overflow-hidden rounded-lg bg-white shadow-[0_18px_40px_rgba(0,0,0,0.35)] ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:ring-[#C99635] sm:h-40 sm:w-64"
-            aria-label={`${restaurant.name} home`}
-          >
-            <Image
-              src={logoImage}
-              alt={`${restaurant.name} logo`}
-              fill
-              sizes="(min-width: 640px) 256px, 224px"
-              className="object-contain p-5 transition duration-300 group-hover:scale-[1.03]"
-              loading="eager"
-            />
-          </Link>
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr_0.82fr_0.78fr] lg:items-start">
+          <div className="min-w-0">
+            <Link
+              href="/"
+              className="group relative block h-28 w-44 overflow-hidden rounded-lg bg-white shadow-[0_18px_40px_rgba(0,0,0,0.28)] ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:ring-[#D7A542]"
+              aria-label={`${restaurant.name} home`}
+            >
+              <Image
+                src={logoImage}
+                alt={`${restaurant.name} logo`}
+                fill
+                sizes="176px"
+                className="object-contain p-4 transition duration-300 group-hover:scale-[1.03]"
+                loading="eager"
+              />
+            </Link>
 
-          <p className="mt-6 max-w-xs text-xl font-medium leading-8 text-white">
-            Indian food, takeaway, and table bookings on Walton Street,
-            Oxford.
-          </p>
+            <p className="mt-5 max-w-sm text-base font-semibold leading-7 text-white/82">
+              Indian food, takeaway, delivery, and table bookings on Walton
+              Street, Oxford.
+            </p>
 
-          <div className="mt-10">
-            <p className="text-base font-black text-white">We Accept</p>
-            <div className="mt-3 w-[202px] rounded-sm bg-white p-3 text-[#111111] shadow-[0_18px_40px_rgba(0,0,0,0.35)]">
-              <div className="flex items-center gap-2">
-                <span className="flex h-12 w-10 shrink-0 items-center justify-center rounded-sm bg-[#111111] text-white">
-                  <ShieldCheck size={24} aria-hidden="true" />
+            <a
+              href={restaurant.siteUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-sm font-black text-white transition hover:border-[#D7A542] hover:text-[#D7A542]"
+            >
+              <ExternalLink size={15} aria-hidden="true" />
+              {restaurant.website}
+            </a>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-black text-white">Visit & Contact</h2>
+            <div className="mt-5 grid gap-3">
+              <a
+                href={restaurant.mapsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={footerLinkClass}
+              >
+                <MapPin size={17} className="shrink-0 text-[#D7A542]" aria-hidden="true" />
+                <span>{restaurant.address.join(", ")}</span>
+              </a>
+              <a href={restaurant.phoneHref} className={footerLinkClass}>
+                <Phone size={17} className="shrink-0 text-[#D7A542]" aria-hidden="true" />
+                {restaurant.phone}
+              </a>
+              <a
+                href={`mailto:${restaurant.email}`}
+                className={`${footerLinkClass} break-all`}
+              >
+                <Mail size={17} className="shrink-0 text-[#D7A542]" aria-hidden="true" />
+                {restaurant.email}
+              </a>
+            </div>
+
+            <div className="mt-6 rounded-lg border border-white/12 bg-white/6 p-4">
+              <h3 className="flex items-center gap-2 text-sm font-black text-white">
+                <Clock size={17} className="text-[#D7A542]" aria-hidden="true" />
+                Opening Hours
+              </h3>
+              <div className="mt-3 grid gap-2 text-sm text-white/72">
+                {restaurant.hours.map((item) => (
+                  <p key={item.days} className="flex justify-between gap-4">
+                    <span>{item.days}</span>
+                    <span className="text-right font-semibold text-white/88">
+                      {item.time}
+                    </span>
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-black text-white">Quick Links</h2>
+            <nav className="mt-5 grid grid-cols-2 gap-3 text-sm sm:max-w-sm lg:grid-cols-1">
+              {quickLinks.map((link) => (
+                <Link key={link.href} href={link.href} className={footerLinkClass}>
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
+            <h2 className="mt-7 text-lg font-black text-white">Social Media</h2>
+            <div className="mt-4 flex flex-wrap gap-3">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${link.label} opens in a new tab`}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:bg-[#8A3430] hover:text-white hover:ring-[#D7A542] ${link.className}`}
+                >
+                  {link.content}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-black text-white">Trust & Payments</h2>
+            <div className="mt-5 rounded-lg border border-white/12 bg-white p-4 text-[#111111] shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#111111] text-white">
+                  <ShieldCheck size={22} aria-hidden="true" />
                 </span>
                 <div>
-                  <p className="text-sm font-black leading-none">
-                    Secure payments
-                  </p>
-                  <p className="mt-2 rounded-sm bg-[#111111] px-2 py-1 text-[10px] font-black uppercase tracking-wide text-white">
+                  <p className="text-sm font-black">Secure payments</p>
+                  <p className="mt-1 text-xs font-bold text-[#5F5552]">
                     Powered by Stripe
                   </p>
                 </div>
               </div>
-              <div className="mt-3 grid grid-cols-4 gap-1">
-                {cards.map((card) => (
+              <div className="mt-4 grid grid-cols-3 gap-1.5">
+                {paymentCards.map((card) => (
                   <span
                     key={card.label}
-                    className={`flex h-6 items-center justify-center rounded-sm text-[8px] font-black ${card.className}`}
+                    className={`flex h-7 items-center justify-center rounded-sm text-[9px] font-black ${card.className}`}
                   >
                     {card.label}
                   </span>
                 ))}
               </div>
             </div>
-          </div>
 
-          <div className="mt-12 w-[252px] max-w-full overflow-hidden rounded-lg bg-[#b5db13] text-[#111111] shadow-[0_18px_38px_rgba(0,0,0,0.3)] ring-1 ring-white/10">
-            <div className="flex items-center justify-between gap-3 bg-[#d9ef62] px-4 py-3">
-              <div>
-                <p className="text-[10px] font-black uppercase leading-none tracking-wide">
-                  Food Hygiene Rating
-                </p>
-                <p className="mt-1 text-sm font-black">Very good</p>
+            <div className="mt-4 rounded-lg border border-[#BEE01C] bg-[#D9F359] p-4 text-[#111111] shadow-[0_18px_40px_rgba(0,0,0,0.18)]">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-[11px] font-black uppercase tracking-wide">
+                    Food Hygiene Rating
+                  </p>
+                  <p className="mt-1 text-sm font-black">Very good</p>
+                </div>
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#111111] text-2xl font-black text-white">
+                  5
+                </span>
               </div>
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#111111] text-3xl font-black text-white">
-                5
-              </div>
-            </div>
-            <div className="px-4 py-3">
-              <div className="flex items-center gap-1.5">
-                {[0, 1, 2, 3, 4, 5].map((rating) => (
-                  <span
-                    key={rating}
-                    className={`flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#111111] text-sm font-black ${
-                      rating === 5 ? "bg-[#111111] text-white" : "bg-[#e9fb8a]"
-                    }`}
-                  >
-                    {rating}
-                  </span>
-                ))}
-              </div>
-              <p className="mt-3 text-[11px] font-black uppercase tracking-wide">
+              <p className="mt-3 text-xs font-black uppercase tracking-wide">
                 Food Standards Agency style rating
               </p>
             </div>
           </div>
         </div>
 
-        <div>
-          <h2 className="text-xl font-black text-white">Address</h2>
-          <div className="mt-8 space-y-4 text-xl font-medium leading-7 text-white">
-            <p>{restaurant.address.join(", ")}</p>
-            <p>
-              <a href={restaurant.phoneHref} className={brandHoverClass}>
-                {restaurant.phone}
-              </a>
-            </p>
-            <p>
-              <a
-                href={`mailto:${restaurant.email}`}
-                className={`break-all ${brandHoverClass}`}
-              >
-                {restaurant.email}
-              </a>
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <h2 className="text-xl font-black text-white">Quick Links</h2>
-          <nav className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-base font-medium text-white">
-            {quickLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`min-h-9 ${brandHoverClass}`}
-              >
+        <div className="mt-10 flex flex-col gap-5 border-t border-white/12 pt-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            {legalLinks.map((link) => (
+              <Link key={link.href} href={link.href} className={footerLinkClass}>
                 {link.label}
               </Link>
             ))}
-          </nav>
+          </div>
 
-          <h2 className="mt-10 text-xl font-black text-white">Social Media</h2>
-          <div className="mt-5 flex flex-wrap gap-4">
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${link.label} opens in a new tab`}
-                className={`flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:bg-[#8A3430] hover:text-white hover:ring-[#C99635] ${link.className}`}
-              >
-                {link.content}
-              </a>
-            ))}
+          <div className="flex flex-col gap-3 text-sm font-semibold text-white/64 sm:flex-row sm:items-center">
+            <p>&copy; 2026 {restaurant.shortName}</p>
+            <span className="hidden h-1 w-1 rounded-full bg-white/28 sm:block" />
+            <a
+              href="https://talentpull.uk"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 transition hover:text-[#D7A542]"
+            >
+              Powered by
+              <span className="relative inline-block h-6 w-24 align-middle">
+                <Image
+                  src="/powered-by/logo-wordmark.png"
+                  alt="Talentpull"
+                  fill
+                  sizes="96px"
+                  className="object-contain"
+                />
+              </span>
+            </a>
           </div>
         </div>
-      </div>
-
-      <div className="mx-auto flex max-w-6xl flex-col items-center px-4 pb-9 sm:px-6 lg:px-8">
-        <p className="text-base font-black text-white">Powered By</p>
-        <a
-          href="https://talentpull.uk"
-          target="_blank"
-          rel="noreferrer"
-          className="relative mt-5 block h-9 w-36"
-          aria-label="Powered by Talentpull"
-        >
-          <Image
-            src="/powered-by/logo-wordmark.png"
-            alt="Talentpull"
-            fill
-            sizes="144px"
-            className="object-contain"
-          />
-        </a>
-      </div>
-
-      <div className="border-t border-white/15 px-4 py-5 text-center text-sm text-white sm:px-6 lg:px-8">
-        <p>
-          &copy; 2026 {restaurant.shortName} &middot; Terms &amp; Conditions
-          &middot; Privacy Policy
-        </p>
       </div>
     </footer>
   );

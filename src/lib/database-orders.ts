@@ -354,6 +354,18 @@ function createRewardItems(order: ValidatedOrder): CartItem[] {
     });
   }
 
+  if (order.reward.type === "bombay-aloo" || order.reward.type === "combo") {
+    rewardItems.push({
+      category: "Reward",
+      displayName: "Free Regular Bombay Aloo",
+      id: "reward-bombay-aloo",
+      name: "Free Regular Bombay Aloo",
+      priceLabel: "0",
+      quantity: 1,
+      unitPrice: 0,
+    });
+  }
+
   if (order.selectedSideDish) {
     rewardItems.push({
       ...order.selectedSideDish,

@@ -29,13 +29,16 @@ import {
 } from "lucide-react";
 import { useCart } from "@/components/CartProvider";
 import {
+  COLLECTION_DISCOUNT_THRESHOLD,
   DELIVERY_MINIMUM,
+  DELIVERY_BOMBAY_ALOO_THRESHOLD,
+  DELIVERY_COMBO_THRESHOLD,
+  DELIVERY_ONION_BHAJI_THRESHOLD,
   formatCurrency,
   formatPostcode,
   getActiveReward,
   getCollectionDiscount,
   getOrderTotal,
-  getSideDishOptions,
   getSubtotal,
   isValidDeliveryPostcode,
   isValidGbPhone,
@@ -75,7 +78,7 @@ const initialCustomer: CustomerDetails = {
 
 const stepOrder: CheckoutStep[] = ["food", "fulfilment", "details", "payment"];
 const checkoutCardClass =
-  "checkout-step-card rounded-[24px] border border-[#E4D6C4] bg-white p-5 shadow-[0_18px_42px_rgba(52,35,28,0.08)] sm:p-6";
+  "checkout-step-card rounded-lg border border-[#E4D6C4] bg-white p-5 shadow-[0_14px_32px_rgba(52,35,28,0.07)] sm:p-6";
 const lastOrderTrackingKey = "jamals-last-order-tracking-v1";
 
 function getOrigin() {
@@ -115,7 +118,6 @@ export function CartPageClient() {
     useState<CheckoutAccountMode>("guest");
   const [customer, setCustomer] = useState<CustomerDetails>(initialCustomer);
   const [paymentChoice, setPaymentChoice] = useState<PaymentChoice>("online");
-  const [selectedSideDishId, setSelectedSideDishId] = useState("");
   const [checkoutError, setCheckoutError] = useState("");
   const [checkoutAction, setCheckoutAction] = useState<"cash" | "online" | null>(
     null,
@@ -133,9 +135,7 @@ export function CartPageClient() {
   const reward = getActiveReward(subtotal, orderType);
   const collectionDiscount = getCollectionDiscount(subtotal, reward);
   const total = getOrderTotal(subtotal, reward);
-  const sideDishOptions = useMemo(() => getSideDishOptions(), []);
   const hasDishes = cartItems.length > 0;
-  const sideDishValid = !reward.requiresSideDish || selectedSideDishId.length > 0;
   const phoneValid = isValidGbPhone(customer.phone);
   const emailValid = isValidEmail(customer.email);
   const customerMode: CustomerMode =
@@ -157,7 +157,7 @@ export function CartPageClient() {
     deliveryMinimumValid &&
     deliveryPostcodeValid &&
     (orderType === "collection" || customer.address.trim().length > 5);
-  const foodStepValid = hasDishes && sideDishValid;
+  const foodStepValid = hasDishes;
   const orderReady = foodStepValid && fulfilmentValid && contactDetailsValid;
   const canCheckout = orderReady && orderingAllowed;
   const checkingOut = checkoutAction !== null;
@@ -208,12 +208,6 @@ export function CartPageClient() {
 
   const activeStepIndex = stepOrder.indexOf(activeStep);
   const currentStep = checkoutSteps.find((step) => step.id === activeStep);
-
-  useEffect(() => {
-    if (!reward.requiresSideDish) {
-      setSelectedSideDishId("");
-    }
-  }, [reward.requiresSideDish]);
 
   useEffect(() => {
     if (!hasDishes && activeStep !== "food") {
@@ -284,7 +278,7 @@ export function CartPageClient() {
         quantity: item.quantity,
       })),
       orderType,
-      selectedSideDishId,
+      website: "",
     };
   }
 
@@ -574,14 +568,6 @@ export function CartPageClient() {
       };
     }
 
-    if (reward.requiresSideDish && !sideDishValid) {
-      return {
-        title: "Choose your free side",
-        detail:
-          "Your order includes a free side. Pick one before you pay.",
-      };
-    }
-
     if (orderType === "delivery" && subtotal < DELIVERY_MINIMUM) {
       return {
         title: "Almost ready for delivery",
@@ -593,34 +579,45 @@ export function CartPageClient() {
       };
     }
 
-    if (subtotal < 30) {
+    if (orderType === "delivery" && subtotal < DELIVERY_ONION_BHAJI_THRESHOLD) {
       return {
         title: "Unlock a free Onion Bhaji",
         detail: `Add ${formatCurrency(
-          30 - subtotal,
-        )} more and the free Onion Bhaji reward is yours.`,
+          DELIVERY_ONION_BHAJI_THRESHOLD - subtotal,
+        )} more and the delivery Onion Bhaji reward is yours.`,
         action: "Add dishes",
         href: "/menu",
       };
     }
 
-    if (subtotal < 45) {
+    if (orderType === "delivery" && subtotal < DELIVERY_BOMBAY_ALOO_THRESHOLD) {
       return {
-        title: "Close to a free side",
+        title: "Close to free Bombay Aloo",
         detail: `Add ${formatCurrency(
-          45 - subtotal,
-        )} more to choose a free side dish.`,
+          DELIVERY_BOMBAY_ALOO_THRESHOLD - subtotal,
+        )} more for a free regular Bombay Aloo.`,
         action: "Add dishes",
         href: "/menu",
       };
     }
 
-    if (subtotal < 60) {
+    if (orderType === "delivery" && subtotal < DELIVERY_COMBO_THRESHOLD) {
       return {
         title: "Best reward is within reach",
         detail: `Add ${formatCurrency(
-          60 - subtotal,
-        )} more for Onion Bhaji plus a side dish.`,
+          DELIVERY_COMBO_THRESHOLD - subtotal,
+        )} more for Onion Bhaji plus regular Bombay Aloo.`,
+        action: "Add dishes",
+        href: "/menu",
+      };
+    }
+
+    if (orderType === "collection" && subtotal < COLLECTION_DISCOUNT_THRESHOLD) {
+      return {
+        title: "Unlock the collection discount",
+        detail: `Add ${formatCurrency(
+          COLLECTION_DISCOUNT_THRESHOLD - subtotal,
+        )} more for 10% off collection.`,
         action: "Add dishes",
         href: "/menu",
       };
@@ -702,7 +699,7 @@ export function CartPageClient() {
 
   function renderStepHeader() {
     return (
-      <div className="rounded-[24px] border border-[#E4D6C4] bg-white p-4 shadow-[0_14px_36px_rgba(52,35,28,0.06)] sm:p-5">
+      <div className="rounded-lg border border-[#E4D6C4] bg-white p-4 shadow-[0_12px_28px_rgba(52,35,28,0.06)] sm:p-5">
         <div className="grid grid-cols-4 gap-1">
           {checkoutSteps.map((step, index) => {
             const active = step.id === activeStep;
@@ -836,7 +833,7 @@ export function CartPageClient() {
             {cartItems.map((item) => (
               <article
                 key={item.id}
-                className="grid gap-4 rounded-[18px] border border-[#EADAC5] bg-white p-4 shadow-sm transition hover:border-[#8A3430]/30 hover:shadow-md sm:grid-cols-[1fr_auto] sm:items-center"
+                className="grid gap-4 rounded-lg border border-[#EADAC5] bg-white p-4 shadow-sm transition hover:border-[#8A3430]/30 hover:shadow-md sm:grid-cols-[1fr_auto] sm:items-center"
               >
                 <div className="min-w-0">
                   <h3 className="break-words font-black">{item.name}</h3>
@@ -863,42 +860,18 @@ export function CartPageClient() {
           </div>
         )}
 
-        <div className="mt-5 rounded-[18px] border border-[#EADAC5] bg-[#FFF9EF] p-4">
+        <div className="mt-5 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-4">
           <div className="flex items-center gap-2 text-[#8A3430]">
             <BadgePercent size={20} aria-hidden="true" />
             <h3 className="font-black">Active reward</h3>
           </div>
-          <div className="mt-4 rounded-[18px] border border-[#8A3430]/15 bg-white p-4 shadow-sm">
+          <div className="mt-4 rounded-lg border border-[#8A3430]/15 bg-white p-4 shadow-sm">
             <p className="font-black text-[#8A3430]">{reward.title}</p>
             <p className="mt-2 text-sm leading-6 text-[#6B5D5B]">
               {reward.detail}
             </p>
           </div>
 
-          {reward.requiresSideDish ? (
-            <label className="mt-5 block text-sm font-black">
-              Choose your free side dish
-              <select
-                value={selectedSideDishId}
-                onChange={(event) => setSelectedSideDishId(event.target.value)}
-                className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-semibold outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
-              >
-                <option value="">Select a side dish</option>
-                {sideDishOptions.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-          ) : null}
-
-          {reward.requiresSideDish && !sideDishValid ? (
-            <ValidationMessage>
-              Choose your free side dish before moving to collection or
-              delivery.
-            </ValidationMessage>
-          ) : null}
         </div>
       </div>
     );
@@ -1031,7 +1004,7 @@ export function CartPageClient() {
 
         {!accountEmail ? (
           <>
-            <div className="mt-5 grid gap-1 rounded-[24px] bg-[#FFF7EC] p-1 text-sm sm:grid-cols-3">
+            <div className="mt-5 grid gap-1 rounded-lg bg-[#FFF7EC] p-1 text-sm sm:grid-cols-3">
               {[
                 {
                   icon: User,
@@ -1278,7 +1251,7 @@ export function CartPageClient() {
           })}
         </div>
 
-        <div className="mt-5 flex items-start gap-3 rounded-[18px] border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+        <div className="mt-5 flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
           <Lock className="mt-0.5 shrink-0" size={18} aria-hidden="true" />
           <div>
             <p className="font-black">Secure checkout</p>
@@ -1410,7 +1383,7 @@ export function CartPageClient() {
 
   function renderOrderSummary() {
     return (
-      <aside className="h-fit rounded-[24px] border border-[#E4D6C4] bg-white p-5 shadow-[0_18px_42px_rgba(52,35,28,0.08)] lg:sticky lg:top-24">
+      <aside className="h-fit rounded-lg border border-[#E4D6C4] bg-white p-5 shadow-[0_14px_32px_rgba(52,35,28,0.07)] lg:sticky lg:top-24">
         <div className="flex items-center gap-3">
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#8A3430] text-white">
             <ReceiptText size={20} aria-hidden="true" />
@@ -1423,7 +1396,7 @@ export function CartPageClient() {
           </div>
         </div>
 
-        <div className="mt-5 space-y-3 rounded-[18px] border border-[#EADAC5] bg-white p-4 text-sm">
+        <div className="mt-5 space-y-3 rounded-lg border border-[#EADAC5] bg-white p-4 text-sm">
           <div className="flex justify-between gap-4">
             <span className="text-[#6B5D5B]">Items</span>
             <span className="font-black">{itemCount}</span>
@@ -1460,7 +1433,7 @@ export function CartPageClient() {
           </div>
         </div>
 
-        <div className="smart-suggestion mt-5 rounded-[18px] border border-[#EADAC5] bg-[#FFF9EF] p-4">
+        <div className="smart-suggestion mt-5 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-4">
           <h3 className="flex items-center gap-2 font-black text-[#241D1D]">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#8A3430] text-white">
               <Sparkles size={16} aria-hidden="true" />
@@ -1481,7 +1454,7 @@ export function CartPageClient() {
           ) : null}
         </div>
 
-        <div className="mt-5 rounded-[18px] border border-[#EADAC5] bg-white p-4">
+        <div className="mt-5 rounded-lg border border-[#EADAC5] bg-white p-4">
           <h3 className="flex items-center gap-2 font-black">
             <ClipboardList size={18} aria-hidden="true" />
             Checkout status

@@ -62,7 +62,7 @@ export function SiteHeader() {
                 href={link.href}
                 className={`rounded-full px-3 py-2.5 transition xl:px-4 ${
                   active
-                    ? "bg-white text-[var(--brand-primary)] shadow-sm"
+                    ? "bg-[#FFF7EC] text-[var(--brand-primary)] shadow-sm"
                     : "hover:bg-white hover:text-[var(--brand-primary)]"
                 }`}
                 aria-current={active ? "page" : undefined}
@@ -106,8 +106,8 @@ export function SiteHeader() {
                 href={link.href}
                 className={`shrink-0 rounded-full px-3.5 py-2 transition ${
                   active
-                    ? "bg-white text-[var(--brand-primary)]"
-                    : "hover:bg-white hover:text-[var(--brand-primary)]"
+                    ? "bg-[#FFF7EC] text-[var(--brand-primary)] ring-1 ring-[var(--brand-line)]"
+                    : "hover:bg-[#FFF7EC] hover:text-[var(--brand-primary)]"
                 }`}
                 aria-current={active ? "page" : undefined}
               >

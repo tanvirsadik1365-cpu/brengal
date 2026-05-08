@@ -1,10 +1,15 @@
-import { NextResponse, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import { findCustomerOrderTracking } from "@/lib/order-tracking";
+import {
+  jsonResponse,
+  rateLimitRequest,
+  rejectDisallowedOrigin,
+} from "@/lib/request-protection";
 
 export const runtime = "nodejs";
 
 function badRequest(error: string, status = 400) {
-  return NextResponse.json({ error }, { status });
+  return jsonResponse({ error }, status);
 }
 
 function clean(value: unknown, maxLength = 180) {
@@ -12,6 +17,22 @@ function clean(value: unknown, maxLength = 180) {
 }
 
 export async function POST(request: NextRequest) {
+  const originError = rejectDisallowedOrigin(request);
+
+  if (originError) {
+    return originError;
+  }
+
+  const rateLimitError = rateLimitRequest(request, {
+    key: "order-tracking-post",
+    limit: 24,
+    windowMs: 5 * 60 * 1000,
+  });
+
+  if (rateLimitError) {
+    return rateLimitError;
+  }
+
   const body = (await request.json().catch(() => null)) as
     | Record<string, unknown>
     | null;
@@ -35,7 +56,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ tracking });
+    return jsonResponse({ tracking });
   } catch (error) {
     console.error(error);
 

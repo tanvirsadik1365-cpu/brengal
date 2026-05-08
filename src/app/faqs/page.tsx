@@ -18,8 +18,8 @@ export default function FaqsPage() {
         eyebrow="FAQs"
         title="Quick answers before you order."
         description="Ordering, delivery, rewards, bookings, student groups, and restaurant details."
-        imageSrc={foodImages.spices}
-        imageAlt="Indian spices ready for cooking"
+        imageSrc={foodImages.hero}
+        imageAlt="Jamal's curry and tandoori dishes"
         meta="Ordering, delivery, bookings"
       />
 

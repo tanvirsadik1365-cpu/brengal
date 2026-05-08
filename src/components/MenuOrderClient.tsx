@@ -22,6 +22,11 @@ import { useCart } from "@/components/CartProvider";
 import { StoreStatusNotice } from "@/components/StoreStatusNotice";
 import { useStoreStatus } from "@/components/useStoreStatus";
 import {
+  COLLECTION_DISCOUNT_THRESHOLD,
+  DELIVERY_BOMBAY_ALOO_THRESHOLD,
+  DELIVERY_COMBO_THRESHOLD,
+  DELIVERY_MINIMUM,
+  DELIVERY_ONION_BHAJI_THRESHOLD,
   formatCurrency,
   getActiveReward,
   getCollectionDiscount,
@@ -31,8 +36,6 @@ import {
   type OrderType,
 } from "@/lib/order";
 import {
-  baseCurry,
-  foodImages,
   menuSections,
   offers,
   restaurant,
@@ -45,22 +48,30 @@ type MenuCategory = {
   count: number;
 };
 
-const menuItemCount =
-  baseCurry.prices.length +
-  menuSections.reduce((total, section) => total + section.items.length, 0);
+const menuItemCount = menuSections.reduce(
+  (total, section) => total + section.items.length,
+  0,
+);
+
+const featuredPickNames = [
+  "Butter Chicken",
+  "Tandoori Mixed Grill Main",
+  "Special Biryani",
+  "Non Vegetarian Feast (per person)",
+];
 
 const categories: MenuCategory[] = [
+  {
+    id: "popular-picks",
+    title: "Popular",
+    detail: "Fast favourites",
+    count: featuredPickNames.length,
+  },
   {
     id: "all",
     title: "Full Menu",
     detail: "Browse everything",
     count: menuItemCount,
-  },
-  {
-    id: "main-dishes",
-    title: baseCurry.title,
-    detail: "Curry choices",
-    count: baseCurry.prices.length,
   },
   ...menuSections.map((section) => ({
     id: section.id,
@@ -70,12 +81,7 @@ const categories: MenuCategory[] = [
   })),
 ];
 
-const featuredPicks = [
-  "Butter Chicken",
-  "Tandoori Mixed Grill",
-  "Special Biryani",
-  "Non-Veg Chef Selected Feast",
-]
+const featuredPicks = featuredPickNames
   .map((name) => {
     const section = menuSections.find((menuSection) =>
       menuSection.items.some((item) => item.name === name),
@@ -96,9 +102,9 @@ const featuredPicks = [
       reason:
         {
           "Butter Chicken": "Creamy, gently spiced, and always popular.",
-          "Tandoori Mixed Grill": "A generous sizzling mix from the tandoor.",
+          "Tandoori Mixed Grill Main": "A generous sizzling mix from the tandoor.",
           "Special Biryani": "Fragrant rice with a fuller house mix.",
-          "Non-Veg Chef Selected Feast": "A ready-made feast for sharing.",
+          "Non Vegetarian Feast (per person)": "A ready-made feast for sharing.",
         }[item.name] ?? section.description,
     };
   })
@@ -132,29 +138,33 @@ function categoryMatches(query: string, values: Array<string | undefined>) {
 }
 
 function getRewardLabel(subtotal: number, orderType: OrderType) {
-  if (orderType === "delivery" && subtotal < 20) {
-    return `${formatCurrency(20 - subtotal)} more for delivery`;
+  if (orderType === "delivery" && subtotal < DELIVERY_MINIMUM) {
+    return `${formatCurrency(DELIVERY_MINIMUM - subtotal)} more for delivery`;
   }
 
-  if (subtotal >= 60) {
-    return `${formatCurrency(60)} offer: Onion Bhaji + a side`;
+  if (orderType === "delivery") {
+    if (subtotal >= DELIVERY_COMBO_THRESHOLD) {
+      return `${formatCurrency(DELIVERY_COMBO_THRESHOLD)} offer: Onion Bhaji + Bombay Aloo`;
+    }
+
+    if (subtotal >= DELIVERY_BOMBAY_ALOO_THRESHOLD) {
+      return `${formatCurrency(DELIVERY_BOMBAY_ALOO_THRESHOLD)} offer: free Bombay Aloo`;
+    }
+
+    if (subtotal >= DELIVERY_ONION_BHAJI_THRESHOLD) {
+      return `${formatCurrency(DELIVERY_ONION_BHAJI_THRESHOLD)} offer: free Onion Bhaji`;
+    }
   }
 
-  if (subtotal >= 45) {
-    return `${formatCurrency(45)} offer: choose a free side`;
-  }
-
-  if (subtotal >= 30) {
-    return `${formatCurrency(30)} offer: free Onion Bhaji`;
-  }
-
-  if (subtotal >= 20) {
+  if (subtotal >= COLLECTION_DISCOUNT_THRESHOLD) {
     return orderType === "collection"
       ? "10% collection discount"
       : "Delivery minimum reached";
   }
 
-  return `${formatCurrency(Math.max(20 - subtotal, 0))} more for your first offer`;
+  return `${formatCurrency(
+    Math.max(COLLECTION_DISCOUNT_THRESHOLD - subtotal, 0),
+  )} more for your first offer`;
 }
 
 export function MenuOrderClient() {
@@ -180,37 +190,14 @@ export function MenuOrderClient() {
   const unlockedReward =
     activeReward.type === "none" ? null : activeReward.title;
   const total = getOrderTotal(subtotal, activeReward);
-  const progressPercent = Math.min((subtotal / 60) * 100, 100);
+  const rewardGoal =
+    orderType === "delivery"
+      ? DELIVERY_COMBO_THRESHOLD
+      : COLLECTION_DISCOUNT_THRESHOLD;
+  const progressPercent = Math.min((subtotal / rewardGoal) * 100, 100);
   const needsDeliveryMinimum =
-    orderType === "delivery" && subtotal > 0 && subtotal < 20;
+    orderType === "delivery" && subtotal > 0 && subtotal < DELIVERY_MINIMUM;
   const normalizedSearch = normalize(searchQuery);
-
-  const baseItems = useMemo(
-    () =>
-      baseCurry.prices.map((item) => ({
-        id: `main-${item.name}`,
-        name: `${item.name} Curry`,
-        displayName: item.name,
-        category: baseCurry.title,
-        priceLabel: item.price,
-        unitPrice: parseFirstPrice(item.price),
-      })),
-    [],
-  );
-
-  const visibleBaseItems = useMemo(
-    () =>
-      baseItems.filter((item) =>
-        categoryMatches(normalizedSearch, [
-          item.name,
-          item.displayName,
-          item.category,
-          baseCurry.description,
-          ...baseCurry.styles,
-        ]),
-      ),
-    [baseItems, normalizedSearch],
-  );
 
   const visibleSections = useMemo(
     () =>
@@ -221,9 +208,10 @@ export function MenuOrderClient() {
             categoryMatches(normalizedSearch, [
               item.name,
               item.price,
+              item.description,
               section.title,
               section.description,
-              "priceNote" in section ? section.priceNote : undefined,
+              section.priceNote,
             ]),
           ),
         }))
@@ -231,9 +219,10 @@ export function MenuOrderClient() {
     [normalizedSearch],
   );
 
-  const visibleItemCount =
-    visibleBaseItems.length +
-    visibleSections.reduce((totalItems, section) => totalItems + section.items.length, 0);
+  const visibleItemCount = visibleSections.reduce(
+    (totalItems, section) => totalItems + section.items.length,
+    0,
+  );
 
   useEffect(() => {
     if (normalizedSearch) {
@@ -263,7 +252,7 @@ export function MenuOrderClient() {
     });
 
     return () => observer.disconnect();
-  }, [normalizedSearch, visibleBaseItems.length, visibleSections.length]);
+  }, [normalizedSearch, visibleSections.length]);
 
   useEffect(() => {
     compactCategoryButtonRefs.current[activeCategory]?.scrollIntoView({
@@ -311,6 +300,11 @@ export function MenuOrderClient() {
     }
 
     window.setTimeout(() => {
+      if (categoryId === "popular-picks") {
+        scrollToPopularPicks();
+        return;
+      }
+
       if (categoryId === "all") {
         menuTopRef.current?.scrollIntoView({
           behavior: "smooth",
@@ -332,6 +326,7 @@ export function MenuOrderClient() {
   }
 
   function scrollToPopularPicks() {
+    setActiveCategory("popular-picks");
     document.getElementById("popular-picks")?.scrollIntoView({
       behavior: "smooth",
       block: "start",
@@ -473,7 +468,7 @@ export function MenuOrderClient() {
           type="button"
           onClick={() => setMobileOffersOpen((open) => !open)}
           aria-expanded={mobileOffersOpen}
-          className="flex min-h-[58px] w-full items-center justify-between gap-3 rounded-2xl border border-[#E4D6C4] bg-white px-3.5 text-left shadow-[0_10px_24px_rgba(52,35,28,0.08)]"
+          className="flex min-h-[58px] w-full items-center justify-between gap-3 rounded-lg border border-[#E4D6C4] bg-white px-3.5 text-left shadow-[0_10px_24px_rgba(52,35,28,0.08)]"
         >
           <span className="flex min-w-0 items-center gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#8A3430] text-white shadow-sm shadow-[#8A3430]/20">
@@ -501,7 +496,7 @@ export function MenuOrderClient() {
         </button>
 
         {mobileOffersOpen ? (
-          <div className="mt-2 overflow-hidden rounded-2xl border border-[#E4D6C4] bg-white shadow-xl shadow-black/10">
+          <div className="mt-2 overflow-hidden rounded-lg border border-[#E4D6C4] bg-white shadow-xl shadow-black/10">
             <div className="grid divide-y divide-[#F0E3D2]">
               {offers.map((offer) => (
                 <div key={offer.title} className="grid gap-1 px-4 py-3">
@@ -605,6 +600,7 @@ export function MenuOrderClient() {
     return (
       <section
         id="popular-picks"
+        ref={setSectionRef("popular-picks")}
         className="restaurant-card scroll-mt-[178px] rounded-lg p-5 shadow-lg shadow-black/5 sm:p-6 lg:scroll-mt-[116px]"
       >
         <div className="max-w-3xl">
@@ -942,9 +938,9 @@ export function MenuOrderClient() {
                   ? `${storeStatus?.prepTimeMinutes ?? 20} min prep`
                   : "Ordering disabled",
               ],
-              ["10%", "Collection from £20"],
-              ["£20", "Delivery minimum"],
-              ["5 miles", "Delivery radius"],
+              ["10%", "Collection from \u00a320"],
+              ["\u00a320", "Delivery minimum"],
+              ["OX1-OX5", "Delivery area"],
             ].map(([value, label]) => (
               <div
                 key={label}
@@ -1041,74 +1037,6 @@ export function MenuOrderClient() {
                 </div>
               </div>
 
-              {visibleBaseItems.length > 0 ? (
-                <section
-                  id="main-dishes"
-                  ref={setSectionRef("main-dishes")}
-                  className="restaurant-card scroll-mt-[178px] overflow-hidden rounded-lg lg:scroll-mt-[116px]"
-                >
-                  <div className="border-b border-black/10 bg-white p-5 sm:p-6">
-                    <div className="grid gap-4 sm:grid-cols-[112px_minmax(0,1fr)_150px] sm:items-stretch">
-                      <div className="relative h-28 overflow-hidden rounded-lg bg-[#241D1D]">
-                        <Image
-                          src={foodImages.curry}
-                          alt="Indian curry dishes"
-                          fill
-                          sizes="112px"
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="flex min-w-0 flex-col justify-center">
-                        <h2 className="break-words text-3xl font-black leading-tight text-[#241D1D] sm:text-4xl">
-                          Main Dishes
-                        </h2>
-                        <p className="mt-3 max-w-2xl text-base leading-7 text-[#6B5D5B]">
-                          Choose chicken, lamb, king prawn, or vegetable. Add
-                          your preferred curry style in the cart notes.
-                        </p>
-                      </div>
-                      <div className="grid gap-2 sm:justify-items-end">
-                        <span className="grid min-h-24 w-full place-items-center rounded-lg border border-[#EADAC5] bg-[#FFF7EC] px-4 text-center text-[#8A3430] sm:min-h-full">
-                          <span>
-                            <span className="block text-3xl font-black leading-none">
-                              {visibleBaseItems.length}
-                            </span>
-                            <span className="mt-2 block text-xs font-black uppercase tracking-[0.18em]">
-                              dishes
-                            </span>
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {baseCurry.styles.map((style) => (
-                        <span
-                          key={style}
-                          className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-black text-[#6B5D5B]"
-                        >
-                          {style}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="grid gap-3 p-4 sm:p-5">
-                    {visibleBaseItems.map((item) => (
-                      <MenuItemRow
-                        key={item.id}
-                        id={item.id}
-                        name={item.name}
-                        category={item.category}
-                        priceLabel={item.priceLabel}
-                        unitPrice={item.unitPrice}
-                        detail="Choose your curry style in the cart notes."
-                      />
-                    ))}
-                  </div>
-                </section>
-              ) : null}
-
               <div className="mt-6 space-y-6">
                 {visibleSections.map((section) => (
                   <section
@@ -1147,7 +1075,7 @@ export function MenuOrderClient() {
                               </span>
                             </span>
                           </span>
-                          {"priceNote" in section && section.priceNote ? (
+                          {section.priceNote ? (
                             <span className="inline-flex min-h-10 w-full items-center justify-center rounded-lg bg-[#8A3430] px-4 text-center text-xs font-black uppercase text-white">
                               {section.priceNote}
                             </span>
@@ -1168,7 +1096,7 @@ export function MenuOrderClient() {
                             category={section.title}
                             priceLabel={item.price}
                             unitPrice={parseFirstPrice(item.price)}
-                            detail={section.description}
+                            detail={item.description || section.description}
                             popular={"popular" in item && Boolean(item.popular)}
                           />
                         );

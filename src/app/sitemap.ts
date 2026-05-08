@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { restaurant } from "@/lib/restaurant";
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://jamals-saffron.co.uk";
+  process.env.NEXT_PUBLIC_SITE_URL ?? restaurant.siteUrl;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
@@ -13,6 +14,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/reviews", priority: 0.7 },
     { path: "/faqs", priority: 0.65 },
     { path: "/contact", priority: 0.8 },
+    { path: "/terms-and-conditions", priority: 0.35 },
+    { path: "/privacy-policy", priority: 0.3 },
   ];
 
   return pages.map((page) => ({

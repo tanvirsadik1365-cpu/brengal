@@ -7,7 +7,7 @@ import type {
 type UnknownRecord = Record<string, unknown>;
 
 const fallbackPrepTimeMinutes = 20;
-const fallbackSupportPhone = "01865 55 49 05";
+const fallbackSupportPhone = "01865 554905";
 
 export type MerchantStoreStatus = PublicStoreStatus & {
   supportPhone: string;

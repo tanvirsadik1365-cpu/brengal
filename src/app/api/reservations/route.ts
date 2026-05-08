@@ -1,14 +1,20 @@
-import { NextResponse, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import {
   createDatabaseReservation,
   getRequestUser,
 } from "@/lib/database-reservations";
+import {
+  jsonResponse,
+  rateLimitRequest,
+  rejectDisallowedOrigin,
+  rejectSpamSubmission,
+} from "@/lib/request-protection";
 import { validateReservationPayload } from "@/lib/reservation-validation";
 
 export const runtime = "nodejs";
 
 function badRequest(error: string, status = 400) {
-  return NextResponse.json({ error }, { status });
+  return jsonResponse({ error }, status);
 }
 
 function getBearerToken(request: NextRequest) {
@@ -22,9 +28,30 @@ function getBearerToken(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const validation = validateReservationPayload(
-    await request.json().catch(() => null),
-  );
+  const originError = rejectDisallowedOrigin(request);
+
+  if (originError) {
+    return originError;
+  }
+
+  const rateLimitError = rateLimitRequest(request, {
+    key: "reservation-post",
+    limit: 8,
+    windowMs: 10 * 60 * 1000,
+  });
+
+  if (rateLimitError) {
+    return rateLimitError;
+  }
+
+  const body = await request.json().catch(() => null);
+  const spamError = rejectSpamSubmission(body);
+
+  if (spamError) {
+    return spamError;
+  }
+
+  const validation = validateReservationPayload(body);
 
   if (!validation.ok) {
     return badRequest(validation.error, validation.status);
@@ -37,7 +64,7 @@ export async function POST(request: NextRequest) {
       user,
     );
 
-    return NextResponse.json({
+    return jsonResponse({
       reservationId: reservation.id,
       reservationReference: reservation.reference,
     });

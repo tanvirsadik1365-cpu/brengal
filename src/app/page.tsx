@@ -49,13 +49,13 @@ const jsonLd = {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Sunday", "Monday", "Wednesday", "Thursday"],
       opens: "17:00",
-      closes: "22:30",
+      closes: "23:00",
     },
     {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Friday", "Saturday"],
       opens: "17:00",
-      closes: "23:00",
+      closes: "23:30",
     },
   ],
 };
@@ -86,7 +86,7 @@ const quickActions = [
 
 const trustItems = [
   { value: restaurant.established, label: "Serving Oxford since" },
-  { value: "5 miles", label: "Local delivery area" },
+  { value: "\u00a320", label: "Delivery minimum" },
   { value: "Best offer", label: "Applied in the cart" },
   { value: "BYOB", label: "Groups welcome" },
 ];
@@ -95,17 +95,17 @@ const contactCards = [
   {
     Icon: MapPin,
     title: "Find Us",
-    detail: "107 Walton Street, Oxford OX2 6AJ.",
+    detail: "107-108 Walton Street, Oxford OX2 6AJ.",
   },
   {
     Icon: Clock,
     title: "Dinner Hours",
-    detail: "Sun, Mon, Wed & Thu 5.00pm-10.30pm. Fri & Sat until 11.00pm. Tuesday closed.",
+    detail: "Mon, Wed, Thu & Sun 5.00pm-11.00pm. Fri & Sat until 11.30pm. Tuesday closed.",
   },
   {
     Icon: Truck,
     title: "Delivery",
-    detail: "Delivery from \u00a320 within 5 miles.",
+    detail: restaurant.deliveryInfo,
   },
 ];
 

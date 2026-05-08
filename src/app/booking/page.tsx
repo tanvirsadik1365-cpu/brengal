@@ -20,7 +20,7 @@ export default function BookingPage() {
         description="Dinner, student groups, birthdays, and BYOB evenings on Walton Street."
         imageSrc={foodImages.restaurant}
         imageAlt="Warm restaurant dining area set for dinner"
-        meta="107 Walton Street · from 5.00pm"
+        meta="107-108 Walton Street - from 5.00pm"
       />
 
       <section className="px-4 py-16 sm:px-6 lg:px-8">

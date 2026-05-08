@@ -93,6 +93,60 @@ alter table public.orders
   alter column auto_accept_at drop not null,
   alter column auto_accept_at drop default;
 
+do $$
+begin
+  if exists (
+    select 1
+    from pg_constraint
+    where conrelid = 'public.orders'::regclass
+      and conname = 'orders_order_status_check'
+  ) then
+    alter table public.orders drop constraint orders_order_status_check;
+  end if;
+
+  alter table public.orders
+    add constraint orders_order_status_check
+    check (
+      order_status in (
+        'new',
+        'pending',
+        'accepted',
+        'preparing',
+        'ready',
+        'completed',
+        'cancelled'
+      )
+    );
+exception
+  when duplicate_object then null;
+end $$;
+
+do $$
+begin
+  if exists (
+    select 1
+    from pg_constraint
+    where conrelid = 'public.orders'::regclass
+      and conname = 'orders_payment_status_check'
+  ) then
+    alter table public.orders drop constraint orders_payment_status_check;
+  end if;
+
+  alter table public.orders
+    add constraint orders_payment_status_check
+    check (
+      payment_status in (
+        'pending',
+        'awaiting_payment',
+        'paid',
+        'failed',
+        'refunded'
+      )
+    );
+exception
+  when duplicate_object then null;
+end $$;
+
 create unique index if not exists orders_order_number_key
   on public.orders (order_number);
 

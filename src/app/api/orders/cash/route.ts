@@ -1,13 +1,19 @@
-import { NextResponse, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import { createDatabaseOrder } from "@/lib/database-orders";
 import { getRequestUser } from "@/lib/database-reservations";
 import { validateOrderPayload } from "@/lib/order-validation";
+import {
+  jsonResponse,
+  rateLimitRequest,
+  rejectDisallowedOrigin,
+  rejectSpamSubmission,
+} from "@/lib/request-protection";
 import { getPublicStoreStatus } from "@/lib/store-status";
 
 export const runtime = "nodejs";
 
 function badRequest(error: string, status = 400) {
-  return NextResponse.json({ error }, { status });
+  return jsonResponse({ error }, status);
 }
 
 function getBearerToken(request: NextRequest) {
@@ -21,9 +27,30 @@ function getBearerToken(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const validation = validateOrderPayload(
-    await request.json().catch(() => null),
-  );
+  const originError = rejectDisallowedOrigin(request);
+
+  if (originError) {
+    return originError;
+  }
+
+  const rateLimitError = rateLimitRequest(request, {
+    key: "cash-order-post",
+    limit: 6,
+    windowMs: 10 * 60 * 1000,
+  });
+
+  if (rateLimitError) {
+    return rateLimitError;
+  }
+
+  const body = await request.json().catch(() => null);
+  const spamError = rejectSpamSubmission(body);
+
+  if (spamError) {
+    return spamError;
+  }
+
+  const validation = validateOrderPayload(body);
 
   if (!validation.ok) {
     return badRequest(validation.error, validation.status);
@@ -42,7 +69,7 @@ export async function POST(request: NextRequest) {
       prepTimeMinutes: storeStatus.prepTimeMinutes,
     });
 
-    return NextResponse.json({
+    return jsonResponse({
       databaseOrderId: databaseOrder.id,
       orderId: databaseOrder.orderNumber,
     });

@@ -143,7 +143,7 @@ export function validateOrderPayload(value: unknown): OrderValidationResult {
   if (orderType === "delivery") {
     if (subtotal < DELIVERY_MINIMUM) {
       return {
-        error: "Delivery requires a minimum order of £20.",
+        error: "Delivery requires a minimum order of \u00a320.",
         ok: false,
       };
     }

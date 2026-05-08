@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { toPence } from "@/lib/order";
 import { restaurant } from "@/lib/restaurant";
@@ -10,19 +10,25 @@ import {
   type PersistedOrder,
 } from "@/lib/database-orders";
 import { getRequestUser } from "@/lib/database-reservations";
+import {
+  jsonResponse,
+  rateLimitRequest,
+  rejectDisallowedOrigin,
+  rejectSpamSubmission,
+} from "@/lib/request-protection";
 import { getPublicStoreStatus } from "@/lib/store-status";
 
 export const runtime = "nodejs";
 
 function badRequest(error: string, status = 400) {
-  return NextResponse.json({ error }, { status });
+  return jsonResponse({ error }, status);
 }
 
 function getRequestOrigin(request: NextRequest) {
   return (
-    process.env.NEXT_PUBLIC_SITE_URL ??
     request.headers.get("origin") ??
-    "http://localhost:3000"
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    restaurant.siteUrl
   ).replace(/\/$/, "");
 }
 
@@ -37,6 +43,22 @@ function getBearerToken(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const originError = rejectDisallowedOrigin(request);
+
+  if (originError) {
+    return originError;
+  }
+
+  const rateLimitError = rateLimitRequest(request, {
+    key: "checkout-post",
+    limit: 8,
+    windowMs: 10 * 60 * 1000,
+  });
+
+  if (rateLimitError) {
+    return rateLimitError;
+  }
+
   const secretKey = process.env.STRIPE_SECRET_KEY;
 
   if (!secretKey) {
@@ -46,9 +68,14 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const validation = validateOrderPayload(
-    await request.json().catch(() => null),
-  );
+  const body = await request.json().catch(() => null);
+  const spamError = rejectSpamSubmission(body);
+
+  if (spamError) {
+    return spamError;
+  }
+
+  const validation = validateOrderPayload(body);
 
   if (!validation.ok) {
     return badRequest(validation.error, validation.status);
@@ -97,6 +124,22 @@ export async function POST(request: NextRequest) {
         currency: "gbp",
         product_data: {
           name: "Free Onion Bhaji",
+          metadata: {
+            reward: reward.type,
+          },
+        },
+        unit_amount: 0,
+      },
+      quantity: 1,
+    });
+  }
+
+  if (reward.type === "bombay-aloo" || reward.type === "combo") {
+    lineItems.push({
+      price_data: {
+        currency: "gbp",
+        product_data: {
+          name: "Free Regular Bombay Aloo",
           metadata: {
             reward: reward.type,
           },
@@ -234,7 +277,7 @@ export async function POST(request: NextRequest) {
     return badRequest("Stripe session could not be saved to the database.", 502);
   }
 
-  return NextResponse.json({
+  return jsonResponse({
     orderId: databaseOrder.orderNumber,
     url: session.url,
   });
