@@ -4,16 +4,40 @@ import { HelpCircle } from "lucide-react";
 import { FaqList } from "@/components/FaqList";
 import { PageIntro } from "@/components/PageIntro";
 import { faqs, foodImages } from "@/lib/restaurant";
+import {
+  createBreadcrumbJsonLd,
+  createFaqJsonLd,
+  jsonLdMarkup,
+} from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "FAQs",
+  title: {
+    absolute: "Indian Restaurant FAQs Oxford | Jamal’s",
+  },
   description:
     "Find answers about ordering, delivery, offers, bookings, and Jamal's Indian Restaurant in Oxford.",
+  alternates: {
+    canonical: "https://jamals.orderdaily.uk/faqs",
+  },
 };
+
+const faqJsonLd = createFaqJsonLd();
+const breadcrumbJsonLd = createBreadcrumbJsonLd([
+  { name: "Home", path: "/" },
+  { name: "FAQs", path: "/faqs" },
+]);
 
 export default function FaqsPage() {
   return (
     <main className="bg-white text-[#241D1D]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdMarkup(faqJsonLd)}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
+      />
       <PageIntro
         eyebrow="FAQs"
         title="Quick answers before you order."

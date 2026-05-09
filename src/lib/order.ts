@@ -25,7 +25,7 @@ export type RewardType =
   | "none"
   | "collection-discount"
   | "onion-bhaji"
-  | "bombay-aloo"
+  | "side-dish"
   | "combo";
 
 export type ActiveReward = {
@@ -38,8 +38,8 @@ export type ActiveReward = {
 export const DELIVERY_MINIMUM = 20;
 export const COLLECTION_DISCOUNT_THRESHOLD = 20;
 export const DELIVERY_ONION_BHAJI_THRESHOLD = 25;
-export const DELIVERY_BOMBAY_ALOO_THRESHOLD = 40;
-export const DELIVERY_COMBO_THRESHOLD = 50;
+export const DELIVERY_SIDE_DISH_THRESHOLD = 40;
+export const DELIVERY_COMBO_THRESHOLD = 60;
 
 export const currencyFormatter = new Intl.NumberFormat("en-GB", {
   style: "currency",
@@ -116,19 +116,19 @@ export function getActiveReward(subtotal: number, orderType: OrderType): ActiveR
     if (subtotal >= DELIVERY_COMBO_THRESHOLD) {
       return {
         type: "combo",
-        title: "Free Onion Bhaji + Bombay Aloo",
+        title: "Free Onion Bhaji + Side Dish",
         detail:
-          "Delivery reward: Onion Bhaji and regular Bombay Aloo are included automatically.",
-        requiresSideDish: false,
+          "Delivery reward: choose any side dish and receive a free Onion Bhaji.",
+        requiresSideDish: true,
       };
     }
 
-    if (subtotal >= DELIVERY_BOMBAY_ALOO_THRESHOLD) {
+    if (subtotal >= DELIVERY_SIDE_DISH_THRESHOLD) {
       return {
-        type: "bombay-aloo",
-        title: "Free Regular Bombay Aloo",
-        detail: "Delivery reward: regular Bombay Aloo is included automatically.",
-        requiresSideDish: false,
+        type: "side-dish",
+        title: "Free Side Dish",
+        detail: "Delivery reward: choose any side dish from the side dish menu.",
+        requiresSideDish: true,
       };
     }
 

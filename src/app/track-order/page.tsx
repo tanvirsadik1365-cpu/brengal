@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { OrderTrackingClient } from "@/components/OrderTrackingClient";
 
 export const metadata: Metadata = {
-  title: "Track Order",
+  title: "Track Your Order",
   description:
-    "Track your Jamal's Indian Restaurant order status, prep time, and estimated ready time.",
+    "Track your Jamal's Indian Restaurant order status, prep time, payment status, and estimated ready time.",
 };
 
 export default function TrackOrderPage() {
   return (
-    <main className="bg-white text-[#241D1D]">
+    <main className="bg-[#0D0A08] text-white">
       <OrderTrackingClient />
     </main>
   );

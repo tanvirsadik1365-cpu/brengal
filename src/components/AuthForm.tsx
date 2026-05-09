@@ -3,7 +3,17 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AlertCircle, CheckCircle2, KeyRound, LogIn, UserPlus } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowRight,
+  CheckCircle2,
+  KeyRound,
+  LogIn,
+  Mail,
+  Phone,
+  User,
+  UserPlus,
+} from "lucide-react";
 import {
   getSupabaseBrowser,
   isSupabaseBrowserConfigured,
@@ -16,7 +26,7 @@ type AuthFormProps = {
 };
 
 const fieldClass =
-  "mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-4 text-sm font-semibold outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10";
+  "mt-2 h-12 w-full rounded-lg border border-white/10 bg-white/8 px-4 text-sm font-semibold text-white outline-none transition placeholder:text-white/32 focus:border-[#D7A542]/70 focus:ring-4 focus:ring-[#D7A542]/12";
 
 function getOrigin() {
   return window.location.origin;
@@ -44,12 +54,12 @@ export function AuthForm({ mode }: AuthFormProps) {
           : "Sign in to your account";
   const description =
     mode === "sign-up"
-      ? "Save your details so future bookings and orders are faster."
+      ? "Save your details for faster orders, bookings, and account history."
       : mode === "forgot-password"
         ? "Enter your email and we will send a secure reset link."
         : mode === "reset-password"
           ? "Enter a new password for your account."
-          : "Use your saved details for faster reservations next time.";
+          : "Use your saved details for faster ordering and bookings.";
 
   useEffect(() => {
     if (mode !== "reset-password" || !isSupabaseBrowserConfigured()) {
@@ -196,9 +206,12 @@ export function AuthForm({ mode }: AuthFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="restaurant-card rounded-lg p-6 sm:p-8">
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-lg border border-white/10 bg-[#15100E]/90 p-6 text-white shadow-[0_24px_70px_rgba(0,0,0,0.34)] backdrop-blur sm:p-8"
+    >
       <div className="flex items-center gap-3">
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#8A3430] text-white">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08] shadow-[0_14px_30px_rgba(215,165,66,0.18)]">
           {mode === "sign-up" ? (
             <UserPlus size={22} aria-hidden="true" />
           ) : mode === "forgot-password" || mode === "reset-password" ? (
@@ -208,8 +221,8 @@ export function AuthForm({ mode }: AuthFormProps) {
           )}
         </span>
         <div>
-          <h1 className="text-2xl font-black sm:text-3xl">{title}</h1>
-          <p className="mt-1 text-sm leading-6 text-[#6B5D5B]">
+          <h2 className="text-2xl font-black sm:text-3xl">{title}</h2>
+          <p className="mt-1 text-sm font-semibold leading-6 text-white/58">
             {description}
           </p>
         </div>
@@ -220,25 +233,39 @@ export function AuthForm({ mode }: AuthFormProps) {
           <>
             <label className="text-sm font-black">
               Full name
-              <input
-                className={fieldClass}
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                type="text"
-                autoComplete="name"
-                required
-              />
+              <span className="relative block">
+                <User
+                  className="pointer-events-none absolute left-4 top-[2.05rem] text-white/38"
+                  size={17}
+                  aria-hidden="true"
+                />
+                <input
+                  className={`${fieldClass} pl-11`}
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  type="text"
+                  autoComplete="name"
+                  required
+                />
+              </span>
             </label>
             <label className="text-sm font-black">
               Phone
-              <input
-                className={fieldClass}
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-                type="tel"
-                autoComplete="tel"
-                required
-              />
+              <span className="relative block">
+                <Phone
+                  className="pointer-events-none absolute left-4 top-[2.05rem] text-white/38"
+                  size={17}
+                  aria-hidden="true"
+                />
+                <input
+                  className={`${fieldClass} pl-11`}
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                  type="tel"
+                  autoComplete="tel"
+                  required
+                />
+              </span>
             </label>
           </>
         ) : null}
@@ -246,31 +273,45 @@ export function AuthForm({ mode }: AuthFormProps) {
         {mode !== "reset-password" ? (
           <label className="text-sm font-black">
             Email
-            <input
-              className={fieldClass}
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              type="email"
-              autoComplete="email"
-              required
-            />
+            <span className="relative block">
+              <Mail
+                className="pointer-events-none absolute left-4 top-[2.05rem] text-white/38"
+                size={17}
+                aria-hidden="true"
+              />
+              <input
+                className={`${fieldClass} pl-11`}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                type="email"
+                autoComplete="email"
+                required
+              />
+            </span>
           </label>
         ) : null}
 
         {mode !== "forgot-password" ? (
           <label className="text-sm font-black">
             Password
-            <input
-              className={fieldClass}
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              type="password"
-              autoComplete={
-                mode === "sign-in" ? "current-password" : "new-password"
-              }
-              minLength={6}
-              required
-            />
+            <span className="relative block">
+              <KeyRound
+                className="pointer-events-none absolute left-4 top-[2.05rem] text-white/38"
+                size={17}
+                aria-hidden="true"
+              />
+              <input
+                className={`${fieldClass} pl-11`}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                type="password"
+                autoComplete={
+                  mode === "sign-in" ? "current-password" : "new-password"
+                }
+                minLength={6}
+                required
+              />
+            </span>
           </label>
         ) : null}
       </div>
@@ -279,8 +320,8 @@ export function AuthForm({ mode }: AuthFormProps) {
         <div
           className={`mt-5 rounded-lg border p-4 text-sm leading-6 ${
             status.tone === "success"
-              ? "border-green-200 bg-green-50 text-green-900"
-              : "border-red-200 bg-red-50 text-red-900"
+              ? "border-emerald-300/25 bg-emerald-400/10 text-emerald-100"
+              : "border-red-400/25 bg-red-500/10 text-red-100"
           }`}
         >
           <div className="flex gap-2">
@@ -297,7 +338,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       <button
         type="submit"
         disabled={submitting}
-        className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#8A3430] px-4 py-3 text-sm font-black text-white transition hover:bg-[#6F2926] disabled:opacity-60"
+        className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-4 py-3 text-sm font-black text-[#150D08] shadow-[0_16px_36px_rgba(215,165,66,0.2)] transition hover:bg-white disabled:opacity-60"
       >
         {submitting
           ? "Please wait..."
@@ -308,9 +349,10 @@ export function AuthForm({ mode }: AuthFormProps) {
               : mode === "reset-password"
                 ? "Update password"
                 : "Sign in"}
+        {!submitting ? <ArrowRight size={16} aria-hidden="true" /> : null}
       </button>
 
-      <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm font-black text-[#8A3430]">
+      <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm font-black text-[#F6DFA4]">
         {mode !== "sign-in" ? <Link href="/account/sign-in">Sign in</Link> : null}
         {mode !== "sign-up" ? <Link href="/account/sign-up">Create account</Link> : null}
         {mode !== "forgot-password" ? (

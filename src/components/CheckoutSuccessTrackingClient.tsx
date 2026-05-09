@@ -210,13 +210,13 @@ export function CheckoutSuccessTrackingClient() {
   const orderNumber = tracking?.orderNumber ?? manualOrderNumber;
 
   return (
-    <main className="bg-white px-4 py-12 text-[#241D1D] sm:px-6 lg:px-8 lg:py-16">
+    <main className="bg-[#0D0A08] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-16">
       <section className="mx-auto max-w-4xl">
-        <div className="restaurant-card rounded-lg p-6 shadow-lg shadow-black/5 sm:p-8">
+        <div className="rounded-lg border border-white/10 bg-[#15100E] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.36)] sm:p-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <CheckCircle2 className="text-[#8A3430]" size={46} aria-hidden="true" />
-              <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#8A3430]">
+              <CheckCircle2 className="text-[#D7A542]" size={46} aria-hidden="true" />
+              <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#D7A542]">
                 Checkout complete
               </p>
               <h1 className="mt-2 text-3xl font-black leading-tight sm:text-4xl">
@@ -229,7 +229,7 @@ export function CheckoutSuccessTrackingClient() {
                 type="button"
                 onClick={() => (lookup ? void runLookup(lookup, true) : undefined)}
                 disabled={!lookup || isRefreshing}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430] disabled:opacity-60"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-sm font-black text-white transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4] disabled:opacity-60"
               >
                 <RefreshCw
                   className={isRefreshing ? "animate-spin" : ""}
@@ -242,8 +242,8 @@ export function CheckoutSuccessTrackingClient() {
           </div>
 
           {isLoading ? (
-            <div className="mt-8 flex items-center gap-3 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-4 text-sm font-black text-[#6B5D5B]">
-              <Loader2 className="animate-spin text-[#8A3430]" size={19} aria-hidden="true" />
+            <div className="mt-8 flex items-center gap-3 rounded-lg border border-white/10 bg-white/6 p-4 text-sm font-black text-white/62">
+              <Loader2 className="animate-spin text-[#D7A542]" size={19} aria-hidden="true" />
               Loading live order tracking...
             </div>
           ) : tracking ? (
@@ -251,32 +251,32 @@ export function CheckoutSuccessTrackingClient() {
               <div
                 className={`rounded-lg border p-5 ${
                   tracking.status === "cancelled"
-                    ? "border-red-200 bg-red-50 text-red-900"
-                    : "border-[#EADAC5] bg-[#FFF9EF]"
+                    ? "border-red-400/35 bg-red-500/10 text-red-100"
+                    : "border-[#D7A542]/25 bg-[#D7A542]/10"
                 }`}
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <p className="text-sm font-black uppercase tracking-[0.16em] text-[#8A3430]">
+                    <p className="text-sm font-black uppercase tracking-[0.16em] text-[#D7A542]">
                       Live status
                     </p>
                     <h2 className="mt-2 text-2xl font-black">
                       {getHeadline(tracking)}
                     </h2>
-                    <p className="mt-2 text-sm font-bold leading-6 text-[#6B5D5B]">
+                    <p className="mt-2 text-sm font-bold leading-6 text-white/62">
                       {getDetailLine(tracking)}
                     </p>
                   </div>
                   {tracking.status === "cancelled" ? (
                     <XCircle size={34} aria-hidden="true" />
                   ) : (
-                    <Clock size={34} className="text-[#8A3430]" aria-hidden="true" />
+                    <Clock size={34} className="text-[#D7A542]" aria-hidden="true" />
                   )}
                 </div>
               </div>
 
               {tracking.status === "cancelled" ? (
-                <div className="rounded-lg border border-red-200 bg-white p-4 text-sm font-bold leading-6 text-red-900">
+                <div className="rounded-lg border border-red-400/35 bg-red-500/10 p-4 text-sm font-bold leading-6 text-red-100">
                   {tracking.cancellationReason ??
                     "The restaurant cancelled this order."}
                 </div>
@@ -291,15 +291,15 @@ export function CheckoutSuccessTrackingClient() {
                         key={step.id}
                         className={`rounded-lg border p-4 ${
                           complete
-                            ? "border-[#8A3430]/35 bg-[#FFF7EC]"
-                            : "border-[#EADAC5] bg-white"
+                            ? "border-[#D7A542]/45 bg-[#D7A542]/10"
+                            : "border-white/10 bg-white/6"
                         }`}
                       >
                         <span
                           className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-black ${
                             complete
-                              ? "bg-[#8A3430] text-white"
-                              : "bg-[#EADAC5] text-[#6B5D5B]"
+                              ? "bg-[#D7A542] text-[#150D08]"
+                              : "bg-white/12 text-white/50"
                           }`}
                         >
                           {complete ? <CheckCircle2 size={17} /> : index + 1}
@@ -308,7 +308,7 @@ export function CheckoutSuccessTrackingClient() {
                           {step.label}
                         </p>
                         {active ? (
-                          <p className="mt-1 text-xs font-black uppercase tracking-wide text-[#8A3430]">
+                          <p className="mt-1 text-xs font-black uppercase tracking-wide text-[#D7A542]">
                             Current
                           </p>
                         ) : null}
@@ -319,29 +319,29 @@ export function CheckoutSuccessTrackingClient() {
               )}
 
               <div className="grid gap-3 sm:grid-cols-3">
-                <div className="rounded-lg border border-[#EADAC5] bg-white p-4">
-                  <p className="text-xs font-black uppercase tracking-wide text-[#8A3430]">
+                <div className="rounded-lg border border-white/10 bg-white/6 p-4">
+                  <p className="text-xs font-black uppercase tracking-wide text-[#D7A542]">
                     Prep time
                   </p>
                   <p className="mt-2 text-2xl font-black">
                     {tracking.prepTimeMinutes} min
                   </p>
                 </div>
-                <div className="rounded-lg border border-[#EADAC5] bg-white p-4">
-                  <p className="text-xs font-black uppercase tracking-wide text-[#8A3430]">
+                <div className="rounded-lg border border-white/10 bg-white/6 p-4">
+                  <p className="text-xs font-black uppercase tracking-wide text-[#D7A542]">
                     Estimated ready
                   </p>
                   <p className="mt-2 text-xl font-black">
                     {formatReadyTime(tracking.estimatedReadyAt)}
                   </p>
                 </div>
-                <div className="rounded-lg border border-[#EADAC5] bg-white p-4">
-                  <p className="text-xs font-black uppercase tracking-wide text-[#8A3430]">
+                <div className="rounded-lg border border-white/10 bg-white/6 p-4">
+                  <p className="text-xs font-black uppercase tracking-wide text-[#D7A542]">
                     Restaurant support
                   </p>
                   <a
                     href={phoneHref(tracking.restaurantSupportPhone)}
-                    className="mt-2 inline-flex items-center gap-2 text-sm font-black text-[#8A3430]"
+                    className="mt-2 inline-flex items-center gap-2 text-sm font-black text-[#F6DFA4]"
                   >
                     <Phone size={16} aria-hidden="true" />
                     {tracking.restaurantSupportPhone}
@@ -350,19 +350,19 @@ export function CheckoutSuccessTrackingClient() {
               </div>
             </div>
           ) : (
-            <div className="mt-8 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-5">
+            <div className="mt-8 rounded-lg border border-white/10 bg-white/6 p-5">
               <div className="flex items-start gap-3">
-                <Search className="mt-0.5 shrink-0 text-[#8A3430]" size={21} aria-hidden="true" />
+                <Search className="mt-0.5 shrink-0 text-[#D7A542]" size={21} aria-hidden="true" />
                 <div>
                   <h2 className="text-lg font-black">
                     Open live tracking to continue
                   </h2>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-[#6B5D5B]">
+                  <p className="mt-2 text-sm font-semibold leading-6 text-white/58">
                     Enter the phone or email used at checkout so we can show the
                     live status for this order.
                   </p>
                   {error ? (
-                    <p className="mt-3 text-sm font-black text-red-800">{error}</p>
+                    <p className="mt-3 text-sm font-black text-red-200">{error}</p>
                   ) : null}
                 </div>
               </div>
@@ -372,19 +372,19 @@ export function CheckoutSuccessTrackingClient() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href={trackingHref(orderNumber)}
-              className="inline-flex h-12 items-center justify-center rounded-full bg-[#8A3430] px-6 text-sm font-black text-white transition hover:bg-[#6F2926]"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-[#D7A542] px-6 text-sm font-black text-[#150D08] transition hover:bg-white"
             >
               Open full tracking
             </Link>
             <Link
               href="/menu"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-black/10 bg-white px-6 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430]"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-white/12 bg-white/8 px-6 text-sm font-black text-white transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4]"
             >
               Back to menu
             </Link>
             <Link
               href="/contact"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-black/10 bg-white px-6 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430]"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-white/12 bg-white/8 px-6 text-sm font-black text-white transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4]"
             >
               Contact restaurant
             </Link>

@@ -134,22 +134,6 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  if (reward.type === "bombay-aloo" || reward.type === "combo") {
-    lineItems.push({
-      price_data: {
-        currency: "gbp",
-        product_data: {
-          name: "Free Regular Bombay Aloo",
-          metadata: {
-            reward: reward.type,
-          },
-        },
-        unit_amount: 0,
-      },
-      quantity: 1,
-    });
-  }
-
   if (selectedSideDish) {
     lineItems.push({
       price_data: {

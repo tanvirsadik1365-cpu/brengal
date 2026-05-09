@@ -1,9 +1,33 @@
 import type { NextConfig } from "next";
 
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://*.google.com https://maps.gstatic.com",
+  "font-src 'self' data:",
+  "connect-src 'self' https://*.supabase.co https://api.stripe.com https://checkout.stripe.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com",
+  "frame-src 'self' https://www.google.com https://www.googletagmanager.com https://checkout.stripe.com",
+  "form-action 'self' https://checkout.stripe.com mailto:",
+  "frame-ancestors 'none'",
+  "manifest-src 'self'",
+  "object-src 'none'",
+  "worker-src 'self' blob:",
+  "upgrade-insecure-requests",
+].join("; ");
+
+const immutableCacheHeaders = [
+  {
+    key: "Cache-Control",
+    value: "public, max-age=31536000, immutable",
+  },
+];
+
 const securityHeaders = [
   {
     key: "Strict-Transport-Security",
-    value: "max-age=31536000; includeSubDomains",
+    value: "max-age=63072000; includeSubDomains; preload",
   },
   {
     key: "X-Content-Type-Options",
@@ -28,20 +52,36 @@ const securityHeaders = [
   {
     key: "Permissions-Policy",
     value:
-      "camera=(), microphone=(), geolocation=(), usb=(), bluetooth=(), payment=()",
+      "camera=(), microphone=(), geolocation=(), usb=(), bluetooth=(), payment=(self)",
   },
   {
     key: "Cross-Origin-Opener-Policy",
     value: "same-origin",
   },
   {
+    key: "Cross-Origin-Resource-Policy",
+    value: "same-origin",
+  },
+  {
+    key: "Origin-Agent-Cluster",
+    value: "?1",
+  },
+  {
     key: "Content-Security-Policy",
-    value:
-      "base-uri 'self'; form-action 'self' https://checkout.stripe.com; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests",
+    value: contentSecurityPolicy,
   },
 ];
 
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
+  images: {
+    contentDispositionType: "inline",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox",
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 31536000,
+  },
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   reactCompiler: true,
@@ -50,6 +90,34 @@ const nextConfig: NextConfig = {
       {
         source: "/:path*",
         headers: securityHeaders,
+      },
+      {
+        source: "/jamals/:path*",
+        headers: immutableCacheHeaders,
+      },
+      {
+        source: "/powered-by/:path*",
+        headers: immutableCacheHeaders,
+      },
+      {
+        source: "/og-image.jpg",
+        headers: immutableCacheHeaders,
+      },
+      {
+        source: "/favicon-32x32.png",
+        headers: immutableCacheHeaders,
+      },
+      {
+        source: "/favicon-192x192.png",
+        headers: immutableCacheHeaders,
+      },
+      {
+        source: "/favicon.png",
+        headers: immutableCacheHeaders,
+      },
+      {
+        source: "/apple-touch-icon.png",
+        headers: immutableCacheHeaders,
       },
       {
         source: "/api/:path*",

@@ -1,0 +1,499 @@
+﻿[
+    {
+        "key":  "balti-curry",
+        "query":  "balti curry Indian food",
+        "file":  "/jamals/menu/balti-curry.jpg",
+        "title":  "File:Chicken balti.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Chicken_balti.jpg",
+        "license":  "CC BY 2.0 uk",
+        "artist":  "The Endinburgh Blog",
+        "attribution":  ""
+    },
+    {
+        "key":  "bhindi-bhaji",
+        "query":  "manual replacement",
+        "file":  "/jamals/menu/bhindi-bhaji.jpg",
+        "title":  "File:Bhinda (Gujarati style okra curry) at Prashad, Bradford.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Bhinda_(Gujarati_style_okra_curry)_at_Prashad,_Bradford.jpg",
+        "license":  "CC BY 2.0",
+        "artist":  "thefoodplace.co.uk",
+        "attribution":  ""
+    },
+    {
+        "key":  "biryani",
+        "query":  "chicken biryani Indian dish",
+        "file":  "/jamals/menu/biryani.jpg",
+        "title":  "File:Bengali style chicken biryani, Kolkata - West Bengal - DSC 0020.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Bengali_style_chicken_biryani,_Kolkata_-_West_Bengal_-_DSC_0020.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "TAPAS KUMAR HALDER",
+        "attribution":  ""
+    },
+    {
+        "key":  "bombay-aloo",
+        "query":  "Bombay aloo Indian potatoes",
+        "file":  "/jamals/menu/bombay-aloo.jpg",
+        "title":  "File:Aloo gobi (cauliflower and potato) (3170159574).jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Aloo_gobi_(cauliflower_and_potato)_(3170159574).jpg",
+        "license":  "CC BY 2.0",
+        "artist":  "Geoff Peters from Vancouver, BC, Canada",
+        "attribution":  ""
+    },
+    {
+        "key":  "brinjal-bhaji",
+        "query":  "brinjal bhaji Indian aubergine",
+        "file":  "/jamals/menu/brinjal-bhaji.jpg",
+        "title":  "File:Brinjal Bhaji (Eggplant with Indian spices) (475600565).jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Brinjal_Bhaji_(Eggplant_with_Indian_spices)_(475600565).jpg",
+        "license":  "CC BY 2.0",
+        "artist":  "rovingI",
+        "attribution":  ""
+    },
+    {
+        "key":  "butter-chicken",
+        "query":  "butter chicken curry",
+        "file":  "/jamals/menu/butter-chicken.jpg",
+        "title":  "File:Butter Chicken, City Grill Kottayam.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Butter_Chicken,_City_Grill_Kottayam.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Vis M",
+        "attribution":  ""
+    },
+    {
+        "key":  "chana-masala",
+        "query":  "chana masala chickpea curry",
+        "file":  "/jamals/menu/chana-masala.jpg",
+        "title":  "File:Chana Ko Tarkari.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Chana_Ko_Tarkari.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Gaurav Dhwaj Khadka",
+        "attribution":  ""
+    },
+    {
+        "key":  "chapati",
+        "query":  "manual replacement",
+        "file":  "/jamals/menu/chapati.jpg",
+        "title":  "File:Indian Chapatis or Phulkas.JPG",
+        "source":  "https://commons.wikimedia.org/wiki/File:Indian_Chapatis_or_Phulkas.JPG",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Mdsmds0",
+        "attribution":  ""
+    },
+    {
+        "key":  "cheese-naan",
+        "query":  "cheese naan Indian bread",
+        "file":  "/jamals/menu/cheese-naan.jpg",
+        "title":  "File:2020-02-22 20 57 14 Mixed herb and cheese naan bread at Karma Modern Indian in Washington, D.C.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:2020-02-22_20_57_14_Mixed_herb_and_cheese_naan_bread_at_Karma_Modern_Indian_in_Washington,_D.C.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Famartin",
+        "attribution":  ""
+    },
+    {
+        "key":  "chicken-tikka",
+        "query":  "chicken tikka Indian food",
+        "file":  "/jamals/menu/chicken-tikka.jpg",
+        "title":  "File:Butter Nan and Chicken Tikka Masala.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Butter_Nan_and_Chicken_Tikka_Masala.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Sohini Kumar",
+        "attribution":  ""
+    },
+    {
+        "key":  "chilli-paneer",
+        "query":  "chilli paneer Indian food",
+        "file":  "/jamals/menu/chilli-paneer.jpg",
+        "title":  "File:Chilly Paneer 01.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Chilly_Paneer_01.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Marajozkee",
+        "attribution":  ""
+    },
+    {
+        "key":  "chips",
+        "query":  "chips fries plate",
+        "file":  "/jamals/menu/chips.jpg",
+        "title":  "File:Bowl of chips at Sainsbury\u0027s Low Hall, Chingford, London.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Bowl_of_chips_at_Sainsbury%27s_Low_Hall,_Chingford,_London.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Acabashi",
+        "attribution":  ""
+    },
+    {
+        "key":  "egg-fried-rice",
+        "title":  "File:Egg Fried Rice.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Egg_Fried_Rice.jpg",
+        "license":  "CC BY-SA 4.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/c/c9/Egg_Fried_Rice.jpg",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "fish-curry",
+        "query":  "fish curry Indian food",
+        "file":  "/jamals/menu/fish-curry.jpg",
+        "title":  "File:Best Indian Fish Curries.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Best_Indian_Fish_Curries.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "A P Dinesh Kumar",
+        "attribution":  ""
+    },
+    {
+        "key":  "garlic-chutney",
+        "title":  "File:Dry Red Chilly \u0026 Garlic Chutney.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Dry_Red_Chilly_\u0026_Garlic_Chutney.jpg",
+        "license":  "CC BY-SA 4.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/1/14/Dry_Red_Chilly_%26_Garlic_Chutney.jpg",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "garlic-naan",
+        "query":  "garlic naan",
+        "file":  "/jamals/menu/garlic-naan.jpg",
+        "title":  "File:Adraki Naan (Garlic Naan).JPG",
+        "source":  "https://commons.wikimedia.org/wiki/File:Adraki_Naan_(Garlic_Naan).JPG",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "HARIOM.AWASTHI",
+        "attribution":  ""
+    },
+    {
+        "key":  "hotpot-curry",
+        "query":  "Indian curry pot bread",
+        "file":  "/jamals/menu/hotpot-curry.jpg",
+        "title":  "File:Dawoodi Bohra Patvelia.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Dawoodi_Bohra_Patvelia.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "CHEFTB2",
+        "attribution":  ""
+    },
+    {
+        "key":  "jalfrezi-curry",
+        "query":  "chicken jalfrezi curry",
+        "file":  "/jamals/menu/jalfrezi-curry.jpg",
+        "title":  "File:Chicken tikka jalfrezi.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Chicken_tikka_jalfrezi.jpg",
+        "license":  "CC BY-SA 2.5",
+        "artist":  "Tarquin Binary",
+        "attribution":  ""
+    },
+    {
+        "key":  "keema-naan",
+        "query":  "keema naan",
+        "file":  "/jamals/menu/keema-naan.jpg",
+        "title":  "File:Food pic 004.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Food_pic_004.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Sruthi.dongari",
+        "attribution":  ""
+    },
+    {
+        "key":  "korma-curry",
+        "query":  "chicken korma curry",
+        "file":  "/jamals/menu/korma-curry.jpg",
+        "title":  "File:Butter Chicken, Lamb Korma, Chickpea Curry - Little India AUD10.20 2 meat, 1 veg (4570354815).jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Butter_Chicken,_Lamb_Korma,_Chickpea_Curry_-_Little_India_AUD10.20_2_meat,_1_veg_(4570354815).jpg",
+        "license":  "CC BY-SA 2.0",
+        "artist":  "Alpha from Melbourne, Australia",
+        "attribution":  ""
+    },
+    {
+        "key":  "lime-pickle",
+        "query":  "manual replacement",
+        "file":  "/jamals/menu/lime-pickle.jpg",
+        "title":  "File:Indian pickled lime - Massachusetts.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Indian_pickled_lime_-_Massachusetts.jpg",
+        "license":  "CC0",
+        "artist":  "Daderot",
+        "attribution":  ""
+    },
+    {
+        "key":  "mango-chutney",
+        "title":  "File:Mango Chutney.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Mango_Chutney.jpg",
+        "license":  "CC BY-SA 2.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/b/be/Mango_Chutney.jpg",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "masala-curry",
+        "query":  "chicken tikka masala curry",
+        "file":  "/jamals/menu/masala-curry.jpg",
+        "title":  "File:Butter Nan and Chicken Tikka Masala.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Butter_Nan_and_Chicken_Tikka_Masala.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Sohini Kumar",
+        "attribution":  ""
+    },
+    {
+        "key":  "mint-sauce",
+        "query":  "mint chutney Indian food",
+        "file":  "/jamals/menu/mint-sauce.jpg",
+        "title":  "File:Bhalla Papri Chaat with saunth chutney.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Bhalla_Papri_Chaat_with_saunth_chutney.jpg",
+        "license":  "CC BY-SA 2.0",
+        "artist":  "Nitin Badhwar from Dubai, UAE",
+        "attribution":  ""
+    },
+    {
+        "key":  "mixed-grill",
+        "query":  "Indian mixed grill platter",
+        "file":  "/jamals/menu/mixed-grill.jpg",
+        "title":  "File:Assorted Indian Barbecue.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Assorted_Indian_Barbecue.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Zainakil",
+        "attribution":  ""
+    },
+    {
+        "key":  "mushroom-bhaji",
+        "query":  "manual replacement",
+        "file":  "/jamals/menu/mushroom-bhaji.jpg",
+        "title":  "File:Mushroom Tikka Masala by Preeti Tamilarasan.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Mushroom_Tikka_Masala_by_Preeti_Tamilarasan.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Preeti Tamilarasan",
+        "attribution":  ""
+    },
+    {
+        "key":  "mushroom-rice",
+        "title":  "File:Creamy Mushroom with Herbed Rice- Maharashtra-001.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Creamy_Mushroom_with_Herbed_Rice-_Maharashtra-001.jpg",
+        "license":  "CC BY-SA 4.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/0/0b/Creamy_Mushroom_with_Herbed_Rice-_Maharashtra-001.jpg",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "naan",
+        "query":  "naan bread Indian",
+        "file":  "/jamals/menu/naan.jpg",
+        "title":  "File:2020-02-22 20 57 14 Mixed herb and cheese naan bread at Karma Modern Indian in Washington, D.C.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:2020-02-22_20_57_14_Mixed_herb_and_cheese_naan_bread_at_Karma_Modern_Indian_in_Washington,_D.C.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Famartin",
+        "attribution":  ""
+    },
+    {
+        "key":  "onion-bhaji",
+        "title":  "File:Onion Bhaji.JPG",
+        "source":  "https://commons.wikimedia.org/wiki/File:Onion_Bhaji.JPG",
+        "license":  "CC0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/0/02/Onion_Bhaji.JPG",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "onion-fried-rice",
+        "title":  "File:Veg Pulao with onion Raitha 01.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Veg_Pulao_with_onion_Raitha_01.jpg",
+        "license":  "CC BY-SA 4.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/2/2f/Veg_Pulao_with_onion_Raitha_01.jpg",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "onion-salad",
+        "query":  "manual replacement",
+        "file":  "/jamals/menu/onion-salad.jpg",
+        "title":  "File:KACHUMBER SALAD.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:KACHUMBER_SALAD.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Guddu1996",
+        "attribution":  ""
+    },
+    {
+        "key":  "paneer-curry",
+        "title":  "File:Paneer Curry 6000.JPG",
+        "source":  "https://commons.wikimedia.org/wiki/File:Paneer_Curry_6000.JPG",
+        "license":  "CC BY-SA 3.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/e/ef/Paneer_Curry_6000.JPG",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "paneer-shashlik",
+        "query":  "paneer tikka skewers",
+        "file":  "/jamals/menu/paneer-shashlik.jpg",
+        "title":  "File:Paneer Tikka Shashlik PK012.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Paneer_Tikka_Shashlik_PK012.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "PallaviKhale",
+        "attribution":  ""
+    },
+    {
+        "key":  "paratha",
+        "query":  "paratha Indian bread",
+        "file":  "/jamals/menu/paratha.jpg",
+        "title":  "File:Laccha Paratha.JPG",
+        "source":  "https://commons.wikimedia.org/wiki/File:Laccha_Paratha.JPG",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Durvankur Patil",
+        "attribution":  ""
+    },
+    {
+        "key":  "peshwari-naan",
+        "query":  "peshwari naan",
+        "file":  "/jamals/menu/peshwari-naan.jpg",
+        "title":  "File:The great British takeaway.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:The_great_British_takeaway.jpg",
+        "license":  "CC BY 2.0",
+        "artist":  "Mikey",
+        "attribution":  ""
+    },
+    {
+        "key":  "pilau-rice",
+        "title":  "File:Spiced Indian basmati rice dish.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Spiced_Indian_basmati_rice_dish.jpg",
+        "license":  "CC BY 2.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/3/30/Spiced_Indian_basmati_rice_dish.jpg",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "plain-rice",
+        "title":  "File:Basmati Rice (49683600583).jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Basmati_Rice_(49683600583).jpg",
+        "license":  "CC BY 2.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/6/6a/Basmati_Rice_%2849683600583%29.jpg",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "poppadom",
+        "query":  "manual replacement",
+        "file":  "/jamals/menu/poppadom.jpg",
+        "title":  "File:Papadums.JPG",
+        "source":  "https://commons.wikimedia.org/wiki/File:Papadums.JPG",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Pranavathiyani G",
+        "attribution":  ""
+    },
+    {
+        "key":  "prawn-curry",
+        "title":  "File:Bangladeshi Prawn Curry.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Bangladeshi_Prawn_Curry.jpg",
+        "license":  "CC BY-SA 4.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/3/3f/Bangladeshi_Prawn_Curry.jpg",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "raita",
+        "query":  "raita yoghurt cucumber",
+        "file":  "/jamals/menu/raita.jpg",
+        "title":  "File:Cucumber Mint Raita.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Cucumber_Mint_Raita.jpg",
+        "license":  "CC BY 2.0",
+        "artist":  "Divya Kudua",
+        "attribution":  ""
+    },
+    {
+        "key":  "rogan-curry",
+        "query":  "rogan josh curry",
+        "file":  "/jamals/menu/rogan-curry.jpg",
+        "title":  "File:Amma ka Rogan Josh.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Amma_ka_Rogan_Josh.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Tushareats",
+        "attribution":  ""
+    },
+    {
+        "key":  "saag-aloo",
+        "title":  "File:Aloo Palak (Spinach with Potatoes).JPG",
+        "source":  "https://commons.wikimedia.org/wiki/File:Aloo_Palak_(Spinach_with_Potatoes).JPG",
+        "license":  "CC0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/9/9d/Aloo_Palak_%28Spinach_with_Potatoes%29.JPG",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "saag-curry",
+        "title":  "File:Saag Paneer.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Saag_Paneer.jpg",
+        "license":  "CC BY-SA 3.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/8/8d/Saag_Paneer.jpg",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "saag-paneer",
+        "title":  "File:Saag Paneer.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Saag_Paneer.jpg",
+        "license":  "CC BY-SA 3.0",
+        "originalUrl":  "https://upload.wikimedia.org/wikipedia/commons/8/8d/Saag_Paneer.jpg",
+        "width":  960,
+        "height":  720
+    },
+    {
+        "key":  "samosa",
+        "query":  "samosa Indian snack",
+        "file":  "/jamals/menu/samosa.jpg",
+        "title":  "File:Indian evening snack - samosa and dalmoth with cutting chai.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Indian_evening_snack_-_samosa_and_dalmoth_with_cutting_chai.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Sarkar Sayantan",
+        "attribution":  ""
+    },
+    {
+        "key":  "seekh-kebab",
+        "query":  "seekh kebab",
+        "file":  "/jamals/menu/seekh-kebab.jpg",
+        "title":  "File:Indian Chicken Seekh Kebab.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Indian_Chicken_Seekh_Kebab.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Ishitadsa",
+        "attribution":  ""
+    },
+    {
+        "key":  "set-meal",
+        "query":  "Indian thali meal curry rice naan",
+        "file":  "/jamals/menu/set-meal.jpg",
+        "title":  "File:Gulab Jamun, chutney - Chilli India Express - Roti Lunch Special AUD10.95 (3485196957).jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Gulab_Jamun,_chutney_-_Chilli_India_Express_-_Roti_Lunch_Special_AUD10.95_(3485196957).jpg",
+        "license":  "CC BY-SA 2.0",
+        "artist":  "Alpha from Melbourne, Australia",
+        "attribution":  ""
+    },
+    {
+        "key":  "tandoori-chicken",
+        "query":  "tandoori chicken",
+        "file":  "/jamals/menu/tandoori-chicken.jpg",
+        "title":  "File:Grilled Tandoori chicken.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Grilled_Tandoori_chicken.jpg",
+        "license":  "CC BY-SA 4.0",
+        "artist":  "Rajeeb Dutta",
+        "attribution":  ""
+    },
+    {
+        "key":  "tarka-dal",
+        "query":  "tarka dal Indian lentils",
+        "file":  "/jamals/menu/tarka-dal.jpg",
+        "title":  "File:Daal after Tadka Pulse Soup India.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Daal_after_Tadka_Pulse_Soup_India.jpg",
+        "license":  "CC BY-SA 2.0",
+        "artist":  "aimee rivers",
+        "attribution":  ""
+    },
+    {
+        "key":  "vegetable-biryani",
+        "query":  "vegetable biryani",
+        "file":  "/jamals/menu/vegetable-biryani.jpg",
+        "title":  "File:Mixed vegetable biryani (side).JPG",
+        "source":  "https://commons.wikimedia.org/wiki/File:Mixed_vegetable_biryani_(side).JPG",
+        "license":  "CC BY-SA 3.0",
+        "artist":  "Daniele Pugliesi",
+        "attribution":  ""
+    },
+    {
+        "key":  "vindaloo-curry",
+        "query":  "vindaloo curry",
+        "file":  "/jamals/menu/vindaloo-curry.jpg",
+        "title":  "File:Flickr - cyclonebill - Chicken vindaloo med basmatiris og naan-brød.jpg",
+        "source":  "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Chicken_vindaloo_med_basmatiris_og_naan-br%C3%B8d.jpg",
+        "license":  "CC BY-SA 2.0",
+        "artist":  "cyclonebill",
+        "attribution":  ""
+    }
+]

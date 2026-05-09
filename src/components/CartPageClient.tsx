@@ -31,14 +31,15 @@ import { useCart } from "@/components/CartProvider";
 import {
   COLLECTION_DISCOUNT_THRESHOLD,
   DELIVERY_MINIMUM,
-  DELIVERY_BOMBAY_ALOO_THRESHOLD,
   DELIVERY_COMBO_THRESHOLD,
   DELIVERY_ONION_BHAJI_THRESHOLD,
+  DELIVERY_SIDE_DISH_THRESHOLD,
   formatCurrency,
   formatPostcode,
   getActiveReward,
   getCollectionDiscount,
   getOrderTotal,
+  getSideDishOptions,
   getSubtotal,
   isValidDeliveryPostcode,
   isValidGbPhone,
@@ -78,7 +79,16 @@ const initialCustomer: CustomerDetails = {
 
 const stepOrder: CheckoutStep[] = ["food", "fulfilment", "details", "payment"];
 const checkoutCardClass =
-  "checkout-step-card rounded-lg border border-[#E4D6C4] bg-white p-5 shadow-[0_14px_32px_rgba(52,35,28,0.07)] sm:p-6";
+  "checkout-step-card rounded-lg border border-white/10 bg-[#15100E] p-5 text-white shadow-[0_22px_54px_rgba(0,0,0,0.28)] sm:p-6";
+const checkoutEyebrowClass =
+  "text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]";
+const checkoutMutedClass = "text-sm leading-7 text-white/58";
+const checkoutFieldClass =
+  "mt-2 w-full rounded-lg border border-white/12 bg-white/8 px-3 text-sm font-semibold text-white outline-none transition placeholder:text-white/35 focus:border-[#D7A542]/65 focus:ring-4 focus:ring-[#D7A542]/12";
+const checkoutSecondaryButtonClass =
+  "inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-sm font-black text-white transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4] disabled:cursor-not-allowed disabled:opacity-40";
+const checkoutPrimaryButtonClass =
+  "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-6 text-sm font-black text-[#150D08] shadow-lg shadow-[#D7A542]/20 transition hover:bg-white disabled:cursor-not-allowed disabled:bg-white/18 disabled:text-white/45 disabled:shadow-none";
 const lastOrderTrackingKey = "jamals-last-order-tracking-v1";
 
 function getOrigin() {
@@ -118,6 +128,7 @@ export function CartPageClient() {
     useState<CheckoutAccountMode>("guest");
   const [customer, setCustomer] = useState<CustomerDetails>(initialCustomer);
   const [paymentChoice, setPaymentChoice] = useState<PaymentChoice>("online");
+  const [selectedSideDishId, setSelectedSideDishId] = useState("");
   const [checkoutError, setCheckoutError] = useState("");
   const [checkoutAction, setCheckoutAction] = useState<"cash" | "online" | null>(
     null,
@@ -133,6 +144,7 @@ export function CartPageClient() {
 
   const subtotal = useMemo(() => getSubtotal(cartItems), [cartItems]);
   const reward = getActiveReward(subtotal, orderType);
+  const sideDishOptions = useMemo(() => getSideDishOptions(), []);
   const collectionDiscount = getCollectionDiscount(subtotal, reward);
   const total = getOrderTotal(subtotal, reward);
   const hasDishes = cartItems.length > 0;
@@ -157,8 +169,12 @@ export function CartPageClient() {
     deliveryMinimumValid &&
     deliveryPostcodeValid &&
     (orderType === "collection" || customer.address.trim().length > 5);
+  const rewardSelectionValid =
+    !reward.requiresSideDish ||
+    sideDishOptions.some((item) => item.id === selectedSideDishId);
   const foodStepValid = hasDishes;
-  const orderReady = foodStepValid && fulfilmentValid && contactDetailsValid;
+  const orderReady =
+    foodStepValid && rewardSelectionValid && fulfilmentValid && contactDetailsValid;
   const canCheckout = orderReady && orderingAllowed;
   const checkingOut = checkoutAction !== null;
 
@@ -250,6 +266,12 @@ export function CartPageClient() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!reward.requiresSideDish) {
+      setSelectedSideDishId("");
+    }
+  }, [reward.requiresSideDish]);
+
   function updateCustomer(field: keyof CustomerDetails, value: string) {
     if (field === "email" || field === "password") {
       setAccountSignupRequested(false);
@@ -278,6 +300,7 @@ export function CartPageClient() {
         quantity: item.quantity,
       })),
       orderType,
+      selectedSideDishId,
       website: "",
     };
   }
@@ -590,12 +613,12 @@ export function CartPageClient() {
       };
     }
 
-    if (orderType === "delivery" && subtotal < DELIVERY_BOMBAY_ALOO_THRESHOLD) {
+    if (orderType === "delivery" && subtotal < DELIVERY_SIDE_DISH_THRESHOLD) {
       return {
-        title: "Close to free Bombay Aloo",
+        title: "Close to a free side dish",
         detail: `Add ${formatCurrency(
-          DELIVERY_BOMBAY_ALOO_THRESHOLD - subtotal,
-        )} more for a free regular Bombay Aloo.`,
+          DELIVERY_SIDE_DISH_THRESHOLD - subtotal,
+        )} more to choose any side dish free.`,
         action: "Add dishes",
         href: "/menu",
       };
@@ -606,7 +629,7 @@ export function CartPageClient() {
         title: "Best reward is within reach",
         detail: `Add ${formatCurrency(
           DELIVERY_COMBO_THRESHOLD - subtotal,
-        )} more for Onion Bhaji plus regular Bombay Aloo.`,
+        )} more for Onion Bhaji plus your choice of side dish.`,
         action: "Add dishes",
         href: "/menu",
       };
@@ -652,11 +675,11 @@ export function CartPageClient() {
 
   function QuantityControl({ item }: { item: (typeof cartItems)[number] }) {
     return (
-      <div className="grid h-10 grid-cols-[38px_34px_38px] overflow-hidden rounded-full border border-[#8A3430]/20 bg-[#FFF7EC]">
+      <div className="grid h-10 grid-cols-[38px_34px_38px] overflow-hidden rounded-full border border-white/12 bg-white/10 text-white">
         <button
           type="button"
           onClick={() => decreaseItem(item.id)}
-          className="flex items-center justify-center transition hover:bg-white"
+          className="flex items-center justify-center transition hover:bg-white/12 hover:text-[#F6DFA4]"
           aria-label={`Decrease ${item.name}`}
         >
           <Minus size={15} aria-hidden="true" />
@@ -667,7 +690,7 @@ export function CartPageClient() {
         <button
           type="button"
           onClick={() => addItem(item)}
-          className="flex items-center justify-center transition hover:bg-white"
+          className="flex items-center justify-center transition hover:bg-white/12 hover:text-[#F6DFA4]"
           aria-label={`Increase ${item.name}`}
         >
           <Plus size={15} aria-hidden="true" />
@@ -687,8 +710,8 @@ export function CartPageClient() {
       <p
         className={`mt-4 flex gap-2 rounded-lg border p-3 text-xs font-bold leading-6 ${
           tone === "error"
-            ? "border-red-200 bg-red-50 text-red-800"
-            : "border-amber-200 bg-amber-50 text-amber-800"
+            ? "border-red-400/35 bg-red-500/10 text-red-100"
+            : "border-[#D7A542]/35 bg-[#D7A542]/10 text-[#F6DFA4]"
         }`}
       >
         <AlertCircle className="mt-0.5 shrink-0" size={16} aria-hidden="true" />
@@ -699,7 +722,7 @@ export function CartPageClient() {
 
   function renderStepHeader() {
     return (
-      <div className="rounded-lg border border-[#E4D6C4] bg-white p-4 shadow-[0_12px_28px_rgba(52,35,28,0.06)] sm:p-5">
+      <div className="rounded-lg border border-white/10 bg-[#15100E] p-4 text-white shadow-[0_22px_54px_rgba(0,0,0,0.28)] sm:p-5">
         <div className="grid grid-cols-4 gap-1">
           {checkoutSteps.map((step, index) => {
             const active = step.id === activeStep;
@@ -719,26 +742,26 @@ export function CartPageClient() {
                   {index > 0 ? (
                     <span
                       className={`absolute right-1/2 top-1/2 h-0.5 w-full -translate-y-1/2 ${
-                        lineDone ? "bg-[#241D1D]" : "bg-[#E8E3DD]"
+                        lineDone ? "bg-[#D7A542]" : "bg-white/12"
                       }`}
                     />
                   ) : null}
                   {index < checkoutSteps.length - 1 ? (
                     <span
                       className={`absolute left-1/2 top-1/2 h-0.5 w-full -translate-y-1/2 ${
-                        index < activeStepIndex ? "bg-[#241D1D]" : "bg-[#E8E3DD]"
+                        index < activeStepIndex ? "bg-[#D7A542]" : "bg-white/12"
                       }`}
                     />
                   ) : null}
                   <span
-                    className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ring-4 ring-white transition ${
+                    className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ring-4 ring-[#15100E] transition ${
                       active
-                        ? "bg-[#241D1D] text-white shadow-lg shadow-black/15"
+                        ? "bg-[#D7A542] text-[#150D08] shadow-lg shadow-[#D7A542]/15"
                         : step.complete
-                          ? "bg-[#241D1D] text-white"
+                          ? "bg-[#D7A542] text-[#150D08]"
                           : unlocked
-                            ? "bg-[#A9A9A9] text-white group-hover:bg-[#8A3430]"
-                            : "bg-[#D9D9D9] text-white"
+                            ? "bg-white/16 text-white group-hover:bg-white/24"
+                            : "bg-white/8 text-white/40"
                     }`}
                   >
                     {step.complete ? (
@@ -750,7 +773,7 @@ export function CartPageClient() {
                 </span>
                 <span
                   className={`mt-3 block truncate text-xs font-black sm:text-sm ${
-                    active ? "text-[#241D1D]" : "text-[#6B5D5B]"
+                    active ? "text-[#F6DFA4]" : "text-white/55"
                   }`}
                 >
                   {step.label}
@@ -760,19 +783,19 @@ export function CartPageClient() {
           })}
         </div>
 
-        <div className="mt-5 flex flex-col justify-between gap-3 border-t border-black/10 pt-4 sm:flex-row sm:items-center">
+        <div className="mt-5 flex flex-col justify-between gap-3 border-t border-white/10 pt-4 sm:flex-row sm:items-center">
           <div>
-            <h1 className="text-2xl font-black text-[#241D1D] sm:text-3xl">
+            <h1 className="text-2xl font-black text-white sm:text-3xl">
               {currentStep?.title ?? "Checkout"}
             </h1>
-            <p className="mt-1 text-sm leading-6 text-[#6B5D5B]">
+            <p className="mt-1 text-sm leading-6 text-white/58">
               Step {activeStepIndex + 1} of {checkoutSteps.length}:{" "}
               {currentStep?.detail}
             </p>
           </div>
           <Link
             href="/menu"
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC]"
+            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-sm font-black text-white transition hover:border-[#D7A542] hover:text-[#F6DFA4]"
           >
             <Plus size={16} aria-hidden="true" />
             Add dishes
@@ -787,11 +810,11 @@ export function CartPageClient() {
       <div className={checkoutCardClass}>
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8A3430]">
+            <p className={checkoutEyebrowClass}>
               Order
             </p>
             <h2 className="mt-1 text-2xl font-black">Review your food</h2>
-            <p className="mt-2 text-sm leading-6 text-[#6B5D5B]">
+            <p className="mt-2 text-sm leading-6 text-white/58">
               Check quantities, remove anything you do not need, and claim any
               reward before moving on.
             </p>
@@ -800,7 +823,7 @@ export function CartPageClient() {
             <button
               type="button"
               onClick={clearCart}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-black/10 px-4 text-xs font-black uppercase text-[#6B5D5B] transition hover:border-[#8A3430] hover:text-[#8A3430]"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-xs font-black uppercase text-white/58 transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4]"
             >
               <Trash2 size={14} aria-hidden="true" />
               Clear order
@@ -809,20 +832,20 @@ export function CartPageClient() {
         </div>
 
         {cartItems.length === 0 ? (
-          <div className="mt-5 rounded-lg border border-dashed border-[#CFAE80] bg-[#FFF9EF] p-8 text-center">
+          <div className="mt-5 rounded-lg border border-dashed border-white/18 bg-white/6 p-8 text-center">
             <ShoppingBag
-              className="mx-auto text-[#8A3430]"
+              className="mx-auto text-[#D7A542]"
               size={34}
               aria-hidden="true"
             />
             <h3 className="mt-4 text-2xl font-black">Your cart is empty</h3>
-            <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-[#6B5D5B]">
+            <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-white/58">
               Pick your dishes first. Popular choices are near the top of the
               menu.
             </p>
             <Link
               href="/menu#popular-picks"
-              className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-5 text-sm font-black text-white transition hover:bg-[#6F2926]"
+              className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] transition hover:bg-white"
             >
               <Sparkles size={16} aria-hidden="true" />
               Browse favourites
@@ -833,23 +856,23 @@ export function CartPageClient() {
             {cartItems.map((item) => (
               <article
                 key={item.id}
-                className="grid gap-4 rounded-lg border border-[#EADAC5] bg-white p-4 shadow-sm transition hover:border-[#8A3430]/30 hover:shadow-md sm:grid-cols-[1fr_auto] sm:items-center"
+                className="grid gap-4 rounded-lg border border-white/10 bg-white/6 p-4 shadow-sm transition hover:border-[#D7A542]/35 sm:grid-cols-[1fr_auto] sm:items-center"
               >
                 <div className="min-w-0">
                   <h3 className="break-words font-black">{item.name}</h3>
-                  <p className="mt-1 text-sm font-semibold text-[#6B5D5B]">
+                  <p className="mt-1 text-sm font-semibold text-white/50">
                     {item.category} - <Price value={item.priceLabel} />
                   </p>
                 </div>
                 <div className="flex items-center justify-between gap-4 sm:justify-end">
                   <QuantityControl item={item} />
-                  <p className="w-20 text-right font-black text-[#8A3430]">
+                  <p className="w-20 text-right font-black text-[#D7A542]">
                     {formatCurrency(item.unitPrice * item.quantity)}
                   </p>
                   <button
                     type="button"
                     onClick={() => removeItem(item.id)}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/10 text-[#6B5D5B] transition hover:border-[#8A3430] hover:text-[#8A3430]"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/12 text-white/58 transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4]"
                     aria-label={`Remove ${item.name}`}
                   >
                     <Trash2 size={16} aria-hidden="true" />
@@ -860,16 +883,40 @@ export function CartPageClient() {
           </div>
         )}
 
-        <div className="mt-5 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-4">
-          <div className="flex items-center gap-2 text-[#8A3430]">
+        <div className="mt-5 rounded-lg border border-[#D7A542]/25 bg-[#D7A542]/10 p-4">
+          <div className="flex items-center gap-2 text-[#F6DFA4]">
             <BadgePercent size={20} aria-hidden="true" />
             <h3 className="font-black">Active reward</h3>
           </div>
-          <div className="mt-4 rounded-lg border border-[#8A3430]/15 bg-white p-4 shadow-sm">
-            <p className="font-black text-[#8A3430]">{reward.title}</p>
-            <p className="mt-2 text-sm leading-6 text-[#6B5D5B]">
+          <div className="mt-4 rounded-lg border border-white/10 bg-[#0F0B09] p-4 shadow-sm">
+            <p className="font-black text-[#D7A542]">{reward.title}</p>
+            <p className="mt-2 text-sm leading-6 text-white/62">
               {reward.detail}
             </p>
+            {reward.requiresSideDish ? (
+              <label className="mt-4 block">
+                <span className="text-xs font-black uppercase tracking-[0.14em] text-[#F6DFA4]">
+                  Choose your free side dish
+                </span>
+                <select
+                  value={selectedSideDishId}
+                  onChange={(event) => setSelectedSideDishId(event.target.value)}
+                  className="mt-2 h-12 w-full rounded-lg border border-white/12 bg-white px-3 text-sm font-bold text-[#150D08] outline-none transition focus:border-[#D7A542] focus:ring-4 focus:ring-[#D7A542]/18"
+                >
+                  <option value="">Select a side dish</option>
+                  {sideDishOptions.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+                {!selectedSideDishId ? (
+                  <p className="mt-2 text-xs font-bold text-white/58">
+                    Required before checkout for this reward.
+                  </p>
+                ) : null}
+              </label>
+            ) : null}
           </div>
 
         </div>
@@ -880,11 +927,11 @@ export function CartPageClient() {
   function renderFulfilmentStep() {
     return (
       <div className={checkoutCardClass}>
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8A3430]">
+        <p className={checkoutEyebrowClass}>
           Method
         </p>
         <h2 className="mt-1 text-2xl font-black">Collection or delivery</h2>
-        <p className="mt-2 text-sm leading-7 text-[#6B5D5B]">
+        <p className={`mt-2 ${checkoutMutedClass}`}>
           Choose collection from Walton Street or check delivery with your
           postcode.
         </p>
@@ -902,12 +949,12 @@ export function CartPageClient() {
                 aria-pressed={active}
                 className={`rounded-lg border p-4 text-left transition ${
                   active
-                    ? "border-[#8A3430] bg-[#8A3430] text-white shadow-lg shadow-[#8A3430]/15"
-                    : "border-black/10 bg-white text-[#241D1D] hover:border-[#8A3430]/35"
+                    ? "border-[#D7A542]/70 bg-[#D7A542] text-[#150D08] shadow-lg shadow-[#D7A542]/15"
+                    : "border-white/10 bg-white/8 text-white hover:border-[#D7A542]/35"
                 }`}
               >
                 <Icon
-                  className={active ? "text-[#D7A542]" : "text-[#8A3430]"}
+                  className={active ? "text-[#150D08]" : "text-[#D7A542]"}
                   size={22}
                   aria-hidden="true"
                 />
@@ -916,7 +963,7 @@ export function CartPageClient() {
                 </span>
                 <span
                   className={`mt-2 block text-sm leading-6 ${
-                    active ? "text-white/76" : "text-[#6B5D5B]"
+                    active ? "text-[#150D08]/72" : "text-white/58"
                   }`}
                 >
                   {type === "collection"
@@ -937,10 +984,10 @@ export function CartPageClient() {
                 onChange={(event) =>
                   updateCustomer("postcode", event.target.value)
                 }
-                className={`mt-2 h-12 w-full rounded-lg border bg-white px-3 text-sm font-semibold uppercase outline-none transition focus:ring-4 ${
+                className={`mt-2 h-12 w-full rounded-lg border px-3 text-sm font-semibold uppercase outline-none transition placeholder:text-white/35 focus:ring-4 ${
                   customer.postcode && !deliveryPostcodeValid
-                    ? "border-red-300 focus:border-red-500 focus:ring-red-100"
-                    : "border-black/10 focus:border-[#8A3430] focus:ring-[#8A3430]/10"
+                    ? "border-red-400/55 bg-red-500/10 text-white focus:border-red-400 focus:ring-red-400/15"
+                    : "border-white/12 bg-white/8 text-white placeholder:text-white/35 focus:border-[#D7A542]/65 focus:ring-[#D7A542]/12"
                 }`}
                 type="text"
                 autoComplete="postal-code"
@@ -952,15 +999,15 @@ export function CartPageClient() {
               <textarea
                 value={customer.address}
                 onChange={(event) => updateCustomer("address", event.target.value)}
-                className="mt-2 min-h-28 w-full rounded-lg border border-black/10 bg-white px-3 py-3 text-sm font-semibold outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
+                className={`${checkoutFieldClass} min-h-28 py-3`}
                 placeholder="House number, street, flat number, delivery notes"
               />
             </label>
           </div>
         ) : (
-          <div className="mt-5 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-4">
+          <div className="mt-5 rounded-lg border border-white/10 bg-white/6 p-4">
             <p className="font-black">Collection address</p>
-            <p className="mt-2 text-sm leading-6 text-[#6B5D5B]">
+            <p className="mt-2 text-sm leading-6 text-white/58">
               {restaurant.address.join(", ")}
             </p>
           </div>
@@ -987,11 +1034,11 @@ export function CartPageClient() {
   function renderDetailsStep() {
     return (
       <div className={checkoutCardClass}>
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8A3430]">
+        <p className={checkoutEyebrowClass}>
           Your details
         </p>
         <h2 className="mt-1 text-2xl font-black">Guest checkout or account</h2>
-        <p className="mt-2 text-sm leading-7 text-[#6B5D5B]">
+        <p className={`mt-2 ${checkoutMutedClass}`}>
           Check out as a guest, sign in to save this order, or create an account
           for faster repeat orders.
         </p>
@@ -1004,7 +1051,7 @@ export function CartPageClient() {
 
         {!accountEmail ? (
           <>
-            <div className="mt-5 grid gap-1 rounded-lg bg-[#FFF7EC] p-1 text-sm sm:grid-cols-3">
+            <div className="mt-5 grid gap-1 rounded-lg border border-white/10 bg-white/6 p-1 text-sm sm:grid-cols-3">
               {[
                 {
                   icon: User,
@@ -1036,8 +1083,8 @@ export function CartPageClient() {
                     aria-pressed={active}
                     className={`flex min-h-11 items-center justify-center gap-2 rounded-full px-3 py-2 font-black transition ${
                       active
-                        ? "bg-[#8A3430] text-white shadow-sm"
-                        : "text-[#6B5D5B] hover:bg-white hover:text-[#8A3430]"
+                        ? "bg-[#D7A542] text-[#150D08] shadow-sm"
+                        : "text-white/64 hover:bg-white/10 hover:text-white"
                     }`}
                   >
                     <Icon size={16} aria-hidden="true" />
@@ -1048,16 +1095,16 @@ export function CartPageClient() {
             </div>
 
             {checkoutAccountMode === "sign-in" ? (
-              <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-bold leading-6 text-[#6B5D5B]">
+              <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-bold leading-6 text-white/58">
                 Use your existing account password.
-                <Link className="text-[#8A3430] underline-offset-4 hover:underline" href="/account/forgot-password">
+                <Link className="text-[#F6DFA4] underline-offset-4 hover:underline" href="/account/forgot-password">
                   Forgot password?
                 </Link>
               </p>
             ) : null}
 
             {checkoutAccountMode === "sign-up" ? (
-              <p className="mt-3 text-sm font-bold leading-6 text-[#6B5D5B]">
+              <p className="mt-3 text-sm font-bold leading-6 text-white/58">
                 We will create your account before placing the order. If email
                 confirmation is required, this order is still stored against
                 the same email.
@@ -1091,7 +1138,7 @@ export function CartPageClient() {
             <input
               value={customer.name}
               onChange={(event) => updateCustomer("name", event.target.value)}
-              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-semibold outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
+              className={`${checkoutFieldClass} h-12`}
               type="text"
               autoComplete="name"
               placeholder="Your name"
@@ -1103,7 +1150,7 @@ export function CartPageClient() {
             <input
               value={customer.email}
               onChange={(event) => updateCustomer("email", event.target.value)}
-              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-semibold outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
+              className={`${checkoutFieldClass} h-12`}
               type="email"
               autoComplete="email"
               placeholder="you@example.com"
@@ -1115,10 +1162,10 @@ export function CartPageClient() {
             <input
               value={customer.phone}
               onChange={(event) => updateCustomer("phone", event.target.value)}
-              className={`mt-2 h-12 w-full rounded-lg border bg-white px-3 text-sm font-semibold outline-none transition focus:ring-4 ${
+              className={`mt-2 h-12 w-full rounded-lg border px-3 text-sm font-semibold text-white outline-none transition placeholder:text-white/35 focus:ring-4 ${
                 customer.phone && !phoneValid
-                  ? "border-red-300 focus:border-red-500 focus:ring-red-100"
-                  : "border-black/10 focus:border-[#8A3430] focus:ring-[#8A3430]/10"
+                  ? "border-red-400/55 bg-red-500/10 focus:border-red-400 focus:ring-red-400/15"
+                  : "border-white/12 bg-white/8 focus:border-[#D7A542]/65 focus:ring-[#D7A542]/12"
               }`}
               type="tel"
               autoComplete="tel"
@@ -1134,7 +1181,7 @@ export function CartPageClient() {
                 onChange={(event) =>
                   updateCustomer("password", event.target.value)
                 }
-                className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-semibold outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
+                className={`${checkoutFieldClass} h-12`}
                 type="password"
                 autoComplete={
                   checkoutAccountMode === "sign-in"
@@ -1157,7 +1204,7 @@ export function CartPageClient() {
           <textarea
             value={customer.notes}
             onChange={(event) => updateCustomer("notes", event.target.value)}
-            className="mt-2 min-h-24 w-full rounded-lg border border-black/10 bg-white px-3 py-3 text-sm font-semibold outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
+            className={`${checkoutFieldClass} min-h-24 py-3`}
             placeholder="Spice level, timing, or special requests"
           />
         </label>
@@ -1186,11 +1233,11 @@ export function CartPageClient() {
   function renderPaymentStep() {
     return (
       <div className={checkoutCardClass}>
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8A3430]">
+        <p className={checkoutEyebrowClass}>
           Payment
         </p>
         <h2 className="mt-1 text-2xl font-black">Payment method</h2>
-        <p className="mt-2 text-sm leading-7 text-[#6B5D5B]">
+        <p className={`mt-2 ${checkoutMutedClass}`}>
           Choose secure card payment or cash. You will see the final total
           before sending the order.
         </p>
@@ -1227,12 +1274,12 @@ export function CartPageClient() {
                 aria-pressed={active}
                 className={`rounded-lg border p-4 text-left transition ${
                   active
-                    ? "border-[#8A3430] bg-[#8A3430] text-white shadow-lg shadow-[#8A3430]/15"
-                    : "border-black/10 bg-white text-[#241D1D] hover:border-[#8A3430]/35"
+                    ? "border-[#D7A542]/70 bg-[#D7A542] text-[#150D08] shadow-lg shadow-[#D7A542]/15"
+                    : "border-white/10 bg-white/8 text-white hover:border-[#D7A542]/35"
                 }`}
               >
                 <Icon
-                  className={active ? "text-[#D7A542]" : "text-[#8A3430]"}
+                  className={active ? "text-[#150D08]" : "text-[#D7A542]"}
                   size={22}
                   aria-hidden="true"
                 />
@@ -1241,7 +1288,7 @@ export function CartPageClient() {
                 </span>
                 <span
                   className={`mt-2 block text-sm leading-6 ${
-                    active ? "text-white/76" : "text-[#6B5D5B]"
+                    active ? "text-[#150D08]/72" : "text-white/58"
                   }`}
                 >
                   {option.detail}
@@ -1251,7 +1298,7 @@ export function CartPageClient() {
           })}
         </div>
 
-        <div className="mt-5 flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+        <div className="mt-5 flex items-start gap-3 rounded-lg border border-emerald-300/30 bg-emerald-400/10 p-4 text-sm text-emerald-50">
           <Lock className="mt-0.5 shrink-0" size={18} aria-hidden="true" />
           <div>
             <p className="font-black">Secure checkout</p>
@@ -1262,31 +1309,31 @@ export function CartPageClient() {
           </div>
         </div>
 
-        <div className="mt-5 rounded-lg border border-[#EADAC5] bg-white p-4">
+        <div className="mt-5 rounded-lg border border-white/10 bg-white/6 p-4">
           <h3 className="flex items-center gap-2 font-black">
             <ReceiptText size={18} aria-hidden="true" />
             Final check
           </h3>
           <div className="mt-3 space-y-3 text-sm">
             <div className="flex justify-between gap-4">
-              <span className="text-[#6B5D5B]">Customer</span>
+              <span className="text-white/58">Customer</span>
               <span className="text-right font-black">
                 {customer.name || "Not added"}
               </span>
             </div>
             <div className="flex justify-between gap-4">
-              <span className="text-[#6B5D5B]">Order type</span>
+              <span className="text-white/58">Order type</span>
               <span className="font-black capitalize">{orderType}</span>
             </div>
             <div className="flex justify-between gap-4">
-              <span className="text-[#6B5D5B]">Payment</span>
+              <span className="text-white/58">Payment</span>
               <span className="text-right font-black">
                 {paymentChoice === "online" ? "Online card" : "Cash"}
               </span>
             </div>
-            <div className="flex justify-between gap-4 border-t border-black/10 pt-3 text-lg">
+            <div className="flex justify-between gap-4 border-t border-white/10 pt-3 text-lg">
               <span className="font-black">Total</span>
-              <span className="font-black text-[#8A3430]">
+              <span className="font-black text-[#D7A542]">
                 {formatCurrency(total)}
               </span>
             </div>
@@ -1310,7 +1357,7 @@ export function CartPageClient() {
             paymentChoice === "online" ? startOnlineCheckout : placeCashOrder
           }
           disabled={!canCheckout || checkingOut}
-          className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#8A3430] text-sm font-black text-white shadow-lg shadow-[#8A3430]/20 transition hover:bg-[#6F2926] disabled:cursor-not-allowed disabled:bg-[#B8ADA3] disabled:shadow-none"
+          className={`${checkoutPrimaryButtonClass} mt-5 w-full`}
         >
           {paymentChoice === "online" ? (
             <CreditCard size={17} aria-hidden="true" />
@@ -1356,13 +1403,13 @@ export function CartPageClient() {
     }
 
     return (
-      <div className="rounded-[22px] border border-[#E4D6C4] bg-white p-4 shadow-[0_14px_34px_rgba(52,35,28,0.06)]">
+      <div className="rounded-[22px] border border-white/10 bg-[#15100E] p-4 shadow-[0_22px_54px_rgba(0,0,0,0.28)]">
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
           <button
             type="button"
             onClick={goBack}
             disabled={activeStepIndex === 0}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-4 text-sm font-black text-[#6B5D5B] transition hover:border-[#8A3430] hover:text-[#8A3430] disabled:cursor-not-allowed disabled:opacity-40"
+            className={checkoutSecondaryButtonClass}
           >
             <ArrowLeft size={16} aria-hidden="true" />
             Back
@@ -1371,7 +1418,7 @@ export function CartPageClient() {
             type="button"
             onClick={goNext}
             disabled={!currentComplete}
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-6 text-sm font-black text-white shadow-lg shadow-[#8A3430]/20 transition hover:bg-[#6F2926] disabled:cursor-not-allowed disabled:bg-[#B8ADA3] disabled:shadow-none"
+            className={checkoutPrimaryButtonClass}
           >
             Continue
             <ArrowRight size={16} aria-hidden="true" />
@@ -1383,78 +1430,78 @@ export function CartPageClient() {
 
   function renderOrderSummary() {
     return (
-      <aside className="h-fit rounded-lg border border-[#E4D6C4] bg-white p-5 shadow-[0_14px_32px_rgba(52,35,28,0.07)] lg:sticky lg:top-24">
+      <aside className="h-fit rounded-lg border border-white/10 bg-[#15100E] p-5 text-white shadow-[0_22px_54px_rgba(0,0,0,0.28)] lg:sticky lg:top-24">
         <div className="flex items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#8A3430] text-white">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08]">
             <ReceiptText size={20} aria-hidden="true" />
           </span>
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8A3430]">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]">
               Your basket
             </p>
             <h2 className="text-2xl font-black">Order summary</h2>
           </div>
         </div>
 
-        <div className="mt-5 space-y-3 rounded-lg border border-[#EADAC5] bg-white p-4 text-sm">
+        <div className="mt-5 space-y-3 rounded-lg border border-white/10 bg-white/6 p-4 text-sm">
           <div className="flex justify-between gap-4">
-            <span className="text-[#6B5D5B]">Items</span>
+            <span className="text-white/58">Items</span>
             <span className="font-black">{itemCount}</span>
           </div>
           <div className="flex justify-between gap-4">
-            <span className="text-[#6B5D5B]">Subtotal</span>
+            <span className="text-white/58">Subtotal</span>
             <span className="font-black">{formatCurrency(subtotal)}</span>
           </div>
           {collectionDiscount > 0 ? (
             <div className="flex justify-between gap-4">
-              <span className="text-[#6B5D5B]">Collection discount</span>
-              <span className="font-black text-[#8A3430]">
+              <span className="text-white/58">Collection discount</span>
+              <span className="font-black text-[#D7A542]">
                 -{formatCurrency(collectionDiscount)}
               </span>
             </div>
           ) : null}
           {reward.type !== "none" ? (
             <div className="flex justify-between gap-4">
-              <span className="text-[#6B5D5B]">Reward</span>
-              <span className="text-right font-black text-[#8A3430]">
+              <span className="text-white/58">Reward</span>
+              <span className="text-right font-black text-[#D7A542]">
                 {reward.title}
               </span>
             </div>
           ) : null}
           <div className="flex justify-between gap-4">
-            <span className="text-[#6B5D5B]">Order type</span>
+            <span className="text-white/58">Order type</span>
             <span className="font-black capitalize">{orderType}</span>
           </div>
-          <div className="flex justify-between gap-4 border-t border-black/10 pt-3 text-lg">
+          <div className="flex justify-between gap-4 border-t border-white/10 pt-3 text-lg">
             <span className="font-black">Total</span>
-            <span className="font-black text-[#8A3430]">
+            <span className="font-black text-[#D7A542]">
               {formatCurrency(total)}
             </span>
           </div>
         </div>
 
-        <div className="smart-suggestion mt-5 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-4">
-          <h3 className="flex items-center gap-2 font-black text-[#241D1D]">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#8A3430] text-white">
+        <div className="smart-suggestion mt-5 rounded-lg border border-[#D7A542]/20 bg-[#D7A542]/10 p-4">
+          <h3 className="flex items-center gap-2 font-black text-white">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08]">
               <Sparkles size={16} aria-hidden="true" />
             </span>
             Smart suggestion
           </h3>
           <p className="mt-3 font-black">{smartSuggestion.title}</p>
-          <p className="mt-2 text-sm font-semibold leading-6 text-[#6B5D5B]">
+          <p className="mt-2 text-sm font-semibold leading-6 text-white/62">
             {smartSuggestion.detail}
           </p>
           {"href" in smartSuggestion && smartSuggestion.href ? (
             <Link
               href={smartSuggestion.href}
-              className="mt-4 inline-flex h-10 items-center justify-center rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926]"
+              className="mt-4 inline-flex h-10 items-center justify-center rounded-full bg-[#D7A542] px-4 text-sm font-black text-[#150D08] transition hover:bg-white"
             >
               {smartSuggestion.action}
             </Link>
           ) : null}
         </div>
 
-        <div className="mt-5 rounded-lg border border-[#EADAC5] bg-white p-4">
+        <div className="mt-5 rounded-lg border border-white/10 bg-white/6 p-4">
           <h3 className="flex items-center gap-2 font-black">
             <ClipboardList size={18} aria-hidden="true" />
             Checkout status
@@ -1464,14 +1511,14 @@ export function CartPageClient() {
               <div key={step.id} className="flex items-start gap-3">
                 <CheckCircle2
                   className={`mt-0.5 shrink-0 ${
-                    step.complete ? "text-[#8A3430]" : "text-[#B8ADA3]"
+                    step.complete ? "text-[#D7A542]" : "text-white/28"
                   }`}
                   size={17}
                   aria-hidden="true"
                 />
                 <div>
                   <p className="text-sm font-black">{step.label}</p>
-                  <p className="mt-0.5 text-xs font-semibold leading-5 text-[#6B5D5B]">
+                  <p className="mt-0.5 text-xs font-semibold leading-5 text-white/55">
                     {step.detail}
                   </p>
                 </div>
@@ -1484,7 +1531,7 @@ export function CartPageClient() {
   }
 
   return (
-    <section className="bg-white px-4 pb-28 pt-6 sm:px-6 sm:pt-8 lg:px-8 lg:py-10">
+    <section className="bg-[#0D0A08] px-4 pb-28 pt-6 text-white sm:px-6 sm:pt-8 lg:px-8 lg:py-10">
       <div className="mx-auto max-w-6xl">
         {renderStepHeader()}
         <StoreStatusNotice className="mt-5" storeStatus={storeStatus} />

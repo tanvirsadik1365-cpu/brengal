@@ -1,531 +1,642 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
+  BadgePercent,
   CalendarCheck,
+  CheckCircle2,
   Clock,
+  Flame,
   Gift,
   GraduationCap,
   MapPin,
   Phone,
+  Quote,
   ShoppingBag,
   Sparkles,
   Star,
   Truck,
 } from "lucide-react";
-import { HomeHeroSlider } from "@/components/HomeHeroSlider";
+import {
+  MagneticLink,
+  MobileStickyCta,
+  MotionItem,
+  MotionReveal,
+  MotionStagger,
+} from "@/components/MotionPrimitives";
 import {
   aboutImages,
-  brandHeroImage,
   featuredDishes,
   foodImages,
   menuCategories,
   offers,
   restaurant,
+  reviews,
   studentOffer,
 } from "@/lib/restaurant";
+import {
+  createBreadcrumbJsonLd,
+  createPageMetadata,
+  jsonLdMarkup,
+  seoPages,
+} from "@/lib/seo";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Restaurant",
-  name: restaurant.name,
-  image: [`https://${restaurant.website}${brandHeroImage}`],
-  description: restaurant.description,
-  servesCuisine: ["Indian", "Curry", "Tandoori", "Biryani"],
-  priceRange: "\u00a3\u00a3",
-  telephone: restaurant.phone,
-  url: `https://${restaurant.website}`,
-  menu: `https://${restaurant.website}/menu`,
-  acceptsReservations: true,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: restaurant.address[0],
-    addressLocality: "Oxford",
-    postalCode: "OX2 6AJ",
-    addressCountry: "GB",
-  },
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Sunday", "Monday", "Wednesday", "Thursday"],
-      opens: "17:00",
-      closes: "23:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Friday", "Saturday"],
-      opens: "17:00",
-      closes: "23:30",
-    },
-  ],
-};
+export const metadata: Metadata = createPageMetadata(seoPages.home);
+
+const breadcrumbJsonLd = createBreadcrumbJsonLd([
+  { name: "Home", path: "/" },
+]);
+
+const heroStats = [
+  { value: "Since 1956", label: "Serving Oxford" },
+  { value: "\u00a320+", label: "Delivery from" },
+  { value: "Rated 5", label: "Food hygiene" },
+];
 
 const quickActions = [
   {
     Icon: ShoppingBag,
-    title: "Order Online",
-    detail: "Build your meal, see the best available offer, and checkout securely.",
+    title: "Order online",
+    detail: "See offers as you build your meal.",
     href: "/menu",
-    label: "Start order",
+    label: "Start ordering",
   },
   {
     Icon: CalendarCheck,
-    title: "Book a Table",
-    detail: "Reserve dinner for date nights, families, students, and groups.",
+    title: "Book a table",
+    detail: "Date nights, families, students, and groups.",
     href: "/booking",
-    label: "Reserve now",
+    label: "Reserve",
   },
   {
     Icon: Phone,
-    title: "Call Jamal's",
-    detail: "Need help with an order or booking? Call us direct.",
-    href: restaurant.secondaryPhoneHref,
-    label: "Call now",
+    title: "Call direct",
+    detail: "Speak to the restaurant before you order.",
+    href: restaurant.phoneHref,
+    label: restaurant.phone,
   },
 ];
 
-const trustItems = [
-  { value: restaurant.established, label: "Serving Oxford since" },
-  { value: "\u00a320", label: "Delivery minimum" },
-  { value: "Best offer", label: "Applied in the cart" },
-  { value: "BYOB", label: "Groups welcome" },
+const storyStats = [
+  ["Since 1956", "Serving Oxford from Walton Street."],
+  ["BYOB groups", "Students, birthdays and bigger tables."],
+  ["Order online", "Collection and local delivery available."],
+  ["Oxford OX2", "Easy to find, book and call direct."],
 ];
 
 const contactCards = [
   {
     Icon: MapPin,
-    title: "Find Us",
+    title: "Walton Street",
     detail: "107-108 Walton Street, Oxford OX2 6AJ.",
   },
   {
     Icon: Clock,
-    title: "Dinner Hours",
-    detail: "Mon, Wed, Thu & Sun 5.00pm-11.00pm. Fri & Sat until 11.30pm. Tuesday closed.",
+    title: "Dinner service",
+    detail: "Open from 5.00pm most evenings. Tuesday closed.",
   },
   {
     Icon: Truck,
     title: "Delivery",
-    detail: restaurant.deliveryInfo,
+    detail: "From \u00a320 in eligible Oxford postcodes.",
   },
 ];
 
-const heroSlides = [
-  {
-    alt: "Warm Indian restaurant interior ready for dinner service",
-    eyebrow: "Interior",
-    image: foodImages.restaurant,
-    summary:
-      "A warm dining room for date nights, families, students, and group tables.",
-    title: "Settle in on Walton Street.",
-  },
-  {
-    alt: "Warmly lit restaurant exterior at night",
-    eyebrow: "Exterior",
-    image: foodImages.exterior,
-    summary:
-      "A long-standing Oxford curry house serving local diners since 1956.",
-    title: "Easy to find, easy to order.",
-  },
-  {
-    alt: featuredDishes[0].name,
-    eyebrow: "Popular Food",
-    image: featuredDishes[0].image,
-    summary: `${featuredDishes[0].name}, tandoori grills, biryani, and chef-selected feasts ready from the menu.`,
-    title: "Start with the favourites.",
-  },
-];
+const reviewHighlights = reviews.slice(0, 3);
+
+const homeCriticalCss = `
+.home-hero-section {
+  padding-top: 2.5rem;
+  padding-bottom: 3.5rem;
+}
+
+.home-hero-shell {
+  display: grid;
+  align-items: center;
+  gap: 2rem;
+}
+
+.home-hero-copy,
+.home-hero-asides {
+  min-width: 0;
+}
+
+.home-offer-card {
+  min-height: 12.375rem;
+}
+
+@media (min-width: 640px) {
+  .home-hero-section {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-hero-section {
+    padding-top: 3.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .home-hero-shell {
+    grid-template-columns: minmax(0, 760px) minmax(320px, 360px);
+    justify-content: space-between;
+    gap: 3rem;
+  }
+
+  .home-hero-asides {
+    justify-self: end;
+  }
+}
+`;
 
 export default function Home() {
   return (
-    <main className="bg-white text-[var(--brand-ink)]">
+      <main className="overflow-hidden bg-[#0D0A08] pb-24 text-white lg:pb-0">
+      <style dangerouslySetInnerHTML={{ __html: homeCriticalCss }} />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
       />
 
-      <section className="relative isolate overflow-hidden bg-[#FFFCF6] text-[var(--brand-ink)]">
+      <section className="home-hero-section relative isolate overflow-hidden bg-[#0D0A08] px-4 sm:px-6 lg:px-8">
+        <Image
+          src={foodImages.hero}
+          alt="Jamal's Indian Restaurant curry dishes served for dinner in Oxford"
+          fill
+          priority
+          sizes="100vw"
+          className="cinematic-hero-image object-cover"
+        />
         <div
-          className="absolute inset-0 bg-[linear-gradient(180deg,#fff_0%,#FFFCF6_46%,#fff_100%)]"
+          className="absolute inset-0 bg-[linear-gradient(90deg,rgba(13,10,8,0.98)_0%,rgba(13,10,8,0.76)_42%,rgba(13,10,8,0.28)_100%)]"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,10,8,0.18)_0%,rgba(13,10,8,0.5)_58%,#0D0A08_100%)]"
           aria-hidden="true"
         />
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-12 sm:px-6 sm:py-14 lg:min-h-[calc(82svh-88px)] lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.82fr)] lg:gap-14 lg:px-8 lg:py-10 xl:gap-16">
-          <div className="home-reveal w-full min-w-0 max-w-[680px]">
-            <p className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-black text-[var(--brand-primary)] shadow-sm">
-              <Clock size={17} aria-hidden="true" />
-              Open from 5.00pm
-            </p>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="home-hero-shell">
+            <MotionStagger className="home-hero-copy w-full max-w-3xl">
+              <MotionItem>
+                <p className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#F6DFA4] shadow-[0_14px_34px_rgba(0,0,0,0.28)] backdrop-blur">
+                  <Flame size={16} aria-hidden="true" />
+                  Walton Street dinner, from 5pm
+                </p>
+              </MotionItem>
 
-            <p className="mt-8 text-sm font-black uppercase tracking-[0.22em] text-[var(--brand-primary)]">
-              Walton Street, Oxford
-            </p>
-            <h1 className="mt-4 max-w-4xl text-5xl font-black leading-[1.02] sm:text-6xl lg:text-[4.7rem] xl:text-[5rem]">
-              Jamal&apos;s Indian Restaurant
-            </h1>
-            <p className="mt-6 max-w-full text-lg leading-8 text-[var(--brand-muted)] sm:max-w-2xl">
-              Fresh curries, tandoori grills, biryani, and warm dine-in
-              service on Walton Street. Order online for collection or
-              delivery, or reserve a table tonight.
-            </p>
+              <MotionItem>
+                <h1 className="mt-6 max-w-3xl text-5xl font-black leading-[0.98] text-white sm:text-6xl lg:text-7xl">
+                  Authentic Indian Restaurant in Oxford Since 1956
+                </h1>
+              </MotionItem>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link
-                href="/menu"
-                className="inline-flex h-12 w-full min-w-40 items-center justify-center gap-2 rounded-full bg-[var(--brand-primary)] px-6 text-sm font-black text-white shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--brand-primary-dark)] sm:w-auto"
-              >
-                <ShoppingBag size={18} aria-hidden="true" />
-                Order Online
-              </Link>
-              <Link
-                href="/booking"
-                className="inline-flex h-12 w-full min-w-40 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-6 text-sm font-black text-[var(--brand-primary)] shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-[var(--brand-primary)] sm:w-auto"
-              >
-                <CalendarCheck size={18} aria-hidden="true" />
-                Book a Table
-              </Link>
-            </div>
+              <MotionItem>
+                <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/78 sm:text-lg">
+                  Warm spice, smoky tandoor, rich curries, and the comfort of a
+                  long-standing Oxford curry house. Order for collection or
+                  delivery, or make tonight feel like a proper table.
+                </p>
+              </MotionItem>
 
-            <div className="mt-9 flex flex-col gap-4 text-sm text-[var(--brand-muted)] sm:flex-row sm:items-center">
-              <div className="flex items-center gap-2">
-                <span className="flex text-[var(--brand-primary)]" aria-hidden="true">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star key={index} size={17} fill="currentColor" />
-                  ))}
-                </span>
-                <span className="font-black text-[var(--brand-ink)]">4.8</span>
-                <span>Oxford favourite</span>
-              </div>
-              <a
-                href={restaurant.secondaryPhoneHref}
-                className="inline-flex items-center gap-2 transition hover:text-[var(--brand-primary)]"
-              >
-                <Phone size={17} className="text-[var(--brand-primary)]" aria-hidden="true" />
-                <span>{restaurant.secondaryPhone}</span>
-              </a>
-            </div>
-
-            <div className="mt-10 grid w-full max-w-[680px] grid-cols-2 gap-3 lg:grid-cols-4">
-              {trustItems.map((item) => (
-                <div
-                  key={item.label}
-                  className="restaurant-surface min-h-[108px] rounded-lg p-4 transition duration-300 hover:-translate-y-1 hover:border-[var(--brand-primary)]"
-                >
-                  <p className="text-2xl font-black text-[var(--brand-primary)]">
-                    {item.value}
-                  </p>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-[var(--brand-muted)]">
-                    {item.label}
-                  </p>
+              <MotionItem>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <MagneticLink
+                    href="/menu"
+                    className="inline-flex h-[52px] min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-7 text-sm font-black text-[#150D08] shadow-[0_18px_42px_rgba(215,165,66,0.25)] transition hover:bg-white sm:w-auto"
+                  >
+                    <ShoppingBag size={18} aria-hidden="true" />
+                    Order online
+                    <ArrowRight size={17} aria-hidden="true" />
+                  </MagneticLink>
+                  <MagneticLink
+                    href="/booking"
+                    className="inline-flex h-[52px] min-h-[52px] w-full items-center justify-center gap-2 rounded-full border border-white/18 bg-white/10 px-7 text-sm font-black text-white backdrop-blur transition hover:border-[#D7A542] hover:text-[#F6DFA4] sm:w-auto"
+                  >
+                    <CalendarCheck size={18} aria-hidden="true" />
+                    Book a table
+                  </MagneticLink>
                 </div>
-              ))}
-            </div>
-          </div>
+              </MotionItem>
 
-          <div className="home-reveal home-reveal-delay mx-auto w-full min-w-0 max-w-[570px] lg:justify-self-end">
-            <HomeHeroSlider slides={heroSlides} />
-          </div>
-        </div>
-      </section>
+              <MotionItem>
+                <div className="mt-6 grid max-w-3xl grid-cols-3 gap-2 sm:gap-3 lg:max-w-none">
+                  {heroStats.map((item) => (
+                    <div
+                      key={item.label}
+                      className="luxury-glass flex min-h-[94px] flex-col items-center justify-center rounded-lg px-3 py-3 text-center"
+                    >
+                      <p className="text-xl font-black leading-tight text-[#D7A542] sm:text-2xl lg:text-[1.55rem]">
+                        {item.value}
+                      </p>
+                      <p className="mt-2 text-[11px] font-bold uppercase leading-5 tracking-[0.08em] text-white/70">
+                        {item.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </MotionItem>
+            </MotionStagger>
 
-      <section className="section-reveal relative z-10 bg-white px-4 pb-12 pt-0 sm:px-6 sm:pb-14 lg:px-8">
-        <div className="mx-auto -mt-4 grid max-w-7xl gap-3 md:grid-cols-3">
-          {quickActions.map(({ Icon, title, detail, href, label }) => (
-            <Link
-              key={title}
-              href={href}
-              className="group restaurant-surface min-h-[156px] rounded-lg p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--brand-primary)] sm:p-6"
-            >
-              <div className="flex items-start gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--brand-primary)] text-white">
-                  <Icon size={21} aria-hidden="true" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block text-lg font-black">{title}</span>
-                  <span className="mt-2 block text-sm leading-6 text-[var(--brand-muted)]">
-                    {detail}
-                  </span>
-                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[var(--brand-primary)]">
-                    {label}
-                    <ArrowRight
-                      size={16}
-                      className="transition group-hover:translate-x-1"
-                      aria-hidden="true"
-                    />
-                  </span>
-                </span>
+            <MotionReveal delay={0.4} className="home-hero-asides grid w-full max-w-sm gap-3 justify-self-start">
+              <div className="hero-float-card luxury-glass min-h-[148px] rounded-lg p-5">
+                <div className="flex items-center gap-2 text-[#D7A542]" aria-hidden="true">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star key={index} size={16} fill="currentColor" />
+                  ))}
+                </div>
+                <p className="mt-3 text-lg font-black">Oxford favourite</p>
+                <p className="mt-2 text-sm leading-6 text-white/74">
+                  Curry-night comfort, quick collection, and generous portions.
+                </p>
               </div>
-            </Link>
-          ))}
+
+              <div className="hero-float-card luxury-glass hero-float-dish min-h-[148px] rounded-lg p-5">
+                <p className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-[#F6DFA4]">
+                  <BadgePercent size={16} aria-hidden="true" />
+                  Tonight&apos;s reward
+                </p>
+                <p className="mt-3 text-2xl font-black">Best offer in cart</p>
+                <p className="mt-2 text-sm leading-6 text-white/74">
+                  Collection discount or delivery reward shown before checkout.
+                </p>
+              </div>
+            </MotionReveal>
+          </div>
+
+          <div className="mt-6 grid gap-3 md:grid-cols-3 lg:mt-8">
+            {quickActions.map(({ Icon, title, detail, href, label }, index) => (
+              <MotionReveal key={title} delay={index * 0.06}>
+                <Link
+                  href={href}
+                  className="group luxury-card flex min-h-[116px] items-center rounded-lg p-4 transition duration-300 hover:-translate-y-1 hover:border-[#D7A542]/70"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08]">
+                    <Icon size={20} aria-hidden="true" />
+                  </span>
+                  <span className="ml-4 min-w-0">
+                    <span className="block text-lg font-black text-white">
+                      {title}
+                    </span>
+                    <span className="mt-1.5 block text-sm leading-5 text-white/66">
+                      {detail}
+                    </span>
+                    <span className="mt-3 inline-flex items-center gap-2 text-sm font-black text-[#D7A542]">
+                      {label}
+                      <ArrowRight
+                        size={16}
+                        className="transition group-hover:translate-x-1"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </span>
+                </Link>
+              </MotionReveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="section-reveal bg-white px-4 py-16 text-[var(--brand-ink)] sm:px-6 sm:py-20 lg:px-8">
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <MotionReveal className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
-              <p className="text-sm font-black uppercase tracking-[0.22em] text-[var(--brand-primary)]">
-                Popular Orders
+              <p className="text-sm font-black uppercase tracking-[0.22em] text-[#D7A542]">
+                Craveable favourites
               </p>
-              <h2 className="mt-3 max-w-2xl text-4xl font-black leading-tight sm:text-5xl">
-                Start with the dishes people come back for.
+              <h2 className="mt-3 max-w-3xl text-4xl font-black leading-tight sm:text-5xl">
+                Start with the dishes people picture before they order.
               </h2>
-              <p className="mt-4 max-w-2xl text-base leading-8 text-[var(--brand-muted)]">
-                Rich curries, smoky grills, and generous sharing meals, all
-                ready to add from the online menu.
+              <p className="mt-4 max-w-2xl text-base leading-8 text-white/68">
+                Creamy curries, tandoori grills and house favourites ready for
+                collection, delivery or dinner on Walton Street.
               </p>
             </div>
             <Link
               href="/menu"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[var(--brand-primary)] px-6 text-sm font-black text-white transition hover:bg-[var(--brand-primary-dark)]"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-6 text-sm font-black text-white transition hover:border-[#D7A542] hover:text-[#F6DFA4]"
             >
               See full menu
               <ArrowRight size={17} aria-hidden="true" />
             </Link>
-          </div>
+          </MotionReveal>
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {featuredDishes.map((dish) => (
-              <article
-                key={dish.name}
-                className="group flex h-full flex-col overflow-hidden rounded-lg border border-[var(--brand-line)] bg-[#FFFCF6] shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(52,35,28,0.1)]"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={dish.image}
-                    alt={dish.name}
-                    fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                    className="object-cover transition duration-500 group-hover:scale-105"
-                  />
-                  <span className="absolute left-4 top-4 rounded-full bg-[var(--brand-accent)] px-3 py-1 text-xs font-black text-[var(--brand-ink)]">
-                    {dish.badge}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="flex items-start justify-between gap-4">
-                    <h3 className="text-xl font-black">{dish.name}</h3>
-                    <p className="shrink-0 text-xl font-black text-[var(--brand-accent)]">
+            {featuredDishes.map((dish, index) => (
+              <MotionReveal key={dish.name} delay={index * 0.08}>
+                <article className="group luxury-card flex h-full flex-col overflow-hidden rounded-lg transition duration-300 hover:-translate-y-1 hover:border-[#D7A542]/65">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#170F0C]">
+                    <Image
+                      src={dish.image}
+                      alt={`${dish.name} from Jamal's Indian Restaurant`}
+                      fill
+                      sizes="(min-width: 1024px) 31vw, (min-width: 768px) 33vw, 100vw"
+                      className="object-cover transition duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_42%,rgba(13,10,8,0.84)_100%)]" />
+                    <span className="absolute left-4 top-4 rounded-full bg-[#D7A542] px-3 py-1 text-xs font-black text-[#150D08]">
+                      {dish.badge}
+                    </span>
+                    <p className="absolute bottom-4 left-4 text-2xl font-black text-white">
                       &pound;{dish.price}
                     </p>
                   </div>
-                  <p className="mt-3 min-h-14 text-sm leading-7 text-[var(--brand-muted)]">
-                    {dish.description}
-                  </p>
-                  <Link
-                    href="/menu"
-                    className="mt-auto inline-flex h-10 items-center gap-2 self-start rounded-full border border-black/10 px-4 text-sm font-black text-[var(--brand-primary)] transition hover:border-[var(--brand-primary)]"
-                  >
-                    Add from menu
-                    <ShoppingBag size={16} aria-hidden="true" />
-                  </Link>
-                </div>
-              </article>
+                  <div className="flex flex-1 flex-col p-5">
+                    <h3 className="text-xl font-black text-white">{dish.name}</h3>
+                    <p className="mt-3 min-h-14 text-sm leading-7 text-white/66">
+                      {dish.description}
+                    </p>
+                    <Link
+                      href="/menu"
+                      className="mt-auto inline-flex min-h-11 items-center gap-2 self-start rounded-full bg-white px-4 text-sm font-black text-[#150D08] transition hover:bg-[#D7A542]"
+                    >
+                      Add from menu
+                      <ShoppingBag size={16} aria-hidden="true" />
+                    </Link>
+                  </div>
+                </article>
+              </MotionReveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-reveal bg-[#FFFCF6] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.68fr_1.32fr]">
-          <div>
-            <p className="text-sm font-black uppercase tracking-[0.22em] text-[var(--brand-primary)]">
-              Browse the Menu
+      <section className="bg-[#140D0B] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.75fr_1.25fr]">
+          <MotionReveal>
+            <p className="text-sm font-black uppercase tracking-[0.22em] text-[#D7A542]">
+              Menu rhythm
             </p>
             <h2 className="mt-3 text-4xl font-black leading-tight sm:text-5xl">
-              Pick your favourites without hunting.
+              Find the food you came for.
             </h2>
-            <p className="mt-5 text-base leading-8 text-[var(--brand-muted)]">
-              Jump straight to starters, curry styles, tandoori grills,
-              biryani, rice, bread, and set meals before you order.
+            <p className="mt-5 text-base leading-8 text-white/68">
+              Browse starters, tandoori grills, chef specials, classic curries,
+              rice and fresh bread from one clear menu.
             </p>
-            <Link
-              href="/menu"
-              className="mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[var(--brand-primary)] px-6 text-sm font-black text-white shadow-lg shadow-black/10 transition hover:bg-[var(--brand-primary-dark)]"
-            >
-              Explore Menu
-              <ArrowRight size={17} aria-hidden="true" />
-            </Link>
-          </div>
+            <div className="mt-7 h-px w-full gold-divider" aria-hidden="true" />
+          </MotionReveal>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {menuCategories.map((category) => (
-              <Link
-                key={category.name}
-                href="/menu"
-                className="group restaurant-surface min-h-[188px] rounded-lg p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--brand-primary)]"
-              >
-                <Sparkles className="text-[var(--brand-primary)]" size={24} aria-hidden="true" />
-                <p className="mt-5 text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-primary)]">
-                  {category.count}
-                </p>
-                <h3 className="mt-2 text-xl font-black group-hover:text-[var(--brand-primary)]">
-                  {category.name}
-                </h3>
-                <p className="mt-2 text-sm leading-7 text-[var(--brand-muted)]">
-                  {category.detail}
-                </p>
-              </Link>
+            {menuCategories.map((category, index) => (
+              <MotionReveal key={category.name} delay={index * 0.04}>
+                <Link
+                  href="/menu"
+                  className="group luxury-card block min-h-[184px] rounded-lg p-5 transition duration-300 hover:-translate-y-1 hover:border-[#D7A542]/70"
+                >
+                  <Sparkles className="text-[#D7A542]" size={23} aria-hidden="true" />
+                  <p className="mt-5 text-xs font-black uppercase tracking-[0.16em] text-[#D7A542]">
+                    {category.count} choices
+                  </p>
+                  <h3 className="mt-2 text-xl font-black text-white group-hover:text-[#F6DFA4]">
+                    {category.name}
+                  </h3>
+                  <p className="mt-2 text-sm leading-7 text-white/64">
+                    {category.detail}
+                  </p>
+                </Link>
+              </MotionReveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-reveal bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
-            {aboutImages.map((image) => (
-              <div
-                key={image.alt}
-                className="group relative aspect-square overflow-hidden rounded-lg border border-[var(--brand-line)] bg-white shadow-sm"
-              >
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  sizes="(min-width: 1024px) 25vw, 50vw"
-                  className="object-cover transition duration-500 group-hover:scale-105"
-                />
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-stretch">
+          <MotionReveal className="h-full">
+            <div className="flex h-full flex-col">
+              <div className="flex items-start gap-3">
+                <Gift className="mt-1 text-[#D7A542]" size={26} aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-black uppercase tracking-[0.2em] text-[#D7A542]">
+                    Offers
+                  </p>
+                  <h2 className="mt-2 text-3xl font-black leading-tight sm:text-4xl">
+                    Tonight&apos;s best rewards.
+                  </h2>
+                  <p className="mt-4 max-w-2xl text-sm leading-7 text-white/68">
+                    Collection discounts and free delivery extras are shown
+                    before checkout when your order qualifies.
+                  </p>
+                </div>
               </div>
-            ))}
-          </div>
 
-          <div>
-            <p className="text-sm font-black uppercase tracking-[0.22em] text-[var(--brand-primary)]">
-              Our Story
+              <div className="mt-8 grid flex-1 gap-4 sm:grid-cols-2">
+                {offers.map((offer) => (
+                  <article
+                    key={offer.title}
+                    className="home-offer-card luxury-card flex flex-col rounded-lg p-5"
+                  >
+                    <h3 className="text-lg font-black leading-7 text-white">
+                      {offer.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-white/66">
+                      {offer.detail}
+                    </p>
+                    <p className="mt-auto pt-4 text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                      {offer.note}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </MotionReveal>
+
+          <MotionReveal delay={0.12} className="h-full">
+            <div className="luxury-card flex h-full flex-col rounded-lg p-5 sm:p-6">
+              <p className="inline-flex items-center gap-2 rounded-full bg-[#D7A542] px-4 py-2 text-sm font-black text-[#150D08]">
+                <GraduationCap size={18} aria-hidden="true" />
+                Student Offer
+              </p>
+              <h2 className="mt-6 text-3xl font-black leading-tight sm:text-4xl">
+                Student nights and group tables.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-white/68">
+                BYOB-friendly evenings, birthdays and bigger bookings with
+                simple per-head pricing.
+              </p>
+
+              <div className="mt-auto grid gap-3 pt-7 sm:grid-cols-2">
+                {[
+                  [`\u00a3${studentOffer.price}`, "per head"],
+                  [`\u00a3${studentOffer.nonEaterPrice}`, "non-eaters"],
+                  [studentOffer.discount, "student discount"],
+                  ["200", "capacity"],
+                ].map(([value, label]) => (
+                  <div
+                    key={label}
+                    className="flex min-h-[82px] flex-col justify-center rounded-lg border border-white/12 p-4"
+                  >
+                    <p className="text-2xl font-black text-[#D7A542]">{value}</p>
+                    <p className="mt-1 text-sm font-semibold text-white/68">
+                      {label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </MotionReveal>
+        </div>
+      </section>
+
+      <section className="bg-[#100B09] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+          <MotionReveal>
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              {aboutImages.map((image) => (
+                <div
+                  key={image.alt}
+                  className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-white/10 bg-[#17100D] shadow-[0_16px_42px_rgba(0,0,0,0.24)]"
+                >
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    className="object-cover transition duration-700 group-hover:scale-105"
+                  />
+                </div>
+              ))}
+            </div>
+          </MotionReveal>
+
+          <MotionReveal delay={0.1}>
+            <p className="text-sm font-black uppercase tracking-[0.22em] text-[#D7A542]">
+              Since 1956
             </p>
             <h2 className="mt-3 text-4xl font-black leading-tight sm:text-5xl">
               A Walton Street favourite since 1956.
             </h2>
-            <p className="mt-5 text-base leading-8 text-[var(--brand-muted)]">
-              Jamal&apos;s is built around the things customers actually come
-              for: generous portions, familiar curries, friendly service, and
-              an easy way to order or book before you arrive.
+            <p className="mt-5 text-base leading-8 text-white/68">
+              From quiet dinners to busy group tables, Jamal&apos;s brings
+              generous Indian food, friendly service and familiar Oxford
+              hospitality together.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {[
-                ["Since 1956", "Cooking for Oxford diners"],
-                ["Walton Street", "Easy to find and call"],
-                ["Collection & Delivery", "Order online and see your reward"],
-                ["Groups Welcome", "Students, BYOB, and parties"],
-              ].map(([title, detail]) => (
+              {storyStats.map(([title, detail]) => (
                 <div key={title} className="flex gap-3">
-                  <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--brand-primary)]" />
+                  <CheckCircle2
+                    size={20}
+                    className="mt-0.5 shrink-0 text-[#D7A542]"
+                    aria-hidden="true"
+                  />
                   <div>
-                    <p className="font-black">{title}</p>
-                    <p className="mt-1 text-sm leading-6 text-[var(--brand-muted)]">
+                    <p className="font-black text-white">{title}</p>
+                    <p className="mt-1 text-sm leading-6 text-white/64">
                       {detail}
                     </p>
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          </MotionReveal>
         </div>
       </section>
 
-      <section className="section-reveal restaurant-brand-panel px-4 py-16 text-[var(--brand-ink)] sm:px-6 sm:py-20 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-          <div>
-            <div className="flex items-center gap-3">
-              <Gift className="text-[var(--brand-accent)]" size={28} aria-hidden="true" />
-              <div>
-                <p className="text-sm font-black uppercase tracking-[0.2em] text-[var(--brand-accent)]">
-                  Offers
-                </p>
-                <h2 className="mt-2 text-3xl font-black sm:text-4xl">
-                  Get the best available reward automatically.
-                </h2>
-              </div>
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <MotionReveal className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.22em] text-[#D7A542]">
+                Customer proof
+              </p>
+              <h2 className="mt-3 max-w-3xl text-4xl font-black leading-tight sm:text-5xl">
+                What customers say after dinner.
+              </h2>
             </div>
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-white/82">
-              Add your food and the cart shows the strongest eligible reward
-              before checkout.
-            </p>
+            <Link
+              href="/reviews"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-6 text-sm font-black text-white transition hover:border-[#D7A542] hover:text-[#F6DFA4]"
+            >
+              Read reviews
+              <ArrowRight size={17} aria-hidden="true" />
+            </Link>
+          </MotionReveal>
 
-            <div className="mt-8 grid gap-4 md:grid-cols-2">
-              {offers.map((offer) => (
-                <article
-                  key={offer.title}
-                  className="rounded-lg border border-white/16 bg-white/12 p-5 shadow-sm backdrop-blur"
-                >
-                  <h3 className="text-xl font-black">{offer.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-white/82">
-                    {offer.detail}
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {reviewHighlights.map((review, index) => (
+              <MotionReveal key={review.name} delay={index * 0.08}>
+                <article className="luxury-card flex h-full flex-col rounded-lg p-5">
+                  <Quote className="text-[#D7A542]" size={25} aria-hidden="true" />
+                  <h3 className="mt-5 text-lg font-black text-white">
+                    {review.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-white/66">
+                    {review.text}
                   </p>
-                  <p className="mt-4 text-xs font-black uppercase tracking-wide text-[var(--brand-accent)]">
-                    {offer.note}
-                  </p>
+                  <footer className="mt-auto pt-6">
+                    <div className="flex items-center justify-between gap-3 border-t border-white/10 pt-4">
+                      <div>
+                        <p className="font-black text-white">{review.name}</p>
+                        <p className="mt-1 text-xs font-semibold text-white/48">
+                          {review.date}
+                        </p>
+                      </div>
+                      <div className="flex text-[#D7A542]" aria-hidden="true">
+                        {Array.from({ length: 5 }).map((_, starIndex) => (
+                          <Star key={starIndex} size={14} fill="currentColor" />
+                        ))}
+                      </div>
+                    </div>
+                  </footer>
                 </article>
-              ))}
-            </div>
-          </div>
-
-          <div className="pt-2 lg:pl-8">
-            <p className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-accent)] px-4 py-2 text-sm font-black text-[var(--brand-ink)]">
-              <GraduationCap size={18} aria-hidden="true" />
-              Student Offer
-            </p>
-            <h2 className="mt-6 text-3xl font-black sm:text-4xl">
-              Bring the group. Keep it simple.
-            </h2>
-            <p className="mt-4 text-sm leading-7 text-white/82">
-              Clear student pricing, BYOB-friendly dinners, birthdays, and
-              bigger tables, all with booking details in one place.
-            </p>
-
-            <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {[
-                [`\u00a3${studentOffer.price}`, "per head"],
-                [`\u00a3${studentOffer.nonEaterPrice}`, "non-eaters"],
-                [studentOffer.discount, "student discount"],
-                ["200", "capacity"],
-              ].map(([value, label]) => (
-                <div
-                  key={label}
-                  className="rounded-lg border border-white/16 bg-white/12 p-4 shadow-sm"
-                >
-                  <p className="text-2xl font-black text-[var(--brand-accent)]">{value}</p>
-                  <p className="mt-1 text-sm font-semibold text-white/78">
-                    {label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-reveal bg-white px-4 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.84fr_1.16fr] lg:items-center">
-          <div>
-            <p className="text-sm font-black uppercase tracking-[0.22em] text-[var(--brand-primary)]">
-              Visit or Order
-            </p>
-            <h2 className="mt-3 text-4xl font-black leading-tight sm:text-5xl">
-              Find us, call us, or order tonight.
-            </h2>
-            <p className="mt-5 text-base leading-8 text-[var(--brand-muted)]">
-              Check tonight&apos;s hours, get directions to Walton Street, or
-              speak to the restaurant before you order.
-            </p>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {contactCards.map(({ Icon, title, detail }) => (
-              <article
-                key={title}
-                className="restaurant-surface rounded-lg p-5"
-              >
-                <Icon className="text-[var(--brand-primary)]" size={23} aria-hidden="true" />
-                <h3 className="mt-5 text-lg font-black">{title}</h3>
-                <p className="mt-2 text-sm leading-7 text-[var(--brand-muted)]">
-                  {detail}
-                </p>
-              </article>
+              </MotionReveal>
             ))}
           </div>
         </div>
       </section>
+
+      <section className="bg-[#140D0B] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:items-center">
+          <MotionReveal>
+            <p className="text-sm font-black uppercase tracking-[0.22em] text-[#D7A542]">
+              Visit or order
+            </p>
+            <h2 className="mt-3 text-4xl font-black leading-tight sm:text-5xl">
+              Order tonight or visit Walton Street.
+            </h2>
+            <p className="mt-5 text-base leading-8 text-white/68">
+              Find us in Oxford, call the restaurant, or start an order for
+              collection and local delivery.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link
+                href="/menu"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-6 text-sm font-black text-[#150D08] transition hover:bg-white"
+              >
+                <ShoppingBag size={17} aria-hidden="true" />
+                Order tonight
+              </Link>
+              <a
+                href={restaurant.phoneHref}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-6 text-sm font-black text-white transition hover:border-[#D7A542] hover:text-[#F6DFA4]"
+              >
+                <Phone size={17} aria-hidden="true" />
+                {restaurant.phone}
+              </a>
+            </div>
+          </MotionReveal>
+
+          <div className="grid gap-4 sm:grid-cols-3">
+            {contactCards.map(({ Icon, title, detail }, index) => (
+              <MotionReveal key={title} delay={index * 0.06} className="h-full">
+                <article className="luxury-card flex h-full min-h-[168px] flex-col rounded-lg p-5">
+                  <Icon className="text-[#D7A542]" size={23} aria-hidden="true" />
+                  <h3 className="mt-5 text-lg font-black text-white">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-white/64">
+                    {detail}
+                  </p>
+                </article>
+              </MotionReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <MobileStickyCta />
     </main>
   );
 }

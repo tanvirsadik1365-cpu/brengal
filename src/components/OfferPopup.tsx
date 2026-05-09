@@ -15,6 +15,16 @@ export function OfferPopup() {
   const [isVisible, setIsVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const isMerchantPage = pathname?.startsWith("/merchant");
+  const isOrderingFlow =
+    pathname === "/menu" ||
+    pathname === "/cart" ||
+    Boolean(pathname?.startsWith("/checkout"));
+  const shouldSuppressPopup =
+    isMerchantPage ||
+    pathname === "/" ||
+    pathname === "/booking" ||
+    pathname === "/gallery" ||
+    isOrderingFlow;
 
   function closePopup() {
     window.sessionStorage.setItem(dismissedStorageKey, "true");
@@ -22,7 +32,7 @@ export function OfferPopup() {
   }
 
   useEffect(() => {
-    if (isMerchantPage || window.sessionStorage.getItem(dismissedStorageKey)) {
+    if (shouldSuppressPopup || window.sessionStorage.getItem(dismissedStorageKey)) {
       return;
     }
 
@@ -31,7 +41,7 @@ export function OfferPopup() {
     }, popupDelayMs);
 
     return () => window.clearTimeout(timer);
-  }, [isMerchantPage]);
+  }, [shouldSuppressPopup]);
 
   useEffect(() => {
     if (!isVisible) {
@@ -61,7 +71,7 @@ export function OfferPopup() {
     return () => window.clearInterval(intervalId);
   }, [isVisible]);
 
-  if (!isVisible || isMerchantPage) {
+  if (!isVisible || shouldSuppressPopup) {
     return null;
   }
 
@@ -69,7 +79,7 @@ export function OfferPopup() {
     <aside
       aria-labelledby="offer-popup-title"
       aria-describedby="offer-popup-description"
-      className="fixed inset-x-3 bottom-3 z-[80] mx-auto max-w-[420px] sm:inset-x-auto sm:bottom-6 sm:right-6 sm:w-[360px]"
+      className="fixed inset-x-3 bottom-24 z-[80] mx-auto max-w-[420px] sm:inset-x-auto sm:bottom-6 sm:right-6 sm:w-[360px]"
     >
       <div className="relative overflow-hidden rounded-lg border border-[#5F241F] bg-[#8A3430] px-5 pb-5 pt-6 text-white shadow-2xl shadow-black/20 sm:px-6">
         <button

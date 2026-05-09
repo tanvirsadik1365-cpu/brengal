@@ -13,6 +13,7 @@ type RateLimitBucket = {
 };
 
 const rateLimitBuckets = new Map<string, RateLimitBucket>();
+let lastRateLimitPruneAt = 0;
 const spamTrapFields = [
   "company",
   "companyUrl",
@@ -90,6 +91,17 @@ export function rateLimitRequest(
   { key, limit, windowMs }: RateLimitOptions,
 ) {
   const now = Date.now();
+
+  if (now - lastRateLimitPruneAt > 60_000) {
+    lastRateLimitPruneAt = now;
+
+    for (const [bucketKey, bucket] of rateLimitBuckets) {
+      if (bucket.resetAt <= now) {
+        rateLimitBuckets.delete(bucketKey);
+      }
+    }
+  }
+
   const bucketKey = `${key}:${getClientIp(request)}`;
   const currentBucket = rateLimitBuckets.get(bucketKey);
 

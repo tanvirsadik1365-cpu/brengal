@@ -1,14 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Clock,
-  ExternalLink,
   Mail,
   MapPin,
   Phone,
-  ShieldCheck,
 } from "lucide-react";
-import { logoImage, restaurant } from "@/lib/restaurant";
+import { logoImage, restaurant, trustImages } from "@/lib/restaurant";
 
 function FacebookIcon() {
   return (
@@ -80,15 +77,6 @@ function GoogleIcon() {
   );
 }
 
-const quickLinks = [
-  { label: "Menu", href: "/menu" },
-  { label: "Book Table", href: "/booking" },
-  { label: "Track Order", href: "/track-order" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "FAQs", href: "/faqs" },
-  { label: "Contact", href: "/contact" },
-];
-
 const legalLinks = [
   { label: "Terms & Conditions", href: "/terms-and-conditions" },
   { label: "Privacy Policy", href: "/privacy-policy" },
@@ -121,107 +109,77 @@ const socialLinks = [
   },
 ];
 
-const paymentCards = [
-  { label: "Mastercard", className: "bg-[#eb001b] text-white" },
-  { label: "VISA", className: "bg-[#f7f9ff] text-[#1434cb]" },
-  { label: "AMEX", className: "bg-[#2e77bc] text-white" },
-];
-
 const footerLinkClass =
-  "inline-flex items-center gap-2 text-sm font-semibold text-white/78 transition hover:text-[#D7A542]";
+  "inline-flex min-w-0 items-center gap-2 text-sm font-semibold leading-6 text-white/76 transition hover:text-[#D7A542]";
+
+const footerHeadingClass =
+  "text-sm font-black uppercase tracking-[0.14em] text-[#D7A542]";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-[#111111] text-white">
+    <footer
+      id="site-footer"
+      className="scroll-mt-28 bg-[#101010] text-white"
+    >
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr_0.82fr_0.78fr] lg:items-start">
-          <div className="min-w-0">
-            <Link
-              href="/"
-              className="group relative block h-28 w-44 overflow-hidden rounded-lg bg-white shadow-[0_18px_40px_rgba(0,0,0,0.28)] ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:ring-[#D7A542]"
-              aria-label={`${restaurant.name} home`}
-            >
-              <Image
-                src={logoImage}
-                alt={`${restaurant.name} logo`}
-                fill
-                sizes="176px"
-                className="object-contain p-4 transition duration-300 group-hover:scale-[1.03]"
-                loading="eager"
-              />
-            </Link>
-
-            <p className="mt-5 max-w-sm text-base font-semibold leading-7 text-white/82">
-              Indian food, takeaway, delivery, and table bookings on Walton
-              Street, Oxford.
-            </p>
-
+        <div className="grid gap-10 md:grid-cols-[1.05fr_1fr] xl:grid-cols-[1.05fr_1fr_0.82fr] xl:items-start xl:gap-14">
+          <div className="min-w-0 text-center md:text-left">
             <a
               href={restaurant.siteUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-sm font-black text-white transition hover:border-[#D7A542] hover:text-[#D7A542]"
+              className="group inline-flex transition hover:-translate-y-0.5"
+              aria-label={`Open ${restaurant.name} website`}
             >
-              <ExternalLink size={15} aria-hidden="true" />
-              {restaurant.website}
+              <span className="relative block h-[94px] w-[128px] sm:h-[108px] sm:w-[148px]">
+                <Image
+                  src={logoImage}
+                  alt={`${restaurant.name} logo`}
+                  fill
+                  sizes="(min-width: 640px) 148px, 128px"
+                  className="object-contain transition duration-300 group-hover:scale-[1.03]"
+                  loading="eager"
+                />
+              </span>
             </a>
+
+            <p className="mx-auto mt-4 max-w-sm text-sm font-semibold leading-6 text-white/76 md:mx-0">
+              Indian food, takeaway, and delivery on Walton Street, Oxford.
+            </p>
           </div>
 
-          <div>
-            <h2 className="text-lg font-black text-white">Visit & Contact</h2>
-            <div className="mt-5 grid gap-3">
+          <div className="min-w-0 text-center md:text-left">
+            <h2 className={footerHeadingClass}>Visit & Contact</h2>
+            <div className="mx-auto mt-5 grid max-w-md gap-3 md:mx-0">
               <a
                 href={restaurant.mapsUrl}
                 target="_blank"
                 rel="noreferrer"
-                className={footerLinkClass}
+                className={`${footerLinkClass} justify-center md:justify-start`}
               >
                 <MapPin size={17} className="shrink-0 text-[#D7A542]" aria-hidden="true" />
                 <span>{restaurant.address.join(", ")}</span>
               </a>
-              <a href={restaurant.phoneHref} className={footerLinkClass}>
+              <a
+                href={restaurant.phoneHref}
+                className={`${footerLinkClass} justify-center md:justify-start`}
+              >
                 <Phone size={17} className="shrink-0 text-[#D7A542]" aria-hidden="true" />
                 {restaurant.phone}
               </a>
               <a
                 href={`mailto:${restaurant.email}`}
-                className={`${footerLinkClass} break-all`}
+                className={`${footerLinkClass} justify-center break-all md:justify-start`}
               >
                 <Mail size={17} className="shrink-0 text-[#D7A542]" aria-hidden="true" />
                 {restaurant.email}
               </a>
             </div>
 
-            <div className="mt-6 rounded-lg border border-white/12 bg-white/6 p-4">
-              <h3 className="flex items-center gap-2 text-sm font-black text-white">
-                <Clock size={17} className="text-[#D7A542]" aria-hidden="true" />
-                Opening Hours
-              </h3>
-              <div className="mt-3 grid gap-2 text-sm text-white/72">
-                {restaurant.hours.map((item) => (
-                  <p key={item.days} className="flex justify-between gap-4">
-                    <span>{item.days}</span>
-                    <span className="text-right font-semibold text-white/88">
-                      {item.time}
-                    </span>
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-black text-white">Quick Links</h2>
-            <nav className="mt-5 grid grid-cols-2 gap-3 text-sm sm:max-w-sm lg:grid-cols-1">
-              {quickLinks.map((link) => (
-                <Link key={link.href} href={link.href} className={footerLinkClass}>
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-
-            <h2 className="mt-7 text-lg font-black text-white">Social Media</h2>
-            <div className="mt-4 flex flex-wrap gap-3">
+            <h2 className="mt-7 text-sm font-black uppercase tracking-[0.14em] text-[#D7A542]">
+              Social Media
+            </h2>
+            <div className="mt-4 flex flex-wrap justify-center gap-3 md:justify-start">
               {socialLinks.map((link) => (
                 <a
                   key={link.label}
@@ -237,80 +195,69 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div>
-            <h2 className="text-lg font-black text-white">Trust & Payments</h2>
-            <div className="mt-5 rounded-lg border border-white/12 bg-white p-4 text-[#111111] shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#111111] text-white">
-                  <ShieldCheck size={22} aria-hidden="true" />
-                </span>
-                <div>
-                  <p className="text-sm font-black">Secure payments</p>
-                  <p className="mt-1 text-xs font-bold text-[#5F5552]">
-                    Powered by Stripe
-                  </p>
-                </div>
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-1.5">
-                {paymentCards.map((card) => (
-                  <span
-                    key={card.label}
-                    className={`flex h-7 items-center justify-center rounded-sm text-[9px] font-black ${card.className}`}
-                  >
-                    {card.label}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-4 rounded-lg border border-[#BEE01C] bg-[#D9F359] p-4 text-[#111111] shadow-[0_18px_40px_rgba(0,0,0,0.18)]">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-[11px] font-black uppercase tracking-wide">
-                    Food Hygiene Rating
-                  </p>
-                  <p className="mt-1 text-sm font-black">Very good</p>
-                </div>
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#111111] text-2xl font-black text-white">
-                  5
-                </span>
-              </div>
-              <p className="mt-3 text-xs font-black uppercase tracking-wide">
-                Food Standards Agency style rating
-              </p>
+          <div className="min-w-0 text-center md:col-span-2 xl:col-span-1 xl:text-left">
+            <h2 className={footerHeadingClass}>Trust & Payments</h2>
+            <div className="mt-5 flex flex-col items-center gap-4 xl:items-start">
+              <Image
+                src={trustImages.securePayments}
+                alt="Secure payments powered by Stripe with accepted card brands"
+                width={344}
+                height={168}
+                sizes="(min-width: 1280px) 238px, (min-width: 768px) 252px, 78vw"
+                className="h-auto w-full max-w-[252px] rounded-md bg-white shadow-[0_12px_24px_rgba(0,0,0,0.16)] sm:max-w-[268px] xl:max-w-[238px]"
+                loading="eager"
+              />
+              <Image
+                src={trustImages.foodHygieneRating}
+                alt="Food Hygiene Rating 5, Very Good"
+                width={280}
+                height={140}
+                sizes="(min-width: 1280px) 220px, (min-width: 768px) 236px, 72vw"
+                className="h-auto w-full max-w-[236px] shadow-[0_12px_24px_rgba(0,0,0,0.16)] xl:max-w-[220px]"
+                loading="eager"
+              />
             </div>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-5 border-t border-white/12 pt-6 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap gap-x-5 gap-y-2">
-            {legalLinks.map((link) => (
-              <Link key={link.href} href={link.href} className={footerLinkClass}>
-                {link.label}
-              </Link>
-            ))}
-          </div>
+        <div className="mt-10 text-center">
+          <a
+            href="https://talentpull.uk"
+            target="_blank"
+            rel="noreferrer"
+            className="mx-auto inline-flex flex-col items-center gap-3 transition hover:opacity-85"
+          >
+            <span className="text-base font-semibold text-white">
+              Powered By
+            </span>
+            <Image
+              src="/powered-by/logo-wordmark.png"
+              alt="Talentpull"
+              width={150}
+              height={38}
+              sizes="150px"
+              className="h-auto"
+              loading="eager"
+            />
+          </a>
 
-          <div className="flex flex-col gap-3 text-sm font-semibold text-white/64 sm:flex-row sm:items-center">
-            <p>&copy; 2026 {restaurant.shortName}</p>
-            <span className="hidden h-1 w-1 rounded-full bg-white/28 sm:block" />
-            <a
-              href="https://talentpull.uk"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 transition hover:text-[#D7A542]"
-            >
-              Powered by
-              <span className="relative inline-block h-6 w-24 align-middle">
-                <Image
-                  src="/powered-by/logo-wordmark.png"
-                  alt="Talentpull"
-                  fill
-                  sizes="96px"
-                  className="object-contain"
-                />
-              </span>
-            </a>
+          <div className="mt-8 border-t border-white/10 pt-5">
+            <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 text-sm font-semibold leading-6 text-white/72">
+              <span>&copy; 2026 {restaurant.shortName}</span>
+              {legalLinks.map((link) => (
+                <span key={link.href} className="inline-flex items-center gap-x-2">
+                  <span className="text-white/40" aria-hidden="true">
+                    &middot;
+                  </span>
+                  <Link
+                    href={link.href}
+                    className="transition hover:text-[#D7A542]"
+                  >
+                    {link.label}
+                  </Link>
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>

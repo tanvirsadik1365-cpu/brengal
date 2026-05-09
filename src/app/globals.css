@@ -42,14 +42,19 @@
 }
 
 html {
+  background: #0D0A08;
+  max-width: 100%;
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background: #0D0A08;
   color: var(--foreground);
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-feature-settings: "kern", "liga", "calt";
+  max-width: 100%;
+  overflow-x: clip;
   text-rendering: geometricPrecision;
 }
 
@@ -220,6 +225,84 @@ textarea {
   }
 }
 
+.cinematic-hero-image {
+  animation: cinematic-zoom 18s ease-out both;
+  will-change: transform;
+}
+
+.luxury-glass {
+  background: color-mix(in srgb, #ffffff 10%, transparent);
+  border: 1px solid color-mix(in srgb, #ffffff 16%, transparent);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px);
+}
+
+.luxury-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.045)),
+    #120e0c;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
+}
+
+.gold-divider {
+  background: linear-gradient(90deg, transparent, rgba(215, 165, 66, 0.72), transparent);
+}
+
+.menu-order-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.menu-order-layout > * {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .menu-order-layout {
+    grid-template-columns: 220px minmax(0, 1fr) 340px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .menu-order-layout {
+    grid-template-columns: 240px minmax(0, 1fr) 360px;
+  }
+}
+
+.track-order-hero-grid,
+.track-order-layout {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.track-order-hero-grid > *,
+.track-order-layout > * {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .track-order-hero-grid {
+    align-items: end;
+    grid-template-columns: minmax(0, 1fr) 360px;
+  }
+
+  .track-order-layout {
+    align-items: start;
+    grid-template-columns: 410px minmax(0, 1fr);
+  }
+}
+
+@keyframes cinematic-zoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.09);
+  }
+}
+
 @keyframes section-reveal {
   from {
     opacity: 0;
@@ -269,6 +352,7 @@ textarea {
   .hero-slide-copy,
   .hero-slide-progress,
   .hero-float-card,
+  .cinematic-hero-image,
   .checkout-step-card,
   .smart-suggestion {
     animation: none;

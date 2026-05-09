@@ -1,15 +1,32 @@
 import type { Metadata } from "next";
 import { MenuOrderClient } from "@/components/MenuOrderClient";
+import {
+  createBreadcrumbJsonLd,
+  createMenuJsonLd,
+  createPageMetadata,
+  jsonLdMarkup,
+  seoPages,
+} from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Menu | Jamal's Indian Restaurant Oxford",
-  description:
-    "Browse Jamal's Indian Restaurant menu in Oxford. Order starters, curries, tandoori dishes, biryani, sides, rice, breads, and set meals.",
-};
+export const metadata: Metadata = createPageMetadata(seoPages.menu);
+
+const menuJsonLd = createMenuJsonLd();
+const breadcrumbJsonLd = createBreadcrumbJsonLd([
+  { name: "Home", path: "/" },
+  { name: "Menu", path: "/menu" },
+]);
 
 export default function MenuPage() {
   return (
-    <main className="bg-white text-[#241D1D]">
+    <main className="bg-[#0D0A08] text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdMarkup(menuJsonLd)}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
+      />
       <MenuOrderClient />
     </main>
   );
