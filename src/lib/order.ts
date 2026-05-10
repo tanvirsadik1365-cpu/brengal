@@ -37,8 +37,8 @@ export type ActiveReward = {
 
 export const DELIVERY_MINIMUM = 20;
 export const COLLECTION_DISCOUNT_THRESHOLD = 20;
-export const DELIVERY_ONION_BHAJI_THRESHOLD = 25;
-export const DELIVERY_SIDE_DISH_THRESHOLD = 40;
+export const DELIVERY_ONION_BHAJI_THRESHOLD = 30;
+export const DELIVERY_SIDE_DISH_THRESHOLD = 45;
 export const DELIVERY_COMBO_THRESHOLD = 60;
 
 export const currencyFormatter = new Intl.NumberFormat("en-GB", {
@@ -173,7 +173,9 @@ export function getOrderTotal(subtotal: number, reward: ActiveReward) {
 }
 
 export function getSideDishOptions() {
-  return getCatalogItems().filter((item) => item.category === "Vegetable Dishes");
+  return getCatalogItems().filter(
+    (item) => item.category === "Vegetable Side Dishes",
+  );
 }
 
 export function normalizeGbPhone(value: string) {

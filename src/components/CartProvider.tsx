@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { CartItem, OrderType } from "@/lib/order";
+import { getCatalogMap, type CartItem, type OrderType } from "@/lib/order";
 
 type CartContextValue = {
   cart: Record<string, CartItem>;
@@ -43,7 +43,24 @@ function readStoredCart() {
       return {};
     }
 
-    return parsed as Record<string, CartItem>;
+    const catalog = getCatalogMap();
+    const sanitized: Record<string, CartItem> = {};
+
+    for (const [id, item] of Object.entries(parsed as Record<string, CartItem>)) {
+      const catalogItem = catalog.get(id);
+      const quantity = Number(item?.quantity);
+
+      if (!catalogItem || !Number.isFinite(quantity) || quantity <= 0) {
+        continue;
+      }
+
+      sanitized[id] = {
+        ...catalogItem,
+        quantity: Math.min(Math.floor(quantity), 99),
+      };
+    }
+
+    return sanitized;
   } catch {
     return {};
   }

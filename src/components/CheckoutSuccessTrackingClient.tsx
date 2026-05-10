@@ -27,6 +27,14 @@ type TrackingResponse = {
   tracking?: OrderTrackingResult;
 };
 
+type CheckoutSyncResponse = {
+  error?: string;
+  orderId?: string;
+  paymentStatus?: string;
+};
+
+type PaymentSyncState = "idle" | "checking" | "confirmed" | "pending" | "error";
+
 const lastOrderTrackingKey = "jamals-last-order-tracking-v1";
 const terminalStatuses = new Set(["completed", "cancelled"]);
 
@@ -122,7 +130,62 @@ export function CheckoutSuccessTrackingClient() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lookup, setLookup] = useState<LookupDetails | null>(null);
   const [manualOrderNumber, setManualOrderNumber] = useState("");
+  const [paymentSyncMessage, setPaymentSyncMessage] = useState("");
+  const [paymentSyncState, setPaymentSyncState] =
+    useState<PaymentSyncState>("idle");
   const [tracking, setTracking] = useState<OrderTrackingResult | null>(null);
+
+  const syncStripeCheckoutSession = useCallback(
+    async (sessionId: string, orderNumber: string) => {
+      if (!sessionId) {
+        return orderNumber;
+      }
+
+      setPaymentSyncState("checking");
+      setPaymentSyncMessage("Confirming card payment...");
+
+      try {
+        const response = await fetch("/api/checkout/sync", {
+          body: JSON.stringify({
+            orderId: orderNumber,
+            sessionId,
+          }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        });
+        const payload = (await response.json().catch(() => ({}))) as
+          CheckoutSyncResponse;
+
+        if (!response.ok) {
+          throw new Error(payload.error ?? "Payment confirmation failed.");
+        }
+
+        const syncedOrderNumber = clean(payload.orderId ?? null) || orderNumber;
+
+        if (payload.paymentStatus === "paid") {
+          setPaymentSyncState("confirmed");
+          setPaymentSyncMessage("Card payment confirmed.");
+        } else {
+          setPaymentSyncState("pending");
+          setPaymentSyncMessage(
+            "Card payment is still being confirmed. Please refresh shortly.",
+          );
+        }
+
+        return syncedOrderNumber;
+      } catch (syncError) {
+        setPaymentSyncState("error");
+        setPaymentSyncMessage(
+          syncError instanceof Error
+            ? syncError.message
+            : "Payment confirmation failed.",
+        );
+
+        return orderNumber;
+      }
+    },
+    [],
+  );
 
   const runLookup = useCallback(
     async (nextLookup: LookupDetails, silent = false) => {
@@ -168,24 +231,47 @@ export function CheckoutSuccessTrackingClient() {
   );
 
   useEffect(() => {
+    let active = true;
     const params = new URLSearchParams(window.location.search);
     const orderFromUrl =
       clean(params.get("order_id")) ||
       clean(params.get("order")) ||
       clean(params.get("orderNumber"));
+    const sessionId = clean(params.get("session_id"));
     const stored = readStoredTrackingLookup();
     const orderNumber = orderFromUrl || stored?.orderNumber || "";
     const contact = stored?.contact || "";
 
     setManualOrderNumber(orderNumber);
 
-    if (!orderNumber || !contact) {
-      setIsLoading(false);
-      return;
+    async function loadOrder() {
+      const syncedOrderNumber = await syncStripeCheckoutSession(
+        sessionId,
+        orderNumber,
+      );
+
+      if (!active) {
+        return;
+      }
+
+      if (syncedOrderNumber && syncedOrderNumber !== orderNumber) {
+        setManualOrderNumber(syncedOrderNumber);
+      }
+
+      if (!syncedOrderNumber || !contact) {
+        setIsLoading(false);
+        return;
+      }
+
+      void runLookup({ contact, orderNumber: syncedOrderNumber });
     }
 
-    void runLookup({ contact, orderNumber });
-  }, [runLookup]);
+    void loadOrder();
+
+    return () => {
+      active = false;
+    };
+  }, [runLookup, syncStripeCheckoutSession]);
 
   useEffect(() => {
     if (!lookup || !tracking || terminalStatuses.has(tracking.status)) {
@@ -240,6 +326,31 @@ export function CheckoutSuccessTrackingClient() {
               </button>
             ) : null}
           </div>
+
+          {paymentSyncState !== "idle" ? (
+            <div
+              className={`mt-6 flex items-center gap-3 rounded-lg border p-4 text-sm font-black ${
+                paymentSyncState === "error"
+                  ? "border-red-400/35 bg-red-500/10 text-red-100"
+                  : paymentSyncState === "confirmed"
+                    ? "border-emerald-300/30 bg-emerald-400/10 text-emerald-50"
+                    : "border-[#D7A542]/25 bg-[#D7A542]/10 text-white/70"
+              }`}
+            >
+              {paymentSyncState === "checking" ? (
+                <Loader2
+                  className="animate-spin text-[#D7A542]"
+                  size={18}
+                  aria-hidden="true"
+                />
+              ) : paymentSyncState === "confirmed" ? (
+                <CheckCircle2 size={18} aria-hidden="true" />
+              ) : (
+                <Clock size={18} aria-hidden="true" />
+              )}
+              <p>{paymentSyncMessage}</p>
+            </div>
+          ) : null}
 
           {isLoading ? (
             <div className="mt-8 flex items-center gap-3 rounded-lg border border-white/10 bg-white/6 p-4 text-sm font-black text-white/62">

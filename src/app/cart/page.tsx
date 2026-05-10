@@ -4,7 +4,7 @@ import { CartPageClient } from "@/components/CartPageClient";
 export const metadata: Metadata = {
   title: "Cart & Payment",
   description:
-    "Review your Jamal's Indian Restaurant order, choose collection or delivery, add your details, and pay by card or cash.",
+    "Review your Jamal's Indian Restaurant order, choose collection or delivery, add your details and pay by card or cash.",
 };
 
 export default function CartPage() {

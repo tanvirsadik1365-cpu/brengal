@@ -917,7 +917,10 @@ export async function markDatabaseOrderPaidFromStripe({
   stripeSessionId: string;
 }) {
   const supabase = getSupabaseAdmin();
-  let query = supabase.from("orders").select("id, order_status").limit(1);
+  let query = supabase
+    .from("orders")
+    .select("id, order_status, payment_status")
+    .limit(1);
 
   if (databaseOrderId) {
     query = query.eq("id", databaseOrderId);
@@ -935,6 +938,9 @@ export async function markDatabaseOrderPaidFromStripe({
     );
   }
 
+  const wasAlreadyPaid =
+    readString(order as UnknownRecord, "payment_status").toLowerCase() === "paid";
+
   const { error } = await supabase
     .from("orders")
     .update({
@@ -951,11 +957,13 @@ export async function markDatabaseOrderPaidFromStripe({
     );
   }
 
-  await addStatusEvent(
-    supabase,
-    order.id,
-    order.order_status,
-    "Stripe payment confirmed.",
-    order.order_status,
-  );
+  if (!wasAlreadyPaid) {
+    await addStatusEvent(
+      supabase,
+      order.id,
+      order.order_status,
+      "Stripe payment confirmed.",
+      order.order_status,
+    );
+  }
 }

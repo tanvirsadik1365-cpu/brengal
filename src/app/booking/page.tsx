@@ -36,7 +36,7 @@ export default function BookingPage() {
     {
       Icon: Users,
       title: "Groups welcome",
-      detail: "Small tables, birthdays, students, and larger parties.",
+      detail: "Small tables, birthdays, students and larger parties.",
     },
     {
       Icon: Wine,
@@ -86,7 +86,7 @@ export default function BookingPage() {
               Book a Table at Jamal&rsquo;s Oxford
             </h1>
             <p className="mt-5 max-w-[22rem] break-words text-base font-semibold leading-8 text-white/70 sm:max-w-2xl sm:text-lg">
-              Dinner, student groups, birthdays, and BYOB evenings at an Indian
+              Dinner, student groups, birthdays and BYOB evenings at an Indian
               restaurant in the heart of Oxford.
             </p>
             <div className="mt-7 grid max-w-[22rem] gap-3 sm:flex sm:max-w-md sm:flex-wrap">
@@ -167,7 +167,7 @@ export default function BookingPage() {
 
             <div className="p-5 sm:p-6 lg:p-7">
               <p className="text-sm font-semibold leading-7 text-white/64">
-                Warm service, familiar Indian dishes, and space for small
+                Warm service, familiar Indian dishes and space for small
                 tables or larger groups.
               </p>
 

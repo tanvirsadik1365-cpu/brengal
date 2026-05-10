@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -38,8 +37,6 @@ import {
   type OrderType,
 } from "@/lib/order";
 import {
-  foodImages,
-  menuFoodImages,
   menuSections,
   offers,
   restaurant,
@@ -53,33 +50,14 @@ type MenuCategory = {
   icon: string;
 };
 
-const menuItemCount = menuSections.reduce(
-  (total, section) => total + section.items.length,
-  0,
-);
-
 const featuredPickNames = [
   "Butter Chicken",
-  "Tandoori Mixed Grill Main",
+  "Tandoori Mixed Grill",
   "Special Biryani",
-  "Non Vegetarian Feast (per person)",
+  "Feast Non Vegetarian",
 ];
 
 const categories: MenuCategory[] = [
-  {
-    id: "popular-picks",
-    title: "Popular",
-    detail: "Fast favourites",
-    count: featuredPickNames.length,
-    icon: "Best",
-  },
-  {
-    id: "all",
-    title: "Full Menu",
-    detail: "Browse everything",
-    count: menuItemCount,
-    icon: "All",
-  },
   ...menuSections.map((section) => ({
     id: section.id,
     title: section.title,
@@ -107,13 +85,12 @@ const featuredPicks = featuredPickNames
       category: section.title,
       priceLabel: item.price,
       unitPrice: parseFirstPrice(item.price),
-      image: getDishImage(item.name, section.title, section.image),
       reason:
         {
           "Butter Chicken": "Creamy, gently spiced, and always popular.",
-          "Tandoori Mixed Grill Main": "A generous sizzling mix from the tandoor.",
+          "Tandoori Mixed Grill": "A generous sizzling mix from the tandoor.",
           "Special Biryani": "Fragrant rice with a fuller house mix.",
-          "Non Vegetarian Feast (per person)": "A ready-made feast for sharing.",
+          "Feast Non Vegetarian": "A ready-made feast for sharing.",
         }[item.name] ?? section.description,
     };
   })
@@ -157,7 +134,12 @@ function getCategoryIcon(title: string) {
     return "Rice";
   }
 
-  if (normalized.includes("bread") || normalized.includes("rice")) {
+  if (
+    normalized.includes("bread") ||
+    normalized.includes("rice") ||
+    normalized.includes("roti") ||
+    normalized.includes("nan")
+  ) {
     return "Side";
   }
 
@@ -238,125 +220,6 @@ function getSpiceLevel(name: string, detail: string) {
   return 0;
 }
 
-function getDishImage(name: string, category: string, fallback: string) {
-  const normalized = `${name} ${category}`.toLowerCase();
-
-  if (normalized.includes("poppadom")) return menuFoodImages.poppadom;
-  if (normalized.includes("mango chutney")) return menuFoodImages.mangoChutney;
-  if (normalized.includes("onion salad")) return menuFoodImages.onionSalad;
-  if (normalized.includes("lime pickle")) return menuFoodImages.limePickle;
-  if (normalized.includes("garlic chutney")) return menuFoodImages.garlicChutney;
-  if (normalized.includes("mint sauce")) return menuFoodImages.mintSauce;
-
-  if (normalized.includes("samosa")) return menuFoodImages.samosa;
-  if (normalized.includes("onion bhaji")) return menuFoodImages.onionBhaji;
-  if (normalized.includes("chicken tikka") || normalized.includes("lamb tikka")) {
-    return menuFoodImages.chickenTikka;
-  }
-  if (normalized.includes("mixed starter") || normalized.includes("mixed grill")) {
-    return menuFoodImages.mixedGrill;
-  }
-  if (normalized.includes("prawn puree")) return menuFoodImages.prawnCurry;
-  if (normalized.includes("sheek kebab") || normalized.includes("seekh kebab")) {
-    return menuFoodImages.seekhKebab;
-  }
-  if (normalized.includes("chilli paneer")) return menuFoodImages.chilliPaneer;
-
-  if (normalized.includes("king prawn") && normalized.includes("tandoori")) {
-    return foodImages.tandoori;
-  }
-  if (normalized.includes("paneer shashlick")) return menuFoodImages.paneerShashlik;
-  if (normalized.includes("shashlick")) return menuFoodImages.paneerShashlik;
-  if (normalized.includes("tandoori chicken")) return menuFoodImages.tandooriChicken;
-  if (normalized.includes("tandoori")) return menuFoodImages.tandooriChicken;
-
-  if (normalized.includes("vegetable biryani")) return menuFoodImages.vegetableBiryani;
-  if (normalized.includes("biryani")) return menuFoodImages.biryani;
-  if (normalized.includes("feast") || normalized.includes("set meal")) {
-    return menuFoodImages.setMeal;
-  }
-
-  if (normalized.includes("plain rice")) return menuFoodImages.plainRice;
-  if (normalized.includes("pilau rice")) return menuFoodImages.pilauRice;
-  if (normalized.includes("mushroom rice")) return menuFoodImages.mushroomRice;
-  if (normalized.includes("egg fried rice")) return menuFoodImages.eggFriedRice;
-  if (normalized.includes("onion fried rice")) return menuFoodImages.onionFriedRice;
-  if (normalized.includes("special rice")) return menuFoodImages.pilauRice;
-
-  if (normalized.includes("garlic naan") || normalized.includes("roshon naan")) {
-    return menuFoodImages.garlicNaan;
-  }
-  if (normalized.includes("cheese naan")) return menuFoodImages.cheeseNaan;
-  if (normalized.includes("peshwari naan")) return menuFoodImages.peshwariNaan;
-  if (normalized.includes("keema naan")) return menuFoodImages.keemaNaan;
-  if (normalized.includes("plain naan")) return menuFoodImages.naan;
-  if (normalized.includes("chapati")) return menuFoodImages.chapati;
-  if (normalized.includes("paratha")) return menuFoodImages.paratha;
-  if (normalized.includes("roti")) return menuFoodImages.chapati;
-
-  if (normalized.includes("bhindi")) return menuFoodImages.bhindiBhaji;
-  if (normalized.includes("bombay aloo")) return menuFoodImages.bombayAloo;
-  if (normalized.includes("brinjal")) return menuFoodImages.brinjalBhaji;
-  if (normalized.includes("chana")) return menuFoodImages.chanaMasala;
-  if (normalized.includes("mottar") || normalized.includes("baigon")) {
-    return menuFoodImages.brinjalBhaji;
-  }
-  if (normalized.includes("mushroom bhaji")) return menuFoodImages.mushroomBhaji;
-  if (normalized.includes("sag aloo") || normalized.includes("saag aloo")) {
-    return menuFoodImages.saagAloo;
-  }
-  if (normalized.includes("sag paneer") || normalized.includes("saag paneer")) {
-    return menuFoodImages.saagPaneer;
-  }
-  if (normalized.includes("sag bhaji") || normalized.includes("saag bhaji")) {
-    return menuFoodImages.saagCurry;
-  }
-  if (normalized.includes("sag dall") || normalized.includes("saag dall")) {
-    return menuFoodImages.tarkaDal;
-  }
-  if (normalized.includes("tarka dall") || normalized.includes("tarka dal")) {
-    return menuFoodImages.tarkaDal;
-  }
-
-  if (normalized.includes("butter chicken")) return menuFoodImages.butterChicken;
-  if (normalized.includes("massala") || normalized.includes("masala")) {
-    return normalized.includes("paneer") || normalized.includes("vegetable")
-      ? menuFoodImages.paneerCurry
-      : menuFoodImages.masala;
-  }
-  if (normalized.includes("balti")) return menuFoodImages.balti;
-  if (normalized.includes("jalfrezi") || normalized.includes("garlic chilli")) {
-    return menuFoodImages.jalfrezi;
-  }
-  if (normalized.includes("korma") || normalized.includes("passanda")) {
-    return menuFoodImages.korma;
-  }
-  if (normalized.includes("vindaloo") || normalized.includes("naga")) {
-    return menuFoodImages.vindaloo;
-  }
-  if (normalized.includes("rogan") || normalized.includes("bhuna") || normalized.includes("korai")) {
-    return menuFoodImages.rogan;
-  }
-  if (normalized.includes("sag") || normalized.includes("saag")) {
-    return menuFoodImages.saagCurry;
-  }
-  if (normalized.includes("fish") || normalized.includes("ayer jhol")) {
-    return menuFoodImages.fishCurry;
-  }
-  if (normalized.includes("prawn")) return menuFoodImages.prawnCurry;
-  if (normalized.includes("paneer") || normalized.includes("vegetable")) {
-    return menuFoodImages.paneerCurry;
-  }
-  if (normalized.includes("hotpot")) return menuFoodImages.hotpot;
-
-  if (normalized.includes("raitha") || normalized.includes("raita")) {
-    return menuFoodImages.raita;
-  }
-  if (normalized.includes("chips")) return menuFoodImages.chips;
-
-  return fallback;
-}
-
 function SpiceIndicator({ level }: { level: number }) {
   return (
     <span className="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-[0.1em] text-white/58">
@@ -424,8 +287,9 @@ export function MenuOrderClient() {
   const cartStore = useCart();
   const { cart, cartItems, itemCount, orderType } = cartStore;
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("popular-picks");
-  const [isFullMenuOpen, setIsFullMenuOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(
+    menuSections[0]?.id ?? "",
+  );
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const [rewardNotice, setRewardNotice] = useState<ActiveReward | null>(null);
   const { orderingAllowed, storeStatus } = useStoreStatus();
@@ -476,24 +340,12 @@ export function MenuOrderClient() {
   );
 
   const displayedSections = useMemo(() => {
-    if (normalizedSearch || isFullMenuOpen) {
-      return visibleSections;
-    }
-
-    if (activeCategory === "popular-picks") {
-      return [];
-    }
-
-    return visibleSections.filter((section) => section.id === activeCategory);
-  }, [activeCategory, isFullMenuOpen, normalizedSearch, visibleSections]);
+    return visibleSections;
+  }, [visibleSections]);
   const displayedItemCount = displayedSections.reduce(
     (totalItems, section) => totalItems + section.items.length,
     0,
   );
-  const activeCategoryTitle =
-    categories.find((category) => category.id === activeCategory)?.title ??
-    "Full menu";
-
   useEffect(() => {
     const previousType = previousRewardTypeRef.current;
     previousRewardTypeRef.current = activeReward.type;
@@ -523,7 +375,7 @@ export function MenuOrderClient() {
   }, [activeCategory]);
 
   useEffect(() => {
-    if ((!isFullMenuOpen && !normalizedSearch) || displayedSections.length < 2) {
+    if (displayedSections.length < 2) {
       return;
     }
 
@@ -557,7 +409,7 @@ export function MenuOrderClient() {
     });
 
     return () => observer.disconnect();
-  }, [displayedSections, isFullMenuOpen, normalizedSearch]);
+  }, [displayedSections]);
 
   function setSectionRef(id: string) {
     return (element: HTMLElement | null) => {
@@ -595,26 +447,12 @@ export function MenuOrderClient() {
 
   function scrollToCategory(categoryId: string, clearSearch = false) {
     setActiveCategory(categoryId);
-    setIsFullMenuOpen(categoryId === "all");
 
     if (clearSearch) {
       setSearchQuery("");
     }
 
     window.setTimeout(() => {
-      if (categoryId === "popular-picks") {
-        scrollToPopularPicks();
-        return;
-      }
-
-      if (categoryId === "all") {
-        menuTopRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-        return;
-      }
-
       sectionRefs.current[categoryId]?.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -624,14 +462,8 @@ export function MenuOrderClient() {
 
   function resetMenuView() {
     setSearchQuery("");
-    setIsFullMenuOpen(true);
-    scrollToCategory("all");
-  }
-
-  function scrollToPopularPicks() {
-    setIsFullMenuOpen(false);
-    setActiveCategory("popular-picks");
-    document.getElementById("popular-picks")?.scrollIntoView({
+    setActiveCategory(menuSections[0]?.id ?? "");
+    menuTopRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
@@ -863,11 +695,9 @@ export function MenuOrderClient() {
     priceLabel,
     unitPrice,
     detail,
-    image,
     popular = false,
   }: Omit<CartItem, "quantity" | "displayName"> & {
     detail: string;
-    image: string;
     popular?: boolean;
   }) {
     const orderItem = {
@@ -884,41 +714,30 @@ export function MenuOrderClient() {
 
     return (
       <article
-        className="group overflow-hidden rounded-lg border border-white/10 bg-[#15100E] shadow-[0_18px_44px_rgba(0,0,0,0.28)] transition hover:-translate-y-0.5 hover:border-[#D7A542]/55"
+        className="group rounded-lg border border-white/10 bg-[#15100E] p-4 shadow-[0_18px_44px_rgba(0,0,0,0.28)] transition hover:-translate-y-0.5 hover:border-[#D7A542]/55 sm:p-5"
       >
-        <div className="grid gap-0 md:grid-cols-[176px_minmax(0,1fr)]">
-          <div className="relative aspect-[5/3] overflow-hidden bg-[#211612] md:aspect-auto md:min-h-[190px]">
-            <Image
-              src={image}
-              alt={`${name} dish`}
-              fill
-              sizes="(min-width: 1024px) 176px, (min-width: 768px) 28vw, 100vw"
-              className="object-cover transition duration-700 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.05)_35%,rgba(13,10,8,0.72)_100%)]" />
-            {tags.includes("Bestseller") ? (
-              <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-[#D7A542] px-2.5 py-1 text-[11px] font-black uppercase text-[#150D08]">
-                <Sparkles size={12} aria-hidden="true" />
-                Bestseller
-              </span>
-            ) : null}
-          </div>
-
-          <div className="flex min-w-0 flex-col p-4 sm:p-5">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div className="min-w-0">
-                <p className="text-xs font-black uppercase tracking-[0.14em] text-[#D7A542]">
-                  {category}
-                </p>
-                <h3 className="mt-2 break-words text-xl font-black leading-tight text-white">
-                  {name}
-                </h3>
-              </div>
+        <div className="grid min-w-0 gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-start gap-2">
+              <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#D7A542]">
+                {category}
+              </p>
+              {tags.includes("Bestseller") ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#D7A542] px-2 py-0.5 text-[10px] font-black uppercase text-[#150D08]">
+                  <Sparkles size={11} aria-hidden="true" />
+                  Bestseller
+                </span>
+              ) : null}
             </div>
+            <h3 className="mt-2 break-words text-xl font-black leading-tight text-white">
+              {name}
+            </h3>
 
-            <p className="mt-3 text-sm leading-6 text-white/64">{detail}</p>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/64">
+              {detail}
+            </p>
 
-            <div className="mt-4 flex flex-wrap items-center gap-2">
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-white/72">
               {tags.map((tag) => (
                 <span
                   key={tag}
@@ -931,15 +750,15 @@ export function MenuOrderClient() {
                 <CheckCircle2 size={13} aria-hidden="true" />
                 Cooked to order
               </span>
-              <SpiceIndicator level={spiceLevel} />
+              {spiceLevel > 0 ? <SpiceIndicator level={spiceLevel} /> : null}
             </div>
+          </div>
 
-            <div className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-5">
-              <p className="inline-flex min-h-11 items-center rounded-full border border-[#D7A542]/25 bg-[#D7A542]/12 px-4 text-lg font-black text-[#D7A542]">
-                <Price value={priceLabel} />
-              </p>
-              <QuantityAction id={id} item={orderItem} quantity={quantity} />
-            </div>
+          <div className="flex items-center justify-between gap-3 sm:min-w-[148px] sm:flex-col sm:items-stretch sm:justify-center">
+            <p className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#D7A542]/25 bg-[#D7A542]/12 px-4 text-lg font-black text-[#D7A542]">
+              <Price value={priceLabel} />
+            </p>
+            <QuantityAction id={id} item={orderItem} quantity={quantity} compact />
           </div>
         </div>
       </article>
@@ -974,23 +793,13 @@ export function MenuOrderClient() {
             return (
               <article
                 key={item.id}
-                className="group flex min-h-[318px] flex-col overflow-hidden rounded-lg border border-white/10 bg-[#15100E] shadow-[0_18px_44px_rgba(0,0,0,0.28)] transition hover:-translate-y-1 hover:border-[#D7A542]/55"
+                className="group flex min-h-[238px] flex-col rounded-lg border border-white/10 bg-[#15100E] p-4 shadow-[0_18px_44px_rgba(0,0,0,0.28)] transition hover:-translate-y-1 hover:border-[#D7A542]/55"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#211612]">
-                  <Image
-                    src={item.image}
-                    alt={`${item.name} dish`}
-                    fill
-                    sizes="(min-width: 1280px) 18vw, (min-width: 640px) 45vw, 100vw"
-                    className="object-cover transition duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(13,10,8,0.72)_100%)]" />
-                  <span className="absolute left-3 top-3 rounded-full bg-[#D7A542] px-2.5 py-1 text-[11px] font-black uppercase text-[#150D08]">
+                <div className="flex flex-1 flex-col">
+                  <span className="w-fit rounded-full bg-[#D7A542] px-2.5 py-1 text-[11px] font-black uppercase text-[#150D08]">
                     Chef pick
                   </span>
-                </div>
-                <div className="flex flex-1 flex-col p-4">
-                  <p className="text-xs font-black uppercase tracking-[0.14em] text-[#D7A542]">
+                  <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-[#D7A542]">
                     {item.category}
                   </p>
                   <h3 className="mt-2 break-words text-lg font-black leading-snug text-white">
@@ -999,8 +808,8 @@ export function MenuOrderClient() {
                   <p className="mt-2 text-sm leading-6 text-white/62">
                     {item.reason}
                   </p>
-                  <div className="mt-auto flex items-center justify-between gap-4 pt-5">
-                    <p className="inline-flex min-h-11 items-center rounded-full border border-[#D7A542]/25 bg-[#D7A542]/12 px-4 text-lg font-black text-[#D7A542]">
+                  <div className="mt-auto flex items-center justify-between gap-3 pt-5">
+                    <p className="inline-flex min-h-10 items-center rounded-full border border-[#D7A542]/25 bg-[#D7A542]/12 px-4 text-lg font-black text-[#D7A542]">
                       <Price value={item.priceLabel} />
                     </p>
                     <QuantityAction
@@ -1405,15 +1214,7 @@ export function MenuOrderClient() {
     <section className="bg-[#0D0A08] px-4 pb-28 pt-6 text-white sm:px-6 sm:pt-8 lg:px-8 lg:pb-16">
       <div className="mx-auto max-w-[1500px]">
         <div className="relative mb-5 overflow-hidden rounded-lg border border-white/10 bg-[#15100E] p-4 shadow-[0_24px_70px_rgba(0,0,0,0.32)] sm:p-5 lg:p-6">
-          <Image
-            src="/jamals/real/main-dishes.jpg"
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover opacity-26"
-            aria-hidden="true"
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(13,10,8,0.96)_0%,rgba(13,10,8,0.78)_48%,rgba(13,10,8,0.5)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(215,165,66,0.14),rgba(138,52,48,0.12)_48%,rgba(21,16,14,0)_100%)]" />
           <div className="relative z-10">
             <div className="grid gap-5">
               <div className="min-w-0">
@@ -1535,27 +1336,15 @@ export function MenuOrderClient() {
               <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-[#D7A542]">
-                    {normalizedSearch
-                      ? "Search results"
-                      : isFullMenuOpen
-                        ? "Full menu"
-                        : activeCategory === "popular-picks"
-                          ? "Popular picks"
-                          : "Selected category"}
+                    {normalizedSearch ? "Search results" : "Full menu"}
                   </p>
                   <h2 className="mt-2 text-3xl font-black text-white">
                     {normalizedSearch
                       ? "Dishes matching your search"
-                      : activeCategory === "popular-picks" && !isFullMenuOpen
-                        ? "Pick a category when you are ready"
-                        : activeCategory === "all"
-                          ? "Browse the full menu"
-                          : activeCategoryTitle}
+                      : "Browse the full menu"}
                   </h2>
                   <p className="mt-2 text-sm leading-6 text-white/58">
-                    {activeCategory === "popular-picks" && !normalizedSearch && !isFullMenuOpen
-                      ? "Start with a favourite above, search, or open the full menu."
-                      : `${displayedItemCount} dishes shown.`}
+                    {displayedItemCount} dishes shown.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2 text-xs font-black uppercase text-white/58">
@@ -1579,16 +1368,7 @@ export function MenuOrderClient() {
                     className="scroll-mt-[178px] overflow-hidden rounded-lg border border-white/10 bg-white/6 shadow-[0_22px_54px_rgba(0,0,0,0.24)] backdrop-blur lg:scroll-mt-[116px]"
                   >
                     <div className="border-b border-white/10 bg-[#15100E] p-5 sm:p-6">
-                      <div className="grid gap-4 sm:grid-cols-[112px_minmax(0,1fr)_150px] sm:items-stretch">
-                        <div className="relative h-28 overflow-hidden rounded-lg bg-[#241D1D]">
-                          <Image
-                            src={section.image}
-                            alt={section.title}
-                            fill
-                            sizes="112px"
-                            className="object-cover"
-                          />
-                        </div>
+                      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_150px] sm:items-stretch">
                         <div className="flex min-w-0 flex-col justify-center">
                           <h2 className="break-words text-3xl font-black leading-tight text-white sm:text-4xl">
                             {section.title}
@@ -1630,7 +1410,6 @@ export function MenuOrderClient() {
                             priceLabel={item.price}
                             unitPrice={parseFirstPrice(item.price)}
                             detail={item.description || section.description}
-                            image={getDishImage(item.name, section.title, section.image)}
                             popular={"popular" in item && Boolean(item.popular)}
                           />
                         );
@@ -1639,24 +1418,6 @@ export function MenuOrderClient() {
                   </section>
                 ))}
               </div>
-
-              {activeCategory === "popular-picks" && !normalizedSearch && !isFullMenuOpen ? (
-                <div className="rounded-lg border border-white/10 bg-white/6 p-6 text-center shadow-[0_18px_44px_rgba(0,0,0,0.2)]">
-                  <h2 className="text-2xl font-black text-white">
-                    Ready to browse everything?
-                  </h2>
-                  <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-white/62">
-                    Use the category buttons for a faster page, or open the full menu.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => scrollToCategory("all")}
-                    className="mt-5 inline-flex h-11 items-center justify-center rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] transition hover:bg-white"
-                  >
-                    Show full menu
-                  </button>
-                </div>
-              ) : null}
 
               {normalizedSearch && displayedItemCount === 0 ? (
                 <div className="rounded-lg border border-dashed border-white/18 bg-white/6 p-8 text-center">
@@ -1667,14 +1428,14 @@ export function MenuOrderClient() {
                   />
                   <h2 className="mt-4 text-2xl font-black text-white">No dishes found</h2>
                   <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-white/62">
-                    Try another dish name or browse the full menu.
+                    Try another dish name or clear the search.
                   </p>
                   <button
                     type="button"
                     onClick={resetMenuView}
                     className="mt-5 inline-flex h-11 items-center justify-center rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] transition hover:bg-white"
                   >
-                    Show full menu
+                    Clear search
                   </button>
                 </div>
               ) : null}
