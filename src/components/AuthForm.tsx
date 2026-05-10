@@ -18,6 +18,7 @@ import {
   getSupabaseBrowser,
   isSupabaseBrowserConfigured,
 } from "@/lib/supabase-browser";
+import { GoogleMark } from "@/components/GoogleMark";
 
 type AuthMode = "forgot-password" | "reset-password" | "sign-in" | "sign-up";
 
@@ -43,6 +44,7 @@ export function AuthForm({ mode }: AuthFormProps) {
     tone: "error" | "success";
   } | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [oauthSubmitting, setOauthSubmitting] = useState(false);
 
   const title =
     mode === "sign-up"
@@ -98,6 +100,42 @@ export function AuthForm({ mode }: AuthFormProps) {
         error?: string;
       };
       throw new Error(result.error ?? "Customer profile could not be saved.");
+    }
+  }
+
+  async function handleGoogleSignIn() {
+    setStatus(null);
+
+    if (!isSupabaseBrowserConfigured()) {
+      setStatus({
+        message:
+          "Customer accounts are not configured yet. Add the public Supabase URL and publishable key.",
+        tone: "error",
+      });
+      return;
+    }
+
+    setOauthSubmitting(true);
+
+    try {
+      const supabase = getSupabaseBrowser();
+      const { error } = await supabase.auth.signInWithOAuth({
+        options: {
+          redirectTo: `${getOrigin()}/account`,
+        },
+        provider: "google",
+      });
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      setOauthSubmitting(false);
+      setStatus({
+        message:
+          error instanceof Error ? error.message : "Google sign in failed.",
+        tone: "error",
+      });
     }
   }
 
@@ -229,6 +267,25 @@ export function AuthForm({ mode }: AuthFormProps) {
       </div>
 
       <div className="mt-8 grid gap-5">
+        {mode === "sign-in" || mode === "sign-up" ? (
+          <>
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              disabled={oauthSubmitting || submitting}
+              className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full border border-white/14 bg-white px-4 py-3 text-sm font-black text-[#150D08] shadow-[0_16px_36px_rgba(0,0,0,0.18)] transition hover:bg-[#F6DFA4] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <GoogleMark />
+              {oauthSubmitting ? "Opening Google..." : "Continue with Google"}
+            </button>
+            <div className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.14em] text-white/38">
+              <span className="h-px flex-1 bg-white/10" />
+              <span>Email</span>
+              <span className="h-px flex-1 bg-white/10" />
+            </div>
+          </>
+        ) : null}
+
         {mode === "sign-up" ? (
           <>
             <label className="text-sm font-black">

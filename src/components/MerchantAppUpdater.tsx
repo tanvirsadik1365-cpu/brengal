@@ -2,13 +2,8 @@
 
 import { useEffect } from "react";
 
-const merchantTokenStorageKey = "jamals-merchant-token-v1";
 const merchantReloadStorageKey = "jamals-merchant-sw-reloaded-version-v1";
 const merchantServiceWorkerVersion = "2026-05-07-v5";
-
-type MerchantAppUpdaterProps = {
-  token?: string | null;
-};
 
 function registerMerchantServiceWorker() {
   if (!("serviceWorker" in navigator)) {
@@ -68,28 +63,21 @@ function registerMerchantServiceWorker() {
     });
 }
 
-export function MerchantAppUpdater({ token }: MerchantAppUpdaterProps) {
+export function MerchantAppUpdater() {
   useEffect(() => {
-    const cleanToken = token?.trim();
+    const url = new URL(window.location.href);
 
-    if (cleanToken) {
-      window.localStorage.setItem(merchantTokenStorageKey, cleanToken);
-    } else {
-      const savedToken = window.localStorage.getItem(merchantTokenStorageKey);
-
-      if (savedToken) {
-        const merchantPath = window.location.pathname.startsWith("/merchant/")
-          ? window.location.pathname
-          : "/merchant/orders";
-        const params = new URLSearchParams(window.location.search);
-
-        params.set("token", savedToken);
-        window.location.replace(`${merchantPath}?${params.toString()}`);
-      }
+    if (url.searchParams.has("token")) {
+      url.searchParams.delete("token");
+      window.history.replaceState(
+        null,
+        "",
+        `${url.pathname}${url.search}${url.hash}`,
+      );
     }
 
     registerMerchantServiceWorker();
-  }, [token]);
+  }, []);
 
   return null;
 }

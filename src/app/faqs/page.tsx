@@ -8,6 +8,7 @@ import {
   createBreadcrumbJsonLd,
   createFaqJsonLd,
   jsonLdMarkup,
+  shouldRenderJsonLd,
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -30,14 +31,18 @@ const breadcrumbJsonLd = createBreadcrumbJsonLd([
 export default function FaqsPage() {
   return (
     <main className="bg-white text-[#241D1D]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdMarkup(faqJsonLd)}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
-      />
+      {shouldRenderJsonLd ? (
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={jsonLdMarkup(faqJsonLd)}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
+          />
+        </>
+      ) : null}
       <PageIntro
         eyebrow="FAQs"
         title="Quick answers before you order."

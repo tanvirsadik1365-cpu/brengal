@@ -1,5 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { listMerchantReservations } from "@/lib/database-reservations";
+import {
+  isMerchantAuthConfigured,
+  isMerchantRequestAuthorized,
+} from "@/lib/merchant-auth";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -16,9 +20,7 @@ function jsonResponse(body: unknown, status = 200) {
 }
 
 export async function GET(request: NextRequest) {
-  const expectedToken = process.env.MERCHANT_DASHBOARD_TOKEN?.trim();
-
-  if (!expectedToken) {
+  if (!isMerchantAuthConfigured()) {
     return jsonResponse(
       {
         error:
@@ -28,10 +30,8 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const token = request.nextUrl.searchParams.get("token")?.trim();
-
-  if (token !== expectedToken) {
-    return jsonResponse({ error: "Merchant access token is invalid." }, 401);
+  if (!isMerchantRequestAuthorized(request)) {
+    return jsonResponse({ error: "Merchant session is invalid." }, 401);
   }
 
   try {

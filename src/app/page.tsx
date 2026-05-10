@@ -40,6 +40,7 @@ import {
   createPageMetadata,
   jsonLdMarkup,
   seoPages,
+  shouldRenderJsonLd,
 } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata(seoPages.home);
@@ -155,10 +156,12 @@ export default function Home() {
   return (
       <main className="overflow-hidden bg-[#0D0A08] pb-24 text-white lg:pb-0">
       <style dangerouslySetInnerHTML={{ __html: homeCriticalCss }} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
-      />
+      {shouldRenderJsonLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
+        />
+      ) : null}
 
       <section className="home-hero-section relative isolate overflow-hidden bg-[#0D0A08] px-4 sm:px-6 lg:px-8">
         <Image
@@ -351,10 +354,10 @@ export default function Home() {
                     </p>
                     <Link
                       href="/menu"
-                      className="mt-auto inline-flex min-h-11 items-center gap-2 self-start rounded-full bg-white px-4 text-sm font-black text-[#150D08] transition hover:bg-[#D7A542]"
+                      className="mt-auto inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-4 text-sm font-black text-[#150D08] shadow-[0_12px_28px_rgba(215,165,66,0.16)] transition hover:bg-white sm:w-auto sm:min-w-[172px]"
                     >
-                      Add from menu
                       <ShoppingBag size={16} aria-hidden="true" />
+                      Order this dish
                     </Link>
                   </div>
                 </article>

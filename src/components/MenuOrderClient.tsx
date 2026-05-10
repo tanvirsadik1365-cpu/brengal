@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
   BadgePercent,
@@ -425,7 +424,8 @@ export function MenuOrderClient() {
   const cartStore = useCart();
   const { cart, cartItems, itemCount, orderType } = cartStore;
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("popular-picks");
+  const [isFullMenuOpen, setIsFullMenuOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const [rewardNotice, setRewardNotice] = useState<ActiveReward | null>(null);
   const { orderingAllowed, storeStatus } = useStoreStatus();
@@ -475,10 +475,24 @@ export function MenuOrderClient() {
     [normalizedSearch],
   );
 
-  const visibleItemCount = visibleSections.reduce(
+  const displayedSections = useMemo(() => {
+    if (normalizedSearch || isFullMenuOpen) {
+      return visibleSections;
+    }
+
+    if (activeCategory === "popular-picks") {
+      return [];
+    }
+
+    return visibleSections.filter((section) => section.id === activeCategory);
+  }, [activeCategory, isFullMenuOpen, normalizedSearch, visibleSections]);
+  const displayedItemCount = displayedSections.reduce(
     (totalItems, section) => totalItems + section.items.length,
     0,
   );
+  const activeCategoryTitle =
+    categories.find((category) => category.id === activeCategory)?.title ??
+    "Full menu";
 
   useEffect(() => {
     const previousType = previousRewardTypeRef.current;
@@ -495,40 +509,10 @@ export function MenuOrderClient() {
     setRewardNotice(activeReward);
     const timeout = window.setTimeout(() => {
       setRewardNotice(null);
-    }, 4400);
+    }, 2000);
 
     return () => window.clearTimeout(timeout);
   }, [activeReward, subtotal]);
-
-  useEffect(() => {
-    if (normalizedSearch) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visible?.target.id) {
-          setActiveCategory(visible.target.id);
-        }
-      },
-      {
-        rootMargin: "-170px 0px -55% 0px",
-        threshold: [0.1, 0.25, 0.5],
-      },
-    );
-
-    Object.values(sectionRefs.current).forEach((section) => {
-      if (section) {
-        observer.observe(section);
-      }
-    });
-
-    return () => observer.disconnect();
-  }, [normalizedSearch, visibleSections.length]);
 
   useEffect(() => {
     compactCategoryButtonRefs.current[activeCategory]?.scrollIntoView({
@@ -537,6 +521,43 @@ export function MenuOrderClient() {
       inline: "center",
     });
   }, [activeCategory]);
+
+  useEffect(() => {
+    if ((!isFullMenuOpen && !normalizedSearch) || displayedSections.length < 2) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSection = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => {
+            const aTop = Math.abs(a.boundingClientRect.top - 190);
+            const bTop = Math.abs(b.boundingClientRect.top - 190);
+
+            return aTop - bTop;
+          })[0];
+
+        if (visibleSection?.target.id) {
+          setActiveCategory(visibleSection.target.id);
+        }
+      },
+      {
+        rootMargin: "-170px 0px -58% 0px",
+        threshold: [0.08, 0.2, 0.4],
+      },
+    );
+
+    displayedSections.forEach((section) => {
+      const element = sectionRefs.current[section.id];
+
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, [displayedSections, isFullMenuOpen, normalizedSearch]);
 
   function setSectionRef(id: string) {
     return (element: HTMLElement | null) => {
@@ -574,6 +595,7 @@ export function MenuOrderClient() {
 
   function scrollToCategory(categoryId: string, clearSearch = false) {
     setActiveCategory(categoryId);
+    setIsFullMenuOpen(categoryId === "all");
 
     if (clearSearch) {
       setSearchQuery("");
@@ -602,10 +624,12 @@ export function MenuOrderClient() {
 
   function resetMenuView() {
     setSearchQuery("");
+    setIsFullMenuOpen(true);
     scrollToCategory("all");
   }
 
   function scrollToPopularPicks() {
+    setIsFullMenuOpen(false);
     setActiveCategory("popular-picks");
     document.getElementById("popular-picks")?.scrollIntoView({
       behavior: "smooth",
@@ -763,7 +787,7 @@ export function MenuOrderClient() {
         aria-label="Menu categories"
         className={
           compact
-            ? "scrollbar-soft flex snap-x gap-2 overflow-x-auto pb-1"
+            ? "scrollbar-soft menu-category-rail flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1 pt-0.5"
             : "scrollbar-soft grid max-h-[calc(100vh-210px)] gap-2 overflow-y-auto pr-1"
         }
       >
@@ -781,15 +805,15 @@ export function MenuOrderClient() {
                   : undefined
               }
               type="button"
-              onClick={() => scrollToCategory(category.id)}
+              onClick={() => scrollToCategory(category.id, Boolean(normalizedSearch))}
               aria-pressed={active}
               className={`group ${
                 compact
-                  ? "flex h-12 min-w-[128px] shrink-0 snap-start items-center justify-center gap-2 rounded-full border px-3"
+                  ? "flex h-12 w-[150px] shrink-0 snap-center items-center justify-center gap-2 rounded-full border px-3"
                   : "grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-lg border px-4 py-3 text-left"
               } transition ${
                 active
-                  ? "border-[#D7A542]/80 bg-[#D7A542] text-[#150D08] shadow-md shadow-[#D7A542]/18"
+                  ? "border-[#D7A542]/90 bg-[#D7A542] text-[#150D08] shadow-[0_12px_28px_rgba(215,165,66,0.24)]"
                   : compact
                     ? "border-white/12 bg-white/8 text-white/76 backdrop-blur hover:border-[#D7A542]/45 hover:text-[#F6DFA4]"
                     : "border-white/10 bg-white/6 text-white/68 hover:border-[#D7A542]/45 hover:text-[#F6DFA4]"
@@ -859,8 +883,7 @@ export function MenuOrderClient() {
     const spiceLevel = getSpiceLevel(name, detail);
 
     return (
-      <motion.article
-        layout
+      <article
         className="group overflow-hidden rounded-lg border border-white/10 bg-[#15100E] shadow-[0_18px_44px_rgba(0,0,0,0.28)] transition hover:-translate-y-0.5 hover:border-[#D7A542]/55"
       >
         <div className="grid gap-0 md:grid-cols-[176px_minmax(0,1fr)]">
@@ -919,7 +942,7 @@ export function MenuOrderClient() {
             </div>
           </div>
         </div>
-      </motion.article>
+      </article>
     );
   }
 
@@ -1056,10 +1079,8 @@ export function MenuOrderClient() {
         <StoreStatusNotice className="mt-4" storeStatus={storeStatus} />
 
         {unlockedReward ? (
-          <motion.div
+          <div
             className="mt-4 rounded-lg border border-[#D7A542]/35 bg-[#D7A542]/12 p-4"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
           >
             <p className="flex items-center gap-2 text-sm font-black text-[#F6DFA4]">
               <Sparkles size={17} aria-hidden="true" />
@@ -1071,7 +1092,7 @@ export function MenuOrderClient() {
             <p className="mt-1 text-sm leading-6 text-white/62">
               {activeReward.detail}
             </p>
-          </motion.div>
+          </div>
         ) : null}
 
         {cartItems.length > 0 ? (
@@ -1277,24 +1298,17 @@ export function MenuOrderClient() {
 
   function MobileCartDrawer() {
     return (
-      <AnimatePresence>
+      <>
         {mobileCartOpen ? (
           <>
-            <motion.button
+            <button
               type="button"
               aria-label="Close cart"
               className="fixed inset-0 z-40 bg-black/62 backdrop-blur-sm lg:hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
               onClick={() => setMobileCartOpen(false)}
             />
-            <motion.aside
+            <aside
               className="fixed inset-x-0 bottom-0 z-50 max-h-[86svh] overflow-hidden rounded-t-[1.5rem] border border-white/10 bg-[#120D0B] text-white shadow-[0_-24px_70px_rgba(0,0,0,0.48)] lg:hidden"
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
               aria-label="Cart drawer"
             >
               <div className="mx-auto h-1.5 w-12 rounded-full bg-white/18 mt-3" />
@@ -1380,10 +1394,10 @@ export function MenuOrderClient() {
                   <ArrowRight size={18} aria-hidden="true" />
                 </Link>
               </div>
-            </motion.aside>
+            </aside>
           </>
         ) : null}
-      </AnimatePresence>
+      </>
     );
   }
 
@@ -1478,8 +1492,8 @@ export function MenuOrderClient() {
           </aside>
 
           <div className="min-w-0">
-            <div className="sticky top-[122px] z-20 -mx-4 bg-[#0D0A08]/94 px-4 py-3 shadow-[0_18px_34px_rgba(0,0,0,0.26)] backdrop-blur sm:-mx-6 sm:px-6 lg:top-24 lg:mx-0 lg:bg-transparent lg:px-0 lg:shadow-none lg:backdrop-blur-none">
-              <label className="relative block rounded-full border border-white/12 bg-white/8 shadow-[0_14px_34px_rgba(0,0,0,0.22)] backdrop-blur">
+            <div className="sticky top-[72px] z-30 -mx-4 border-y border-white/10 bg-[#0D0A08]/96 px-4 py-3 shadow-[0_18px_34px_rgba(0,0,0,0.32)] backdrop-blur-xl sm:-mx-6 sm:px-6 lg:top-24 lg:mx-0 lg:border-0 lg:bg-transparent lg:px-0 lg:shadow-none lg:backdrop-blur-none">
+              <label className="relative block rounded-full border border-white/14 bg-[#1C1715]/96 shadow-[0_14px_34px_rgba(0,0,0,0.24)] backdrop-blur">
                 <span className="sr-only">Search menu</span>
                 <Search
                   className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/50"
@@ -1505,7 +1519,7 @@ export function MenuOrderClient() {
                 ) : null}
               </label>
 
-              <div className="mt-3 space-y-3 lg:hidden">
+              <div className="menu-category-rail-wrap mt-3 lg:hidden">
                 <CategoryNav compact />
               </div>
             </div>
@@ -1521,15 +1535,27 @@ export function MenuOrderClient() {
               <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-[#D7A542]">
-                    {normalizedSearch ? "Search results" : "Full menu"}
+                    {normalizedSearch
+                      ? "Search results"
+                      : isFullMenuOpen
+                        ? "Full menu"
+                        : activeCategory === "popular-picks"
+                          ? "Popular picks"
+                          : "Selected category"}
                   </p>
                   <h2 className="mt-2 text-3xl font-black text-white">
                     {normalizedSearch
                       ? "Dishes matching your search"
-                      : "Browse the full menu"}
+                      : activeCategory === "popular-picks" && !isFullMenuOpen
+                        ? "Pick a category when you are ready"
+                        : activeCategory === "all"
+                          ? "Browse the full menu"
+                          : activeCategoryTitle}
                   </h2>
                   <p className="mt-2 text-sm leading-6 text-white/58">
-                    {visibleItemCount} dishes shown.
+                    {activeCategory === "popular-picks" && !normalizedSearch && !isFullMenuOpen
+                      ? "Start with a favourite above, search, or open the full menu."
+                      : `${displayedItemCount} dishes shown.`}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2 text-xs font-black uppercase text-white/58">
@@ -1545,7 +1571,7 @@ export function MenuOrderClient() {
               </div>
 
               <div className="mt-6 space-y-6">
-                {visibleSections.map((section) => (
+                {displayedSections.map((section) => (
                   <section
                     key={section.id}
                     id={section.id}
@@ -1614,7 +1640,25 @@ export function MenuOrderClient() {
                 ))}
               </div>
 
-              {visibleItemCount === 0 ? (
+              {activeCategory === "popular-picks" && !normalizedSearch && !isFullMenuOpen ? (
+                <div className="rounded-lg border border-white/10 bg-white/6 p-6 text-center shadow-[0_18px_44px_rgba(0,0,0,0.2)]">
+                  <h2 className="text-2xl font-black text-white">
+                    Ready to browse everything?
+                  </h2>
+                  <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-white/62">
+                    Use the category buttons for a faster page, or open the full menu.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => scrollToCategory("all")}
+                    className="mt-5 inline-flex h-11 items-center justify-center rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] transition hover:bg-white"
+                  >
+                    Show full menu
+                  </button>
+                </div>
+              ) : null}
+
+              {normalizedSearch && displayedItemCount === 0 ? (
                 <div className="rounded-lg border border-dashed border-white/18 bg-white/6 p-8 text-center">
                   <Search
                     className="mx-auto text-[#D7A542]"
@@ -1679,27 +1723,30 @@ export function MenuOrderClient() {
         </>
       ) : null}
 
-      <AnimatePresence>
-        {rewardNotice ? (
-          <motion.div
-            className="fixed bottom-20 left-1/2 z-40 w-[calc(100vw-2rem)] max-w-[300px] rounded-full border border-[#D7A542]/35 bg-[#15100E]/96 px-5 py-3 text-center text-white shadow-[0_18px_42px_rgba(0,0,0,0.36)] backdrop-blur lg:bottom-24"
-            initial={{ opacity: 0, x: "-50%", y: 18, scale: 0.98 }}
-            animate={{ opacity: 1, x: "-50%", y: 0, scale: 1 }}
-            exit={{ opacity: 0, x: "-50%", y: 18, scale: 0.98 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      {rewardNotice ? (
+          <div
+            className="fixed inset-x-3 bottom-24 z-40 mx-auto max-w-md overflow-hidden rounded-lg border border-[#D7A542]/35 bg-[#15100E]/96 p-3 text-white shadow-[0_18px_46px_rgba(0,0,0,0.42)] backdrop-blur-xl lg:inset-x-auto lg:bottom-6 lg:right-6 lg:w-[380px]"
             role="status"
           >
-            <p>
-              <span className="block text-[11px] font-black uppercase tracking-[0.14em] text-[#F6DFA4]">
-                Offer unlocked
+            <div className="absolute inset-x-0 top-0 h-1 bg-[#D7A542]" />
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08]">
+                <Sparkles size={19} aria-hidden="true" />
               </span>
-              <span className="block truncate text-base font-black">
-                {getCompactRewardTitle(rewardNotice)}
-              </span>
-            </p>
-          </motion.div>
+              <p className="min-w-0">
+                <span className="block text-[11px] font-black uppercase tracking-[0.14em] text-[#F6DFA4]">
+                  Offer unlocked
+                </span>
+                <span className="mt-0.5 block truncate text-base font-black">
+                  {getCompactRewardTitle(rewardNotice)}
+                </span>
+                <span className="mt-0.5 block truncate text-xs font-semibold text-white/62">
+                  {rewardNotice.detail}
+                </span>
+              </p>
+            </div>
+          </div>
         ) : null}
-      </AnimatePresence>
     </section>
   );
 }

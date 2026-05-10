@@ -1,38 +1,50 @@
 "use client";
 
 import Link from "next/link";
-import { BadgePercent, ShoppingBag, X } from "lucide-react";
+import {
+  ArrowRight,
+  BadgePercent,
+  ChevronLeft,
+  ChevronRight,
+  ShoppingBag,
+  X,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { offers } from "@/lib/restaurant";
 
 const dismissedStorageKey = "jamals-offer-popup-dismissed-v1";
-const popupDelayMs = 6500;
-const slideDelayMs = 4200;
+const popupDelayMs = 1200;
+const slideDelayMs = 3600;
 
 export function OfferPopup() {
   const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const isMerchantPage = pathname?.startsWith("/merchant");
-  const isOrderingFlow =
-    pathname === "/menu" ||
-    pathname === "/cart" ||
-    Boolean(pathname?.startsWith("/checkout"));
-  const shouldSuppressPopup =
-    isMerchantPage ||
-    pathname === "/" ||
-    pathname === "/booking" ||
-    pathname === "/gallery" ||
-    isOrderingFlow;
+  const shouldSuppressPopup = isMerchantPage;
+  const activeOffer = offers[activeIndex] ?? offers[0];
 
   function closePopup() {
     window.sessionStorage.setItem(dismissedStorageKey, "true");
     setIsVisible(false);
   }
 
+  function showPreviousOffer() {
+    setActiveIndex((current) => (current - 1 + offers.length) % offers.length);
+  }
+
+  function showNextOffer() {
+    setActiveIndex((current) => (current + 1) % offers.length);
+  }
+
   useEffect(() => {
-    if (shouldSuppressPopup || window.sessionStorage.getItem(dismissedStorageKey)) {
+    if (shouldSuppressPopup) {
+      setIsVisible(false);
+      return;
+    }
+
+    if (window.sessionStorage.getItem(dismissedStorageKey)) {
       return;
     }
 
@@ -41,7 +53,7 @@ export function OfferPopup() {
     }, popupDelayMs);
 
     return () => window.clearTimeout(timer);
-  }, [shouldSuppressPopup]);
+  }, [pathname, shouldSuppressPopup]);
 
   useEffect(() => {
     if (!isVisible) {
@@ -57,16 +69,14 @@ export function OfferPopup() {
     window.addEventListener("keydown", closeOnEscape);
 
     return () => window.removeEventListener("keydown", closeOnEscape);
-  }, []);
+  }, [isVisible]);
 
   useEffect(() => {
     if (!isVisible) {
       return;
     }
 
-    const intervalId = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % offers.length);
-    }, slideDelayMs);
+    const intervalId = window.setInterval(showNextOffer, slideDelayMs);
 
     return () => window.clearInterval(intervalId);
   }, [isVisible]);
@@ -79,82 +89,114 @@ export function OfferPopup() {
     <aside
       aria-labelledby="offer-popup-title"
       aria-describedby="offer-popup-description"
-      className="fixed inset-x-3 bottom-24 z-[80] mx-auto max-w-[420px] sm:inset-x-auto sm:bottom-6 sm:right-6 sm:w-[360px]"
+      className="fixed inset-x-3 top-[86px] z-[80] mx-auto max-w-[440px] sm:inset-x-auto sm:right-5 sm:top-24 sm:w-[420px]"
     >
-      <div className="relative overflow-hidden rounded-lg border border-[#5F241F] bg-[#8A3430] px-5 pb-5 pt-6 text-white shadow-2xl shadow-black/20 sm:px-6">
+      <div className="relative overflow-hidden rounded-lg border border-[#D7A542]/35 bg-[#15100E]/96 p-3.5 text-white shadow-[0_18px_48px_rgba(0,0,0,0.42)] backdrop-blur-xl">
+        <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#D7A542,#F6DFA4,#D7A542)]" />
         <button
           type="button"
           onClick={closePopup}
           aria-label="Close offer popup"
-          className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white text-[#241D1D] transition hover:bg-white"
+          className="absolute right-2.5 top-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/10 text-white transition hover:bg-white hover:text-[#150D08]"
         >
-          <X size={19} aria-hidden="true" />
+          <X size={16} aria-hidden="true" />
         </button>
 
-        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#D7A542] text-[#241D1D] shadow-sm">
-          <BadgePercent size={22} aria-hidden="true" />
-        </span>
+        <div className="flex min-h-[86px] items-start gap-3 pr-8">
+          <span className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08] shadow-[0_12px_28px_rgba(215,165,66,0.24)]">
+            <BadgePercent size={21} aria-hidden="true" />
+          </span>
 
-        <div
-          className="mt-4 flex transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-        >
-          {offers.map((offer, index) => (
-            <div
-              key={offer.title}
-              className="w-full shrink-0 px-1 text-center"
-              aria-hidden={activeIndex !== index}
-            >
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#F6DFA4]">
-                Offer {index + 1} of {offers.length}
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#F6DFA4]">
+                Offer {activeIndex + 1} of {offers.length}
               </p>
-              <h2
-                id={index === activeIndex ? "offer-popup-title" : undefined}
-                className="mt-2 text-2xl font-black leading-tight"
-              >
-                {offer.title}
-              </h2>
-              <p
-                id={
-                  index === activeIndex
-                    ? "offer-popup-description"
-                    : undefined
-                }
-                className="mx-auto mt-3 max-w-[290px] text-sm font-semibold leading-6 text-white/88"
-              >
-                {offer.detail}
-              </p>
-              <p className="mx-auto mt-3 inline-flex max-w-full rounded-full bg-white px-3 py-1.5 text-xs font-black uppercase text-[#8A3430]">
-                {offer.note}
-              </p>
+              <span className="rounded-full border border-[#D7A542]/30 bg-[#D7A542]/12 px-2 py-0.5 text-[10px] font-black uppercase text-[#F6DFA4]">
+                {activeOffer.note}
+              </span>
             </div>
-          ))}
+
+            <div className="mt-1 overflow-hidden">
+              <div
+                className="flex transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+              >
+                {offers.map((offer, index) => (
+                  <div
+                    key={offer.title}
+                    className="w-full shrink-0 pr-1"
+                    aria-hidden={activeIndex !== index}
+                  >
+                    <h2
+                      id={index === activeIndex ? "offer-popup-title" : undefined}
+                      className="text-lg font-black leading-tight text-white"
+                    >
+                      {offer.title}
+                    </h2>
+                    <p
+                      id={
+                        index === activeIndex
+                          ? "offer-popup-description"
+                          : undefined
+                      }
+                      className="mt-1 text-xs font-semibold leading-5 text-white/68"
+                    >
+                      {offer.detail}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-4 flex justify-center gap-2" aria-label="Offer slides">
-          {offers.map((offer, index) => (
+        <div className="mt-2 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-1.5" aria-label="Offer slides">
+            {offers.map((offer, index) => (
+              <button
+                key={offer.title}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                aria-label={`Show ${offer.title}`}
+                aria-pressed={activeIndex === index}
+                className={`h-2 rounded-full transition-all ${
+                  activeIndex === index
+                    ? "w-7 bg-[#D7A542]"
+                    : "w-2 bg-white/28 hover:bg-white/60"
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="flex items-center gap-1">
             <button
-              key={offer.title}
               type="button"
-              onClick={() => setActiveIndex(index)}
-              aria-label={`Show ${offer.title}`}
-              aria-pressed={activeIndex === index}
-              className={`h-2.5 rounded-full transition-all ${
-                activeIndex === index
-                  ? "w-7 bg-[#D7A542]"
-                  : "w-2.5 bg-white/35 hover:bg-white/70"
-              }`}
-            />
-          ))}
+              onClick={showPreviousOffer}
+              aria-label="Show previous offer"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/8 text-white/72 transition hover:border-[#D7A542]/45 hover:text-[#F6DFA4]"
+            >
+              <ChevronLeft size={16} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={showNextOffer}
+              aria-label="Show next offer"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/8 text-white/72 transition hover:border-[#D7A542]/45 hover:text-[#F6DFA4]"
+            >
+              <ChevronRight size={16} aria-hidden="true" />
+            </button>
+          </div>
         </div>
 
         <Link
           href="/menu"
           onClick={closePopup}
-          className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#241D1D] shadow-lg shadow-black/15 transition hover:bg-white"
+          className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-4 text-sm font-black text-[#150D08] shadow-lg shadow-black/15 transition hover:bg-white"
         >
           <ShoppingBag size={17} aria-hidden="true" />
-          Order now
+          Order online
+          <ArrowRight size={16} aria-hidden="true" />
         </Link>
       </div>
     </aside>

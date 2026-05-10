@@ -18,6 +18,7 @@ import {
   createReviewsJsonLd,
   jsonLdMarkup,
   seoPages,
+  shouldRenderJsonLd,
 } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata(seoPages.reviews);
@@ -49,14 +50,18 @@ function Stars({ label = "Five star rating" }: { label?: string }) {
 export default function ReviewsPage() {
   return (
     <main className="bg-[#0D0A08] text-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdMarkup(reviewsJsonLd)}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
-      />
+      {shouldRenderJsonLd ? (
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={jsonLdMarkup(reviewsJsonLd)}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
+          />
+        </>
+      ) : null}
       <section className="relative isolate overflow-hidden px-4 pb-12 pt-52 sm:px-6 lg:px-8 lg:py-16">
         <Image
           src={foodImages.biryani}

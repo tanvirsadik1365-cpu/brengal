@@ -24,7 +24,6 @@ type MerchantOrdersClientProps = {
   initialError?: string;
   initialOrderDate: string;
   initialOrders: MerchantOrder[];
-  token: string;
 };
 
 type OrdersResponse = {
@@ -91,20 +90,18 @@ function countsTowardTurnover(order: MerchantOrder) {
   return order.status !== "pending" && order.status !== "cancelled";
 }
 
-function MerchantNav({ token }: { token: string }) {
-  const encodedToken = encodeURIComponent(token);
-
+function MerchantNav() {
   return (
     <nav className="mt-5 flex flex-wrap gap-2">
       <Link
-        href={`/merchant/orders?token=${encodedToken}`}
+        href="/merchant/orders"
         className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926]"
       >
         <ShoppingBag size={16} aria-hidden="true" />
         Orders
       </Link>
       <Link
-        href={`/merchant/reservations?token=${encodedToken}`}
+        href="/merchant/reservations"
         className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC]"
       >
         <CalendarCheck size={16} aria-hidden="true" />
@@ -356,7 +353,6 @@ export function MerchantOrdersClient({
   initialError = "",
   initialOrderDate,
   initialOrders,
-  token,
 }: MerchantOrdersClientProps) {
   const [orders, setOrders] = useState(initialOrders);
   const [selectedDate, setSelectedDate] = useState(initialOrderDate);
@@ -365,16 +361,16 @@ export function MerchantOrdersClient({
   const [actioningStatus, setActioningStatus] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const ordersUrl = useMemo(() => {
-    const params = new URLSearchParams({
-      token,
-    });
+    const params = new URLSearchParams();
 
     if (selectedDate) {
       params.set("date", selectedDate);
     }
 
-    return `/api/merchant/orders?${params.toString()}`;
-  }, [selectedDate, token]);
+    const query = params.toString();
+
+    return `/api/merchant/orders${query ? `?${query}` : ""}`;
+  }, [selectedDate]);
 
   const refreshOrders = useCallback(
     async (signal?: AbortSignal) => {
@@ -419,8 +415,7 @@ export function MerchantOrdersClient({
       setLoadError("");
 
       try {
-        const params = new URLSearchParams({ token });
-        const response = await fetch(`/api/merchant/orders?${params.toString()}`, {
+        const response = await fetch("/api/merchant/orders", {
           body: JSON.stringify({ orderId, status }),
           cache: "no-store",
           headers: { "Content-Type": "application/json" },
@@ -449,7 +444,7 @@ export function MerchantOrdersClient({
         setActioningStatus("");
       }
     },
-    [token],
+    [],
   );
 
   useEffect(() => {
@@ -469,16 +464,20 @@ export function MerchantOrdersClient({
   useEffect(() => {
     const url = new URL(window.location.href);
 
-    url.searchParams.set("token", token);
-
     if (selectedDate) {
       url.searchParams.set("date", selectedDate);
     } else {
       url.searchParams.delete("date");
     }
 
-    window.history.replaceState(null, "", `${url.pathname}?${url.searchParams}`);
-  }, [selectedDate, token]);
+    const query = url.searchParams.toString();
+
+    window.history.replaceState(
+      null,
+      "",
+      `${url.pathname}${query ? `?${query}` : ""}`,
+    );
+  }, [selectedDate]);
 
   const pendingOrders = orders.filter((order) => order.status === "pending");
   const activeOrders = orders.filter(
@@ -503,7 +502,7 @@ export function MerchantOrdersClient({
             Website checkout orders are stored in Supabase and shown here for
             the restaurant team.
           </p>
-          <MerchantNav token={token} />
+          <MerchantNav />
           <p className="mt-3 text-xs font-black uppercase tracking-[0.12em] text-[#8A3430]">
             {lastUpdated
               ? `Last checked ${formatDateTime(lastUpdated.toISOString())}`
@@ -551,7 +550,7 @@ export function MerchantOrdersClient({
       </div>
 
       <div className="mt-8">
-        <MerchantStoreStatusControl token={token} />
+        <MerchantStoreStatusControl />
       </div>
 
       <div className="restaurant-card mt-8 rounded-lg p-5">

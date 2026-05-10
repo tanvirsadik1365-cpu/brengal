@@ -16,6 +16,7 @@ import {
   createPageMetadata,
   jsonLdMarkup,
   seoPages,
+  shouldRenderJsonLd,
 } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata(seoPages.booking);
@@ -51,10 +52,12 @@ export default function BookingPage() {
 
   return (
     <main className="bg-[#0D0A08] text-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
-      />
+      {shouldRenderJsonLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
+        />
+      ) : null}
       <section className="relative isolate overflow-hidden px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
         <Image
           src={foodImages.restaurant}

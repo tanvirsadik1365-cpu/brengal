@@ -138,7 +138,7 @@ export function SiteFooter() {
                   fill
                   sizes="(min-width: 640px) 148px, 128px"
                   className="object-contain transition duration-300 group-hover:scale-[1.03]"
-                  loading="eager"
+                  loading="lazy"
                 />
               </span>
             </a>
@@ -205,7 +205,7 @@ export function SiteFooter() {
                 height={168}
                 sizes="(min-width: 1280px) 238px, (min-width: 768px) 252px, 78vw"
                 className="h-auto w-full max-w-[252px] rounded-md bg-white shadow-[0_12px_24px_rgba(0,0,0,0.16)] sm:max-w-[268px] xl:max-w-[238px]"
-                loading="eager"
+                loading="lazy"
               />
               <Image
                 src={trustImages.foodHygieneRating}
@@ -214,7 +214,7 @@ export function SiteFooter() {
                 height={140}
                 sizes="(min-width: 1280px) 220px, (min-width: 768px) 236px, 72vw"
                 className="h-auto w-full max-w-[236px] shadow-[0_12px_24px_rgba(0,0,0,0.16)] xl:max-w-[220px]"
-                loading="eager"
+                loading="lazy"
               />
             </div>
           </div>
@@ -237,7 +237,7 @@ export function SiteFooter() {
               height={38}
               sizes="150px"
               className="h-auto"
-              loading="eager"
+              loading="lazy"
             />
           </a>
 

@@ -1,12 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import { LockKeyhole } from "lucide-react";
 import { MerchantAppUpdater } from "@/components/MerchantAppUpdater";
+import { MerchantLoginForm } from "@/components/MerchantLoginForm";
 import { MerchantOrdersClient } from "@/components/MerchantOrdersClient";
 import {
   isValidMerchantOrderDate,
   listMerchantOrders,
   type MerchantOrder,
 } from "@/lib/database-orders";
+import {
+  isMerchantAuthConfigured,
+  isMerchantPageAuthorized,
+} from "@/lib/merchant-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -28,26 +33,20 @@ export const viewport: Viewport = {
 type MerchantOrdersPageProps = {
   searchParams: Promise<{
     date?: string;
-    token?: string;
   }>;
 };
 
-function MerchantGate({
-  message,
-  token,
-}: {
-  message: string;
-  token?: string;
-}) {
+function MerchantGate({ message }: { message: string }) {
   return (
     <main className="bg-white px-4 py-16 text-[#241D1D] sm:px-6 lg:px-8">
-      <MerchantAppUpdater token={token} />
+      <MerchantAppUpdater />
       <section className="restaurant-card mx-auto max-w-2xl rounded-lg p-8 text-center">
         <LockKeyhole className="mx-auto text-[#8A3430]" size={44} aria-hidden="true" />
         <h1 className="mt-5 text-3xl font-black">Merchant access needed</h1>
         <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#6B5D5B]">
           {message}
         </p>
+        {isMerchantAuthConfigured() ? <MerchantLoginForm /> : null}
       </section>
     </main>
   );
@@ -57,22 +56,19 @@ export default async function MerchantOrdersPage({
   searchParams,
 }: MerchantOrdersPageProps) {
   const params = await searchParams;
-  const expectedToken = process.env.MERCHANT_DASHBOARD_TOKEN?.trim();
 
-  if (!expectedToken) {
+  if (!isMerchantAuthConfigured()) {
     return (
       <MerchantGate
-        message="Set MERCHANT_DASHBOARD_TOKEN in the environment, restart the app, then open this page with ?token=your-token."
-        token={params.token}
+        message="Set MERCHANT_DASHBOARD_TOKEN in the server environment, then restart the app."
       />
     );
   }
 
-  if (params.token !== expectedToken) {
+  if (!(await isMerchantPageAuthorized())) {
     return (
       <MerchantGate
-        message="Open this merchant page with the correct dashboard token."
-        token={params.token}
+        message="Enter the private dashboard token. It will be stored in a secure HttpOnly session cookie, not in the URL."
       />
     );
   }
@@ -94,13 +90,12 @@ export default async function MerchantOrdersPage({
 
   return (
     <main className="bg-white px-4 py-10 text-[#241D1D] sm:px-6 lg:px-8">
-      <MerchantAppUpdater token={params.token} />
+      <MerchantAppUpdater />
       <section className="mx-auto max-w-6xl">
         <MerchantOrdersClient
           initialError={loadError}
           initialOrderDate={initialOrderDate}
           initialOrders={orders}
-          token={params.token}
         />
       </section>
     </main>

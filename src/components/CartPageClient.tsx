@@ -24,9 +24,9 @@ import {
   Trash2,
   Truck,
   User,
-  UserPlus,
   UserRoundCheck,
 } from "lucide-react";
+import { GoogleMark } from "@/components/GoogleMark";
 import { useCart } from "@/components/CartProvider";
 import {
   COLLECTION_DISCOUNT_THRESHOLD,
@@ -64,7 +64,7 @@ type CustomerDetails = {
 };
 
 type CheckoutStep = "food" | "fulfilment" | "details" | "payment";
-type CheckoutAccountMode = "guest" | "sign-in" | "sign-up";
+type CheckoutAccountMode = "guest" | "sign-in";
 type PaymentChoice = "online" | "cash";
 
 const initialCustomer: CustomerDetails = {
@@ -139,7 +139,7 @@ export function CartPageClient() {
     message: string;
     tone: "error" | "success";
   } | null>(null);
-  const [accountSignupRequested, setAccountSignupRequested] = useState(false);
+  const [accountOAuthLoading, setAccountOAuthLoading] = useState(false);
   const { orderingAllowed, storeStatus } = useStoreStatus();
 
   const subtotal = useMemo(() => getSubtotal(cartItems), [cartItems]);
@@ -248,10 +248,23 @@ export function CartPageClient() {
       setAccountEmail(session?.user.email ?? "");
 
       if (session?.user.email) {
+        const metadata = session.user.user_metadata;
+        const profileName =
+          typeof metadata.full_name === "string"
+            ? metadata.full_name
+            : typeof metadata.name === "string"
+              ? metadata.name
+              : "";
+        const profilePhone =
+          typeof metadata.phone === "string" ? metadata.phone : "";
+
         setCheckoutAccountMode("sign-in");
-        setCustomer((current) =>
-          current.email ? current : { ...current, email: session.user.email ?? "" },
-        );
+        setCustomer((current) => ({
+          ...current,
+          email: current.email || session.user.email || "",
+          name: current.name || profileName,
+          phone: current.phone || profilePhone,
+        }));
       }
     }
 
@@ -273,10 +286,6 @@ export function CartPageClient() {
   }, [reward.requiresSideDish]);
 
   function updateCustomer(field: keyof CustomerDetails, value: string) {
-    if (field === "email" || field === "password") {
-      setAccountSignupRequested(false);
-    }
-
     setAccountNotice(null);
     setCustomer((current) => ({
       ...current,
@@ -370,42 +379,8 @@ export function CartPageClient() {
 
     const supabase = getSupabaseBrowser();
 
-    if (checkoutAccountMode === "sign-in") {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: customer.email,
-        password: customer.password,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      const accessToken = data.session?.access_token;
-
-      if (!accessToken) {
-        throw new Error("Sign in could not be completed. Try again.");
-      }
-
-      setAccountAccessToken(accessToken);
-      setAccountEmail(data.user?.email ?? customer.email);
-      await saveCustomerAccountProfile(accessToken);
-
-      return accessToken;
-    }
-
-    if (accountSignupRequested) {
-      return "";
-    }
-
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: customer.email,
-      options: {
-        data: {
-          full_name: customer.name,
-          phone: customer.phone,
-        },
-        emailRedirectTo: `${getOrigin()}/account`,
-      },
       password: customer.password,
     });
 
@@ -415,26 +390,51 @@ export function CartPageClient() {
 
     const accessToken = data.session?.access_token;
 
-    if (accessToken) {
-      setAccountAccessToken(accessToken);
-      setAccountEmail(data.user?.email ?? customer.email);
-      await saveCustomerAccountProfile(accessToken);
-      setAccountNotice({
-        message: "Account created. This order will be saved to your account.",
-        tone: "success",
-      });
-
-      return accessToken;
+    if (!accessToken) {
+      throw new Error("Sign in could not be completed. Try again.");
     }
 
-    setAccountSignupRequested(true);
-    setAccountNotice({
-      message:
-        "Account created. Check your email to confirm it. This order will still be saved with your email.",
-      tone: "success",
-    });
+    setAccountAccessToken(accessToken);
+    setAccountEmail(data.user?.email ?? customer.email);
+    await saveCustomerAccountProfile(accessToken);
 
-    return "";
+    return accessToken;
+  }
+
+  async function startGoogleCheckoutSignIn() {
+    setAccountNotice(null);
+
+    if (!isSupabaseBrowserConfigured()) {
+      setAccountNotice({
+        message: "Customer accounts are not configured yet.",
+        tone: "error",
+      });
+      return;
+    }
+
+    setCheckoutAccountMode("sign-in");
+    setAccountOAuthLoading(true);
+
+    try {
+      const supabase = getSupabaseBrowser();
+      const { error } = await supabase.auth.signInWithOAuth({
+        options: {
+          redirectTo: `${getOrigin()}/cart`,
+        },
+        provider: "google",
+      });
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      setAccountOAuthLoading(false);
+      setAccountNotice({
+        message:
+          error instanceof Error ? error.message : "Google sign in failed.",
+        tone: "error",
+      });
+    }
   }
 
   function saveLastOrderTracking(orderNumber: string) {
@@ -1037,10 +1037,10 @@ export function CartPageClient() {
         <p className={checkoutEyebrowClass}>
           Your details
         </p>
-        <h2 className="mt-1 text-2xl font-black">Guest checkout or account</h2>
+        <h2 className="mt-1 text-2xl font-black">Guest checkout or sign in</h2>
         <p className={`mt-2 ${checkoutMutedClass}`}>
-          Check out as a guest, sign in to save this order, or create an account
-          for faster repeat orders.
+          Continue quickly as a guest, or sign in to save this order to your
+          Jamal&apos;s account.
         </p>
         {accountEmail ? (
           <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm font-bold leading-6 text-emerald-900">
@@ -1051,7 +1051,7 @@ export function CartPageClient() {
 
         {!accountEmail ? (
           <>
-            <div className="mt-5 grid gap-1 rounded-lg border border-white/10 bg-white/6 p-1 text-sm sm:grid-cols-3">
+            <div className="mt-5 grid gap-1 rounded-lg border border-white/10 bg-white/6 p-1 text-sm sm:grid-cols-2">
               {[
                 {
                   icon: User,
@@ -1062,11 +1062,6 @@ export function CartPageClient() {
                   icon: LogIn,
                   id: "sign-in" as const,
                   label: "Sign in",
-                },
-                {
-                  icon: UserPlus,
-                  id: "sign-up" as const,
-                  label: "Create account",
                 },
               ].map((mode) => {
                 const active = checkoutAccountMode === mode.id;
@@ -1095,20 +1090,31 @@ export function CartPageClient() {
             </div>
 
             {checkoutAccountMode === "sign-in" ? (
-              <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-bold leading-6 text-white/58">
-                Use your existing account password.
-                <Link className="text-[#F6DFA4] underline-offset-4 hover:underline" href="/account/forgot-password">
-                  Forgot password?
-                </Link>
-              </p>
-            ) : null}
-
-            {checkoutAccountMode === "sign-up" ? (
-              <p className="mt-3 text-sm font-bold leading-6 text-white/58">
-                We will create your account before placing the order. If email
-                confirmation is required, this order is still stored against
-                the same email.
-              </p>
+              <div className="mt-4 rounded-lg border border-white/10 bg-white/6 p-4">
+                <button
+                  type="button"
+                  onClick={startGoogleCheckoutSignIn}
+                  disabled={accountOAuthLoading}
+                  className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-white px-4 py-3 text-sm font-black text-[#150D08] shadow-[0_14px_32px_rgba(0,0,0,0.18)] transition hover:bg-[#F6DFA4] disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <GoogleMark />
+                  {accountOAuthLoading ? "Opening Google..." : "Continue with Google"}
+                </button>
+                <div className="my-4 flex items-center gap-3 text-xs font-black uppercase tracking-[0.14em] text-white/38">
+                  <span className="h-px flex-1 bg-white/10" />
+                  <span>Email</span>
+                  <span className="h-px flex-1 bg-white/10" />
+                </div>
+                <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-bold leading-6 text-white/58">
+                  Use your existing account password.
+                  <Link
+                    className="text-[#F6DFA4] underline-offset-4 hover:underline"
+                    href="/account/forgot-password"
+                  >
+                    Forgot password?
+                  </Link>
+                </p>
+              </div>
             ) : null}
           </>
         ) : null}
@@ -1175,7 +1181,7 @@ export function CartPageClient() {
           </label>
           {accountPasswordRequired ? (
             <label className="text-sm font-black">
-              {checkoutAccountMode === "sign-in" ? "Password" : "Create password"}
+              Password
               <input
                 value={customer.password}
                 onChange={(event) =>
@@ -1183,16 +1189,8 @@ export function CartPageClient() {
                 }
                 className={`${checkoutFieldClass} h-12`}
                 type="password"
-                autoComplete={
-                  checkoutAccountMode === "sign-in"
-                    ? "current-password"
-                    : "new-password"
-                }
-                placeholder={
-                  checkoutAccountMode === "sign-in"
-                    ? "Your account password"
-                    : "At least 6 characters"
-                }
+                autoComplete="current-password"
+                placeholder="Your account password"
                 required
               />
             </label>

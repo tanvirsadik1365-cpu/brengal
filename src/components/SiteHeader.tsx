@@ -1,9 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { CalendarCheck, Menu, ShoppingBag, UserRound, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { logoImage, navLinks, restaurant } from "@/lib/restaurant";
@@ -61,12 +59,11 @@ export function SiteHeader() {
           aria-label="Home"
         >
           <span className="relative h-[50px] w-[72px] shrink-0 sm:h-[62px] sm:w-[90px] lg:h-[66px] lg:w-[96px]">
-            <Image
+            <img
               src={logoImage}
               alt={`${restaurant.name} logo`}
-              fill
-              sizes="(min-width: 1024px) 92px, (min-width: 640px) 84px, 72px"
-              className="object-contain"
+              className="h-full w-full object-contain"
+              decoding="async"
               loading="eager"
             />
           </span>
@@ -123,15 +120,8 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {isMenuOpen ? (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-t border-white/10 bg-[#0D0A08]/96 lg:hidden"
-          >
+      {isMenuOpen ? (
+          <div className="overflow-hidden border-t border-white/10 bg-[#0D0A08]/96 lg:hidden">
             <nav
               aria-label="Mobile navigation"
               className="mx-auto grid max-w-7xl gap-2 px-4 py-4 text-sm font-black sm:px-6"
@@ -174,9 +164,8 @@ export function SiteHeader() {
                 </Link>
               </div>
             </nav>
-          </motion.div>
+          </div>
         ) : null}
-      </AnimatePresence>
     </header>
   );
 }

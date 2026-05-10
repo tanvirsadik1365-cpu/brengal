@@ -7,6 +7,7 @@ import {
   createPageMetadata,
   jsonLdMarkup,
   seoPages,
+  shouldRenderJsonLd,
 } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata(seoPages.gallery);
@@ -20,14 +21,18 @@ const breadcrumbJsonLd = createBreadcrumbJsonLd([
 export default function GalleryPage() {
   return (
     <main className="bg-[#0D0A08] text-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdMarkup(galleryJsonLd)}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
-      />
+      {shouldRenderJsonLd ? (
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={jsonLdMarkup(galleryJsonLd)}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={jsonLdMarkup(breadcrumbJsonLd)}
+          />
+        </>
+      ) : null}
       <GalleryGrid images={galleryImages} />
     </main>
   );

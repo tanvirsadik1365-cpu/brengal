@@ -10,9 +10,17 @@ import {
   jsonLdMarkup,
   ogImageUrl,
   seoPages,
+  shouldRenderJsonLd,
   siteUrl,
 } from "@/lib/seo";
 import "./globals.css";
+
+const googleTagManagerId = "GTM-MKW7PRTP";
+const googleTagManagerScript = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${googleTagManagerId}');`;
 
 const browserExtensionHydrationCleanupScript = `
 (() => {
@@ -184,32 +192,30 @@ export default function RootLayout({
         <meta property="og:image" content={ogImageUrl} />
         <meta property="og:site_name" content="Jamal’s Oxford" />
         <meta property="og:locale" content="en_GB" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <script
-          id="google-tag-manager"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-MKW7PRTP');`,
-          }}
-        />
-        <script
-          id="restaurant-structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={jsonLdMarkup(createGlobalRestaurantJsonLd())}
-        />
+        {shouldRenderJsonLd ? (
+          <script
+            id="restaurant-structured-data"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={jsonLdMarkup(createGlobalRestaurantJsonLd())}
+          />
+        ) : null}
       </head>
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-MKW7PRTP"
+            src={`https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}`}
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
+        <Script
+          id="google-tag-manager"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: googleTagManagerScript,
+          }}
+        />
         {process.env.NODE_ENV === "development" ? (
           <Script
             id="browser-extension-hydration-cleanup"

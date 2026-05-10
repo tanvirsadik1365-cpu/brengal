@@ -18,7 +18,6 @@ import type { ReservationRow } from "@/lib/database-reservations";
 type MerchantReservationsClientProps = {
   initialError?: string;
   initialReservations: ReservationRow[];
-  token: string;
 };
 
 type ReservationsResponse = {
@@ -26,20 +25,18 @@ type ReservationsResponse = {
   reservations?: ReservationRow[];
 };
 
-function MerchantNav({ token }: { token: string }) {
-  const encodedToken = encodeURIComponent(token);
-
+function MerchantNav() {
   return (
     <nav className="mt-5 flex flex-wrap gap-2">
       <Link
-        href={`/merchant/orders?token=${encodedToken}`}
+        href="/merchant/orders"
         className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC]"
       >
         <ShoppingBag size={16} aria-hidden="true" />
         Orders
       </Link>
       <Link
-        href={`/merchant/reservations?token=${encodedToken}`}
+        href="/merchant/reservations"
         className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926]"
       >
         <CalendarCheck size={16} aria-hidden="true" />
@@ -138,16 +135,12 @@ function ReservationCard({ reservation }: { reservation: ReservationRow }) {
 export function MerchantReservationsClient({
   initialError = "",
   initialReservations,
-  token,
 }: MerchantReservationsClientProps) {
   const [reservations, setReservations] = useState(initialReservations);
   const [loadError, setLoadError] = useState(initialError);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-  const reservationsUrl = useMemo(
-    () => `/api/merchant/reservations?token=${encodeURIComponent(token)}`,
-    [token],
-  );
+  const reservationsUrl = useMemo(() => "/api/merchant/reservations", []);
 
   const refreshReservations = useCallback(
     async (signal?: AbortSignal) => {
@@ -213,7 +206,7 @@ export function MerchantReservationsClient({
             New website booking requests are stored in Supabase and shown here
             for the restaurant team.
           </p>
-          <MerchantNav token={token} />
+          <MerchantNav />
           <p className="mt-2 text-xs font-black uppercase tracking-[0.12em] text-[#8A3430]">
             {lastUpdated ? `Last checked ${formatDateTime(lastUpdated.toISOString())}` : ""}
           </p>
@@ -245,7 +238,7 @@ export function MerchantReservationsClient({
       </div>
 
       <div className="mt-8">
-        <MerchantStoreStatusControl token={token} />
+        <MerchantStoreStatusControl />
       </div>
 
       {loadError ? (

@@ -63,14 +63,15 @@ STRIPE_WEBHOOK_SECRET=
 Cash orders are saved directly to Supabase. Online card orders are created in
 Supabase first, then Stripe confirms payment through `/api/stripe/webhook`.
 Table reservations are saved through `/api/reservations` and can be viewed at
-`/merchant/reservations?token=MERCHANT_DASHBOARD_TOKEN`. Website orders can be
-viewed in the merchant app at `/merchant/orders?token=MERCHANT_DASHBOARD_TOKEN`,
+`/merchant/reservations` after signing in with the merchant dashboard token.
+Website orders can be viewed in the merchant app at `/merchant/orders`,
 including placed date/time, ready estimates, order items, and date filtering.
 Online card orders are saved as awaiting payment until Stripe confirms payment;
 only paid online orders and cash orders appear in the merchant app. Orders are
 accepted manually from the merchant app.
 The merchant app also controls live ordering status, prep time, and the support
-phone stored in `restaurant_operations`.
+phone stored in `restaurant_operations`. Merchant access is stored in a secure
+HttpOnly session cookie, not in the URL.
 When the merchant marks an order ready, customer tracking changes to the ready
 message for collection or delivery, and a ready/on-the-way email is sent if the
 Resend email variables are configured.

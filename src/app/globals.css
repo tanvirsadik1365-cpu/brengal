@@ -1,9 +1,9 @@
-@import "@fontsource/poppins/400.css";
-@import "@fontsource/poppins/500.css";
-@import "@fontsource/poppins/600.css";
-@import "@fontsource/poppins/700.css";
-@import "@fontsource/poppins/800.css";
-@import "@fontsource/poppins/900.css";
+@import "@fontsource/poppins/latin-400.css";
+@import "@fontsource/poppins/latin-500.css";
+@import "@fontsource/poppins/latin-600.css";
+@import "@fontsource/poppins/latin-700.css";
+@import "@fontsource/poppins/latin-800.css";
+@import "@fontsource/poppins/latin-900.css";
 @import "tailwindcss";
 
 :root {
@@ -98,8 +98,18 @@ button:disabled {
 input,
 select,
 textarea {
+  color-scheme: dark;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   min-width: 0;
+}
+
+select option {
+  background: #211a18;
+  color: #ffffff;
+}
+
+select option:disabled {
+  color: rgba(255, 255, 255, 0.52);
 }
 
 ::selection {
@@ -247,6 +257,39 @@ textarea {
 
 .gold-divider {
   background: linear-gradient(90deg, transparent, rgba(215, 165, 66, 0.72), transparent);
+}
+
+.menu-category-rail-wrap {
+  position: relative;
+}
+
+.menu-category-rail-wrap::before,
+.menu-category-rail-wrap::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0.25rem;
+  z-index: 2;
+  width: 1.4rem;
+}
+
+.menu-category-rail-wrap::before {
+  left: -0.25rem;
+  background: linear-gradient(90deg, #0D0A08, rgba(13, 10, 8, 0));
+}
+
+.menu-category-rail-wrap::after {
+  right: -0.25rem;
+  background: linear-gradient(270deg, #0D0A08, rgba(13, 10, 8, 0));
+}
+
+.menu-category-rail {
+  scroll-padding-inline: calc(50% - 75px);
+}
+
+.menu-category-rail::-webkit-scrollbar {
+  display: none;
 }
 
 .menu-order-layout {

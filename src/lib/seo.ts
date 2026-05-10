@@ -13,6 +13,7 @@ export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? restaurant.siteUrl;
 
 export const ogImageUrl = `${siteUrl}/og-image.jpg`;
+export const shouldRenderJsonLd = process.env.NODE_ENV === "production";
 
 export const seoPages = {
   home: {
@@ -197,14 +198,6 @@ export function createGlobalRestaurantJsonLd() {
   };
 }
 
-function createMenuItemDescription(name: string, description?: string) {
-  if (description?.trim()) {
-    return `${description.trim()} Available from Jamal's Indian restaurant in Oxford.`;
-  }
-
-  return `${name} from Jamal's Indian restaurant and takeaway on Walton Street, Oxford.`;
-}
-
 export function createMenuJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -222,20 +215,7 @@ export function createMenuJsonLd() {
       name: section.title,
       description: `${section.description} Order Indian food online from Jamal's Oxford.`,
       image: absoluteUrl(section.image),
-      hasMenuItem: section.items.map((item) => ({
-        "@type": "MenuItem",
-        name: item.name,
-        alternateName: `${item.name} - Indian food in Oxford`,
-        description: createMenuItemDescription(item.name, item.description),
-        image: absoluteUrl(section.image),
-        offers: {
-          "@type": "Offer",
-          price: item.price,
-          priceCurrency: "GBP",
-          availability: "https://schema.org/InStock",
-          url: absoluteUrl("/menu"),
-        },
-      })),
+      numberOfItems: section.items.length,
     })),
   };
 }

@@ -3,6 +3,11 @@ import {
   getMerchantStoreStatus,
   updateMerchantStoreStatus,
 } from "@/lib/store-status";
+import {
+  isMerchantAuthConfigured,
+  isMerchantRequestAuthorized,
+} from "@/lib/merchant-auth";
+import { rejectDisallowedOrigin } from "@/lib/request-protection";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -19,9 +24,7 @@ function jsonResponse(body: unknown, status = 200) {
 }
 
 function validateMerchantToken(request: NextRequest) {
-  const expectedToken = process.env.MERCHANT_DASHBOARD_TOKEN?.trim();
-
-  if (!expectedToken) {
+  if (!isMerchantAuthConfigured()) {
     return jsonResponse(
       {
         error:
@@ -31,10 +34,8 @@ function validateMerchantToken(request: NextRequest) {
     );
   }
 
-  const token = request.nextUrl.searchParams.get("token")?.trim();
-
-  if (token !== expectedToken) {
-    return jsonResponse({ error: "Merchant access token is invalid." }, 401);
+  if (!isMerchantRequestAuthorized(request)) {
+    return jsonResponse({ error: "Merchant session is invalid." }, 401);
   }
 
   return null;
@@ -85,6 +86,12 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
+  const originError = rejectDisallowedOrigin(request);
+
+  if (originError) {
+    return originError;
+  }
+
   const tokenError = validateMerchantToken(request);
 
   if (tokenError) {

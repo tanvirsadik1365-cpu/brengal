@@ -77,7 +77,7 @@ function clampPrepTime(value: number) {
   return Math.min(Math.max(value, 5), 120);
 }
 
-export function MerchantStoreStatusControl({ token }: { token: string }) {
+export function MerchantStoreStatusControl() {
   const [storeStatus, setStoreStatus] = useState<MerchantStoreStatus | null>(
     null,
   );
@@ -89,10 +89,7 @@ export function MerchantStoreStatusControl({ token }: { token: string }) {
   const [saving, setSaving] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [savedNotice, setSavedNotice] = useState("");
-  const statusUrl = useMemo(
-    () => `/api/merchant/store-status?token=${encodeURIComponent(token)}`,
-    [token],
-  );
+  const statusUrl = useMemo(() => "/api/merchant/store-status", []);
 
   const applyLoadedStatus = useCallback((nextStatus: MerchantStoreStatus) => {
     setStoreStatus(nextStatus);
