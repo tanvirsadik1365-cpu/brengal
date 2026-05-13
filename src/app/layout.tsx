@@ -84,8 +84,16 @@ const browserExtensionHydrationCleanupScript = `
 })();
 `;
 
+const metadataBaseUrl = (() => {
+  try {
+    return new URL(siteUrl);
+  } catch {
+    return new URL("https://www.bengal.restaurant");
+  }
+})();
+
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: metadataBaseUrl,
   applicationName: restaurant.name,
   title: {
     default: seoPages.home.title,
