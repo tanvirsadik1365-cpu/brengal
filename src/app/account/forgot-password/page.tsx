@@ -3,7 +3,7 @@ import { AuthForm } from "@/components/AuthForm";
 
 export const metadata: Metadata = {
   title: "Forgot Password",
-  description: "Reset your Jamal's Indian Restaurant customer account password.",
+  description: "Reset your Bengal customer account password.",
 };
 
 export default function ForgotPasswordPage() {
@@ -18,7 +18,7 @@ export default function ForgotPasswordPage() {
             Reset access securely.
           </h1>
           <p className="mt-5 max-w-xl text-base font-semibold leading-8 text-white/62">
-            Enter your email and we will send the reset link for your Jamal&apos;s
+            Enter your email and we will send the reset link for your Bengal
             account.
           </p>
         </div>

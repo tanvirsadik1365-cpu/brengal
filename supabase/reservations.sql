@@ -1,6 +1,6 @@
 create table if not exists public.reservations (
   id uuid primary key default gen_random_uuid(),
-  restaurant_id text not null default 'jamals-restaurant',
+  restaurant_id text not null default 'bengal-restaurant',
   customer_id uuid references public.customers(id) on delete set null,
   customer_auth_user_id uuid references auth.users(id) on delete set null,
   reservation_reference text not null unique,

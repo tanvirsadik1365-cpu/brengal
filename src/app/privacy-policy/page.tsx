@@ -7,7 +7,7 @@ import { foodImages, restaurant } from "@/lib/restaurant";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Privacy policy for Jamal's Indian Restaurant online ordering, bookings, customer accounts, and order tracking.",
+    "Privacy policy for Bengal online ordering, bookings, customer accounts, and order tracking.",
   alternates: {
     canonical: "/privacy-policy",
   },
@@ -71,7 +71,7 @@ export default function PrivacyPolicyPage() {
         title="Privacy Policy"
         description={`How ${restaurant.website} handles customer details for ordering, bookings, accounts, and order tracking.`}
         imageSrc={foodImages.restaurant}
-        imageAlt="Jamal's dining room"
+        imageAlt="Bengal restaurant branding"
         meta="Last updated May 8, 2026"
       />
 

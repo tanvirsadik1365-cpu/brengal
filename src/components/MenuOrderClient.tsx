@@ -22,11 +22,7 @@ import { useCart } from "@/components/CartProvider";
 import { StoreStatusNotice } from "@/components/StoreStatusNotice";
 import { useStoreStatus } from "@/components/useStoreStatus";
 import {
-  COLLECTION_DISCOUNT_THRESHOLD,
-  DELIVERY_COMBO_THRESHOLD,
   DELIVERY_MINIMUM,
-  DELIVERY_ONION_BHAJI_THRESHOLD,
-  DELIVERY_SIDE_DISH_THRESHOLD,
   formatCurrency,
   getActiveReward,
   getCollectionDiscount,
@@ -51,20 +47,10 @@ type MenuCategory = {
 };
 
 const featuredPickNames = [
-  "Butter Chicken",
+  "Bengal Boat Curry",
   "Tandoori Mixed Grill",
-  "Special Biryani",
-  "Feast Non Vegetarian",
-];
-
-const categories: MenuCategory[] = [
-  ...menuSections.map((section) => ({
-    id: section.id,
-    title: section.title,
-    detail: section.description,
-    count: section.items.length,
-    icon: getCategoryIcon(section.title),
-  })),
+  "Old Delhi Butter Chicken",
+  "Hyderabadi Dum Biriyani",
 ];
 
 const featuredPicks = featuredPickNames
@@ -87,10 +73,10 @@ const featuredPicks = featuredPickNames
       unitPrice: parseFirstPrice(item.price),
       reason:
         {
-          "Butter Chicken": "Creamy, gently spiced, and always popular.",
+          "Bengal Boat Curry": "Tiger king prawns with Bengal coriander sauce.",
           "Tandoori Mixed Grill": "A generous sizzling mix from the tandoor.",
-          "Special Biryani": "Fragrant rice with a fuller house mix.",
-          "Feast Non Vegetarian": "A ready-made feast for sharing.",
+          "Old Delhi Butter Chicken": "Mild, buttery and built for comfort.",
+          "Hyderabadi Dum Biriyani": "Clay-pot rice with aromatic Hyderabad spices.",
         }[item.name] ?? section.description,
     };
   })
@@ -239,45 +225,21 @@ function SpiceIndicator({ level }: { level: number }) {
 }
 
 function getRewardLabel(subtotal: number, orderType: OrderType) {
-  if (orderType === "delivery" && subtotal < DELIVERY_MINIMUM) {
-    return `${formatCurrency(DELIVERY_MINIMUM - subtotal)} more for delivery`;
-  }
-
   if (orderType === "delivery") {
-    if (subtotal >= DELIVERY_COMBO_THRESHOLD) {
-      return `${formatCurrency(DELIVERY_COMBO_THRESHOLD)} offer: Onion Bhaji + side dish`;
-    }
-
-    if (subtotal >= DELIVERY_SIDE_DISH_THRESHOLD) {
-      return `${formatCurrency(DELIVERY_SIDE_DISH_THRESHOLD)} offer: free side dish`;
-    }
-
-    if (subtotal >= DELIVERY_ONION_BHAJI_THRESHOLD) {
-      return `${formatCurrency(DELIVERY_ONION_BHAJI_THRESHOLD)} offer: free Onion Bhaji`;
-    }
+    return subtotal > 0 ? "10% direct offer + free delivery" : "Free delivery in MK18 and MK17";
   }
 
-  if (subtotal >= COLLECTION_DISCOUNT_THRESHOLD) {
-    return orderType === "collection"
-      ? "10% collection discount"
-      : "Delivery minimum reached";
+  if (subtotal > 0) {
+    return "10% direct offer active";
   }
 
-  return `${formatCurrency(
-    Math.max(COLLECTION_DISCOUNT_THRESHOLD - subtotal, 0),
-  )} more for your first offer`;
+  return "Add a dish to unlock 10% off";
 }
 
 function getCompactRewardTitle(reward: ActiveReward) {
   switch (reward.type) {
-    case "collection-discount":
+    case "direct-discount":
       return "10% off";
-    case "onion-bhaji":
-      return "Free Onion Bhaji";
-    case "side-dish":
-      return "Free side dish";
-    case "combo":
-      return "Free Onion Bhaji + side dish";
     default:
       return reward.title;
   }
@@ -310,11 +272,7 @@ export function MenuOrderClient() {
   const unlockedReward =
     activeReward.type === "none" ? null : activeReward.title;
   const total = getOrderTotal(subtotal, activeReward);
-  const rewardGoal =
-    orderType === "delivery"
-      ? DELIVERY_COMBO_THRESHOLD
-      : COLLECTION_DISCOUNT_THRESHOLD;
-  const progressPercent = Math.min((subtotal / rewardGoal) * 100, 100);
+  const progressPercent = subtotal > 0 ? 100 : 0;
   const needsDeliveryMinimum =
     orderType === "delivery" && subtotal > 0 && subtotal < DELIVERY_MINIMUM;
   const normalizedSearch = normalize(searchQuery);
@@ -342,10 +300,27 @@ export function MenuOrderClient() {
   const displayedSections = useMemo(() => {
     return visibleSections;
   }, [visibleSections]);
+  const displayedCategories: MenuCategory[] = useMemo(
+    () =>
+      displayedSections.map((section) => ({
+        id: section.id,
+        title: section.title,
+        detail: section.description,
+        count: section.items.length,
+        icon: getCategoryIcon(section.title),
+      })),
+    [displayedSections],
+  );
   const displayedItemCount = displayedSections.reduce(
     (totalItems, section) => totalItems + section.items.length,
     0,
   );
+
+  useEffect(() => {
+    if (!displayedCategories.some((category) => category.id === activeCategory)) {
+      setActiveCategory(displayedCategories[0]?.id ?? "");
+    }
+  }, [activeCategory, displayedCategories]);
   useEffect(() => {
     const previousType = previousRewardTypeRef.current;
     previousRewardTypeRef.current = activeReward.type;
@@ -446,6 +421,10 @@ export function MenuOrderClient() {
   }
 
   function scrollToCategory(categoryId: string, clearSearch = false) {
+    if (!displayedCategories.some((category) => category.id === categoryId)) {
+      return;
+    }
+
     setActiveCategory(categoryId);
 
     if (clearSearch) {
@@ -545,21 +524,15 @@ export function MenuOrderClient() {
         id: "collection" as const,
         title: "Collect",
         helper:
-          subtotal >= COLLECTION_DISCOUNT_THRESHOLD
-            ? "Collection discount active"
-            : `${formatCurrency(
-                Math.max(COLLECTION_DISCOUNT_THRESHOLD - subtotal, 0),
-              )} to 10% collection discount`,
+          subtotal > 0
+            ? "10% direct offer active"
+            : "Add a dish for 10% off",
       },
       {
         id: "delivery" as const,
         title: "Delivery",
         helper:
-          subtotal >= DELIVERY_ONION_BHAJI_THRESHOLD
-            ? getRewardLabel(subtotal, "delivery")
-            : `${formatCurrency(
-                Math.max(DELIVERY_ONION_BHAJI_THRESHOLD - subtotal, 0),
-              )} to free Onion Bhaji`,
+          getRewardLabel(subtotal, "delivery"),
       },
     ];
     const activeMethod =
@@ -623,7 +596,7 @@ export function MenuOrderClient() {
             : "scrollbar-soft grid max-h-[calc(100vh-210px)] gap-2 overflow-y-auto pr-1"
         }
       >
-        {categories.map((category) => {
+        {displayedCategories.map((category) => {
           const active = activeCategory === category.id;
 
           return (
@@ -662,7 +635,7 @@ export function MenuOrderClient() {
                 <span className="block truncate text-sm font-black leading-none">
                   {category.title}
                 </span>
-                {!compact && category.id !== "all" ? (
+                {!compact ? (
                   <span
                     className={`mt-1 block truncate text-xs font-semibold ${
                       active ? "text-[#150D08]/65" : "text-white/48"
@@ -893,7 +866,7 @@ export function MenuOrderClient() {
           >
             <p className="flex items-center gap-2 text-sm font-black text-[#F6DFA4]">
               <Sparkles size={17} aria-hidden="true" />
-              Reward unlocked
+              Offer unlocked
             </p>
             <p className="mt-2 text-lg font-black text-white">
               {activeReward.title}
@@ -978,7 +951,8 @@ export function MenuOrderClient() {
             />
           </div>
           <p className="mt-3 text-xs leading-6 text-white/58">
-            {restaurant.deliveryInfo}. Only one reward applies per order.
+            {restaurant.deliveryInfo}. Bengal's 10% direct offer is applied
+            before checkout.
           </p>
         </div>
 
@@ -1015,7 +989,7 @@ export function MenuOrderClient() {
         <div className="mt-5 rounded-lg border border-white/10 bg-white/6 p-4">
           <h3 className="flex items-center gap-2 font-black text-[#D7A542]">
             <BadgePercent size={18} aria-hidden="true" />
-            One active reward
+            Bengal offers
           </h3>
           <div className="mt-3 grid gap-2">
             {offers.map((offer) => (
@@ -1041,28 +1015,28 @@ export function MenuOrderClient() {
             <span className="text-white/58">Subtotal</span>
             <span className="font-black">{formatCurrency(subtotal)}</span>
           </div>
-          {orderType === "collection" ? (
+          {collectionDiscount > 0 ? (
             <div className="flex justify-between gap-4">
-              <span className="text-white/58">Collection discount</span>
+              <span className="text-white/58">Direct discount</span>
               <span className="font-black text-[#D7A542]">
                 -{formatCurrency(collectionDiscount)}
               </span>
             </div>
-          ) : (
+          ) : orderType === "delivery" ? (
             <div className="flex justify-between gap-4">
-              <span className="text-white/58">Delivery minimum</span>
+              <span className="text-white/58">Delivery charge</span>
               <span className="font-black text-white">
-                {formatCurrency(20)}
+                Free
               </span>
             </div>
-          )}
+          ) : null}
           <div className="flex justify-between gap-4">
             <span className="text-white/58">Order type</span>
             <span className="font-black capitalize">{orderType}</span>
           </div>
           {unlockedReward ? (
             <div className="flex justify-between gap-4">
-              <span className="text-white/58">Reward</span>
+              <span className="text-white/58">Offer</span>
               <span className="text-right font-black text-[#D7A542]">
                 {unlockedReward}
               </span>
@@ -1220,15 +1194,15 @@ export function MenuOrderClient() {
               <div className="min-w-0">
                 <p className="inline-flex items-center gap-2 rounded-full bg-[#D7A542] px-3 py-1.5 text-xs font-black uppercase text-[#150D08]">
                   <Flame size={14} aria-hidden="true" />
-                  Jamal&apos;s menu
+                  Bengal menu
                 </p>
                 <h1 className="mt-3 max-w-4xl text-4xl font-black leading-tight text-white sm:text-5xl">
-                  Indian Food Menu in Oxford
+                  Order Bengal Menu Online
                 </h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">
-                  Rich curries, smoky tandoori grills, biryani and fresh sides
-                  for collection, delivery or a table-ready dinner on Walton
-                  Street.
+                  Explore starters, curries, biryani, tandoori grill, rice and
+                  fresh naan. Choose collection or free local delivery in MK17
+                  and MK18.
                 </p>
               </div>
             </div>
@@ -1242,8 +1216,8 @@ export function MenuOrderClient() {
               />
 
               {[
-                ["\u00a320", "Delivery minimum"],
-                ["OX1-OX5", "Delivery area"],
+                ["Free", "Delivery charge"],
+                ["MK17/MK18", "Delivery area"],
               ].map(([value, label]) => (
                 <div
                   key={label}
@@ -1350,7 +1324,7 @@ export function MenuOrderClient() {
                 <div className="flex flex-wrap gap-2 text-xs font-black uppercase text-white/58">
                   <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-2">
                     <Clock size={14} aria-hidden="true" />
-                    Closed Tuesday
+                    Lunch & dinner service
                   </span>
                   <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-2">
                     <ShoppingBag size={14} aria-hidden="true" />

@@ -3,14 +3,13 @@ import Image from "next/image";
 import {
   CalendarCheck,
   Clock,
-  GraduationCap,
   MapPin,
   Phone,
   Users,
-  Wine,
+  Utensils,
 } from "lucide-react";
 import { BookingForm } from "@/components/BookingForm";
-import { foodImages, restaurant, studentOffer } from "@/lib/restaurant";
+import { foodImages, restaurant } from "@/lib/restaurant";
 import {
   createBreadcrumbJsonLd,
   createPageMetadata,
@@ -30,23 +29,23 @@ export default function BookingPage() {
   const bookingHighlights = [
     {
       Icon: Clock,
-      title: "Dinner service",
-      detail: "Open from 5.00pm most evenings.",
+      title: "Lunch and dinner",
+      detail: "Lunch, dinner and Sunday buffet service.",
     },
     {
       Icon: Users,
       title: "Groups welcome",
-      detail: "Small tables, birthdays, students and larger parties.",
+      detail: "Small tables, birthdays, family meals and larger parties.",
     },
     {
-      Icon: Wine,
-      title: "BYOB evenings",
-      detail: studentOffer.drinks,
+      Icon: Utensils,
+      title: "Sunday buffet",
+      detail: "Adult and child buffet pricing is listed on the menu.",
     },
     {
-      Icon: GraduationCap,
-      title: studentOffer.title,
-      detail: `£${studentOffer.price} per head, ${studentOffer.discount}.`,
+      Icon: CalendarCheck,
+      title: "Direct booking",
+      detail: "Send a request online or call Bengal directly.",
     },
   ];
 
@@ -83,11 +82,11 @@ export default function BookingPage() {
               Book a table
             </p>
             <h1 className="mt-5 max-w-4xl break-words text-[2rem] font-black leading-[0.98] text-white sm:text-6xl lg:text-7xl">
-              Book a Table at Jamal&rsquo;s Oxford
+              Book a Table at Bengal Winslow
             </h1>
             <p className="mt-5 max-w-[22rem] break-words text-base font-semibold leading-8 text-white/70 sm:max-w-2xl sm:text-lg">
-              Dinner, student groups, birthdays and BYOB evenings at an Indian
-              restaurant in the heart of Oxford.
+              Lunch, dinner, Sunday buffet, birthdays and group meals at an
+              Indian and Bengali restaurant in Winslow.
             </p>
             <div className="mt-7 grid max-w-[22rem] gap-3 sm:flex sm:max-w-md sm:flex-wrap">
               <a
@@ -112,27 +111,27 @@ export default function BookingPage() {
                 <MapPin size={18} aria-hidden="true" />
               </span>
               <div>
-                <h2 className="text-xl font-black">107-108 Walton Street</h2>
+                <h2 className="text-xl font-black">40 High St, Winslow</h2>
                 <p className="mt-2 text-sm font-semibold leading-6 text-white/64">
-                  Oxford OX2 6AJ. Open from 5.00pm most evenings.
+                  Buckingham MK18 3HB. Free local delivery for MK18 and MK17.
                 </p>
               </div>
             </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <div className="min-h-[92px] rounded-lg border border-white/10 bg-white/8 p-4">
                 <p className="text-2xl font-black text-[#D7A542]">
-                  Since 1956
+                  MK18
                 </p>
                 <p className="mt-1 text-xs font-black uppercase tracking-[0.12em] text-white/54">
-                  Serving Oxford
+                  High Street
                 </p>
               </div>
               <div className="min-h-[92px] rounded-lg border border-white/10 bg-white/8 p-4">
                 <p className="text-2xl font-black text-[#D7A542]">
-                  200
+                  Free
                 </p>
                 <p className="mt-1 text-xs font-black uppercase tracking-[0.12em] text-white/54">
-                  Capacity
+                  Delivery
                 </p>
               </div>
             </div>
@@ -167,8 +166,8 @@ export default function BookingPage() {
 
             <div className="p-5 sm:p-6 lg:p-7">
               <p className="text-sm font-semibold leading-7 text-white/64">
-                Warm service, familiar Indian dishes and space for small
-                tables or larger groups.
+                Warm service, Bengali specials, familiar Indian dishes and
+                space for small tables or larger groups.
               </p>
 
               <div className="mt-6 grid gap-3 sm:grid-cols-2">

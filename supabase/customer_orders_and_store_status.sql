@@ -28,7 +28,7 @@ create index if not exists customers_email_lower_idx
 
 create table if not exists public.orders (
   id uuid primary key default gen_random_uuid(),
-  restaurant_id text not null default 'jamals-restaurant',
+  restaurant_id text not null default 'bengal-restaurant',
   customer_id uuid references public.customers(id) on delete set null,
   customer_auth_user_id uuid references auth.users(id) on delete set null,
   order_number text not null unique,
@@ -59,7 +59,7 @@ create table if not exists public.orders (
 );
 
 alter table public.orders
-  add column if not exists restaurant_id text not null default 'jamals-restaurant',
+  add column if not exists restaurant_id text not null default 'bengal-restaurant',
   add column if not exists customer_id uuid references public.customers(id) on delete set null,
   add column if not exists customer_auth_user_id uuid
     references auth.users(id) on delete set null,
@@ -219,7 +219,7 @@ where public.orders.customer_id = public.customers.id
 
 create table if not exists public.reservations (
   id uuid primary key default gen_random_uuid(),
-  restaurant_id text not null default 'jamals-restaurant',
+  restaurant_id text not null default 'bengal-restaurant',
   customer_id uuid references public.customers(id) on delete set null,
   customer_auth_user_id uuid references auth.users(id) on delete set null,
   reservation_reference text not null unique,
@@ -238,7 +238,7 @@ create table if not exists public.reservations (
 );
 
 alter table public.reservations
-  add column if not exists restaurant_id text not null default 'jamals-restaurant',
+  add column if not exists restaurant_id text not null default 'bengal-restaurant',
   add column if not exists customer_id uuid references public.customers(id) on delete set null,
   add column if not exists customer_auth_user_id uuid references auth.users(id) on delete set null,
   add column if not exists reservation_reference text,
@@ -277,7 +277,7 @@ create table if not exists public.restaurant_operations (
   restaurant_id text primary key,
   store_status text not null default 'open',
   prep_time_minutes integer not null default 20,
-  support_phone text not null default '01865 55 49 05',
+  support_phone text not null default '01296 71 22 22',
   updated_at timestamptz not null default now(),
   constraint restaurant_operations_store_status_check
     check (store_status in ('open', 'busy', 'paused', 'closed')),
@@ -292,19 +292,19 @@ insert into public.restaurant_operations (
   support_phone
 )
 values (
-  'jamals-restaurant',
+  'bengal-restaurant',
   'open',
   20,
-  '01865 55 49 05'
+  '01296 71 22 22'
 )
 on conflict (restaurant_id) do nothing;
 
 -- Keep existing merchant settings, but replace the original placeholder phone
 -- if this migration is being re-run on an older database.
 update public.restaurant_operations
-set support_phone = '01865 55 49 05',
+set support_phone = '01296 71 22 22',
     updated_at = now()
-where restaurant_id = 'jamals-restaurant'
+where restaurant_id = 'bengal-restaurant'
   and support_phone in ('+44 20 7946 0100', '020 7946 0100', '');
 
 -- If an older app changed order_status without creating audit rows, add one

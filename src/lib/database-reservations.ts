@@ -35,13 +35,13 @@ function getDbErrorMessage(action: string, error?: DbError | null) {
 }
 
 function getRestaurantId() {
-  return process.env.RESTAURANT_ID?.trim() || "jamals-restaurant";
+  return process.env.RESTAURANT_ID?.trim() || "bengal-restaurant";
 }
 
 function createReservationReference() {
   const suffix = Math.random().toString(36).slice(2, 6).toUpperCase();
 
-  return `JAMALS-RES-${Date.now()}-${suffix}`;
+  return `BENGAL-RES-${Date.now()}-${suffix}`;
 }
 
 export async function getRequestUser(accessToken?: string | null) {

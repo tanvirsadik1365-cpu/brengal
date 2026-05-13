@@ -4,7 +4,7 @@ import { CheckoutSuccessTrackingClient } from "@/components/CheckoutSuccessTrack
 export const metadata: Metadata = {
   title: "Order Received",
   description:
-    "Order confirmation for Jamal's Indian Restaurant online and cash orders.",
+    "Order confirmation for Bengal online and cash orders.",
 };
 
 export default function CheckoutSuccessPage() {

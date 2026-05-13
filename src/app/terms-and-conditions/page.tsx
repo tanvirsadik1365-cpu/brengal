@@ -7,7 +7,7 @@ import { foodImages, restaurant } from "@/lib/restaurant";
 export const metadata: Metadata = {
   title: "Terms & Conditions",
   description:
-    "Terms and conditions for ordering, delivery, collection, reservations, offers, and website use at Jamal's Indian Restaurant Oxford.",
+    "Terms and conditions for ordering, delivery, collection, reservations, offers, and website use at Bengal in Winslow.",
   alternates: {
     canonical: "/terms-and-conditions",
   },
@@ -18,13 +18,13 @@ const terms = [
     Icon: ShoppingBag,
     title: "Orders",
     detail:
-      "Orders placed through this website are sent to Jamal's for acceptance. An order is not confirmed until it has been accepted by the restaurant or payment/order confirmation has been issued.",
+      "Orders placed through this website are sent to Bengal for acceptance. An order is not confirmed until it has been accepted by the restaurant or payment/order confirmation has been issued.",
   },
   {
     Icon: Truck,
     title: "Collection & Delivery",
     detail:
-      "Collection is from 107-108 Walton Street, Oxford OX2 6AJ. Delivery availability, minimum order values, charges, times, and eligible postcodes may change during busy periods.",
+      "Collection is from 40 High St, Winslow, Buckingham MK18 3HB. Free delivery is listed within 5 miles for MK18 and MK17 postcodes, subject to restaurant availability during busy periods.",
   },
   {
     Icon: CreditCard,
@@ -44,7 +44,7 @@ const sections = [
   {
     title: "Offers & Rewards",
     body:
-      "Collection discount and delivery rewards are applied only when the basket meets the active offer rules shown on the website. Offers cannot always be combined and may be changed, paused, or withdrawn by the restaurant.",
+      "The 10% direct offer and free local delivery are applied according to the active rules shown on the website. Offers cannot always be combined and may be changed, paused, or withdrawn by the restaurant.",
   },
   {
     title: "Cancellations & Refunds",
@@ -79,9 +79,9 @@ export default function TermsAndConditionsPage() {
       <PageIntro
         eyebrow="Legal"
         title="Terms & Conditions"
-        description={`Terms for using ${restaurant.website}, placing online orders, booking tables, and contacting Jamal's.`}
+        description={`Terms for using ${restaurant.website}, placing online orders, booking tables, and contacting Bengal.`}
         imageSrc={foodImages.exterior}
-        imageAlt="Jamal's exterior on Walton Street"
+        imageAlt="Bengal restaurant branding"
         meta="Last updated May 8, 2026"
       />
 
@@ -115,7 +115,7 @@ export default function TermsAndConditionsPage() {
           <div className="mt-8 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-6">
             <h2 className="text-xl font-black">Questions about these terms?</h2>
             <p className="mt-2 text-sm leading-7 text-[#6B5D5B]">
-              Contact Jamal&apos;s before ordering if anything is unclear,
+              Contact Bengal before ordering if anything is unclear,
               especially for allergies, order changes, refunds, or large
               bookings.
             </p>

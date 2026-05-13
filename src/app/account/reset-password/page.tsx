@@ -3,7 +3,7 @@ import { AuthForm } from "@/components/AuthForm";
 
 export const metadata: Metadata = {
   title: "Reset Password",
-  description: "Choose a new password for your Jamal's customer account.",
+  description: "Choose a new password for your Bengal customer account.",
 };
 
 export default function ResetPasswordPage() {

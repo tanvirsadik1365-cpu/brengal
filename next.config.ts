@@ -101,7 +101,7 @@ const nextConfig: NextConfig = {
         headers: securityHeaders,
       },
       {
-        source: "/jamals/:path*",
+        source: "/bengal/:path*",
         headers: immutableCacheHeaders,
       },
       {

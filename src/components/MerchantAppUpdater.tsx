@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const merchantReloadStorageKey = "jamals-merchant-sw-reloaded-version-v1";
+const merchantReloadStorageKey = "bengal-merchant-sw-reloaded-version-v1";
 const merchantServiceWorkerVersion = "2026-05-07-v5";
 
 function registerMerchantServiceWorker() {

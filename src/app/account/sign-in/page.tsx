@@ -3,7 +3,7 @@ import { AuthForm } from "@/components/AuthForm";
 
 export const metadata: Metadata = {
   title: "Sign In",
-  description: "Sign in to your Jamal's Indian Restaurant customer account.",
+  description: "Sign in to your Bengal customer account.",
 };
 
 export default function SignInPage() {

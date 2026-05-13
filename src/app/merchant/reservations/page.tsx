@@ -17,12 +17,12 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Merchant Reservations",
-  description: "Merchant view of Jamal's Indian Restaurant table reservations.",
+  description: "Merchant view of Bengal table reservations.",
   manifest: "/merchant-manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Jamal's Merchant",
+    title: "Bengal Merchant",
   },
 };
 

@@ -4,7 +4,7 @@ import { AuthForm } from "@/components/AuthForm";
 export const metadata: Metadata = {
   title: "Create Account",
   description:
-    "Create a Jamal's Indian Restaurant customer account for faster bookings.",
+    "Create a Bengal customer account for faster bookings.",
 };
 
 export default function SignUpPage() {

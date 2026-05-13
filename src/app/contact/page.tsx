@@ -32,8 +32,8 @@ const fieldClass =
 const contactCards = [
   {
     Icon: MapPin,
-    title: "Walton Street",
-    body: "107-108 Walton Street, Oxford, OX2 6AJ",
+    title: "High Street Winslow",
+    body: "40 High St, Winslow, Buckingham MK18 3HB",
     cta: "Open maps",
     href: restaurant.mapsUrl,
   },
@@ -53,8 +53,8 @@ const contactCards = [
   },
   {
     Icon: Store,
-    title: "Dinner service",
-    body: "Collection, delivery, and table bookings from Walton Street.",
+    title: "Restaurant service",
+    body: "Collection, free local delivery, and table bookings from High Street.",
     cta: "Book table",
     href: "/booking",
   },
@@ -72,7 +72,7 @@ export default function ContactPage() {
       <section className="relative isolate overflow-hidden px-4 pb-12 pt-52 sm:px-6 lg:px-8 lg:py-16">
         <Image
           src={foodImages.exterior}
-          alt="Jamal's Indian Restaurant exterior on Walton Street Oxford"
+          alt="Bengal Restaurant Indian and Bengali cuisine in Winslow"
           fill
           priority
           sizes="100vw"
@@ -91,14 +91,14 @@ export default function ContactPage() {
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#F6DFA4] shadow-[0_14px_34px_rgba(0,0,0,0.28)] backdrop-blur">
               <MessageCircle size={15} aria-hidden="true" />
-              Contact Jamal&apos;s
+              Contact Bengal
             </p>
             <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">
-              Contact Jamal&rsquo;s Oxford
+              Contact Bengal Winslow
             </h1>
             <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/68">
               Speak to the restaurant for bookings, takeaway orders, delivery
-              questions, and Walton Street directions.
+              questions, and High Street directions.
             </p>
           </div>
 
@@ -235,10 +235,10 @@ export default function ContactPage() {
                   Map
                 </p>
                 <h2 className="mt-2 text-3xl font-black">
-                  107-108 Walton Street, Oxford
+                  40 High St, Winslow
                 </h2>
                 <p className="mt-3 text-sm font-semibold leading-7 text-white/58">
-                  Jamal&apos;s is on Walton Street in Jericho, Oxford, OX2 6AJ.
+                  Bengal is on High Street in Winslow, Buckingham MK18 3HB.
                 </p>
                 <a
                   href={restaurant.mapsUrl}
@@ -251,7 +251,7 @@ export default function ContactPage() {
                 </a>
               </div>
               <iframe
-                title="Jamal's Indian Restaurant location on Google Maps"
+                title="Bengal Restaurant location on Google Maps"
                 src={restaurant.mapsEmbedUrl}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

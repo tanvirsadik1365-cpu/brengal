@@ -13,9 +13,10 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { offers } from "@/lib/restaurant";
 
-const dismissedStorageKey = "jamals-offer-popup-dismissed-v1";
+const dismissedStorageKey = "bengal-offer-popup-dismissed-at-v2";
 const popupDelayMs = 1200;
 const slideDelayMs = 3600;
+const dismissCooldownMs = 1000 * 60 * 60 * 6;
 
 export function OfferPopup() {
   const pathname = usePathname();
@@ -26,7 +27,7 @@ export function OfferPopup() {
   const activeOffer = offers[activeIndex] ?? offers[0];
 
   function closePopup() {
-    window.sessionStorage.setItem(dismissedStorageKey, "true");
+    window.localStorage.setItem(dismissedStorageKey, String(Date.now()));
     setIsVisible(false);
   }
 
@@ -44,7 +45,14 @@ export function OfferPopup() {
       return;
     }
 
-    if (window.sessionStorage.getItem(dismissedStorageKey)) {
+    const dismissedAtRaw = window.localStorage.getItem(dismissedStorageKey);
+    const dismissedAt = dismissedAtRaw ? Number(dismissedAtRaw) : 0;
+    const withinCooldown =
+      Number.isFinite(dismissedAt) &&
+      dismissedAt > 0 &&
+      Date.now() - dismissedAt < dismissCooldownMs;
+
+    if (withinCooldown) {
       return;
     }
 

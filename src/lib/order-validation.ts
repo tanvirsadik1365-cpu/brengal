@@ -1,6 +1,7 @@
 import {
   DELIVERY_MINIMUM,
   buildCartItems,
+  formatCurrency,
   formatPostcode,
   getActiveReward,
   getCollectionDiscount,
@@ -143,14 +144,14 @@ export function validateOrderPayload(value: unknown): OrderValidationResult {
   if (orderType === "delivery") {
     if (subtotal < DELIVERY_MINIMUM) {
       return {
-        error: "Delivery requires a minimum order of \u00a320.",
+        error: `Delivery requires a minimum order of ${formatCurrency(DELIVERY_MINIMUM)}.`,
         ok: false,
       };
     }
 
     if (!isValidDeliveryPostcode(postcode)) {
       return {
-        error: "Delivery is currently available for OX1-OX5 postcodes only.",
+        error: "Delivery is currently available for MK18 and MK17 postcodes only.",
         ok: false,
       };
     }
@@ -168,7 +169,7 @@ export function validateOrderPayload(value: unknown): OrderValidationResult {
 
   if (reward.requiresSideDish && !selectedSideDish) {
     return {
-      error: "Choose a valid free side dish for this reward.",
+      error: "Choose a valid free item for this offer.",
       ok: false,
     };
   }

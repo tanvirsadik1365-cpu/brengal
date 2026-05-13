@@ -24,8 +24,8 @@ type CartContextValue = {
   setOrderType: (orderType: OrderType) => void;
 };
 
-const CART_STORAGE_KEY = "jamals-cart-v1";
-const ORDER_TYPE_STORAGE_KEY = "jamals-order-type-v1";
+const CART_STORAGE_KEY = "bengal-cart-v1";
+const ORDER_TYPE_STORAGE_KEY = "bengal-order-type-v1";
 
 const CartContext = createContext<CartContextValue | null>(null);
 

@@ -23,10 +23,7 @@ export type CartItem = CatalogItem & {
 
 export type RewardType =
   | "none"
-  | "collection-discount"
-  | "onion-bhaji"
-  | "side-dish"
-  | "combo";
+  | "direct-discount";
 
 export type ActiveReward = {
   type: RewardType;
@@ -35,11 +32,8 @@ export type ActiveReward = {
   requiresSideDish: boolean;
 };
 
-export const DELIVERY_MINIMUM = 20;
-export const COLLECTION_DISCOUNT_THRESHOLD = 20;
-export const DELIVERY_ONION_BHAJI_THRESHOLD = 30;
-export const DELIVERY_SIDE_DISH_THRESHOLD = 45;
-export const DELIVERY_COMBO_THRESHOLD = 60;
+export const DELIVERY_MINIMUM = 0;
+export const DELIVERY_POSTCODE_PREFIXES = ["MK18", "MK17"] as const;
 
 export const currencyFormatter = new Intl.NumberFormat("en-GB", {
   style: "currency",
@@ -112,41 +106,14 @@ export function getSubtotal(items: CartItem[]) {
 }
 
 export function getActiveReward(subtotal: number, orderType: OrderType): ActiveReward {
-  if (orderType === "delivery") {
-    if (subtotal >= DELIVERY_COMBO_THRESHOLD) {
-      return {
-        type: "combo",
-        title: "Free Onion Bhaji + Side Dish",
-        detail:
-          "Delivery reward: choose any side dish and receive a free Onion Bhaji.",
-        requiresSideDish: true,
-      };
-    }
-
-    if (subtotal >= DELIVERY_SIDE_DISH_THRESHOLD) {
-      return {
-        type: "side-dish",
-        title: "Free Side Dish",
-        detail: "Delivery reward: choose any side dish from the side dish menu.",
-        requiresSideDish: true,
-      };
-    }
-
-    if (subtotal >= DELIVERY_ONION_BHAJI_THRESHOLD) {
-      return {
-        type: "onion-bhaji",
-        title: "Free Onion Bhaji",
-        detail: "Delivery reward: Onion Bhaji is included automatically.",
-        requiresSideDish: false,
-      };
-    }
-  }
-
-  if (orderType === "collection" && subtotal >= COLLECTION_DISCOUNT_THRESHOLD) {
+  if (subtotal > 0) {
     return {
-      type: "collection-discount",
-      title: "10% Collection Discount",
-      detail: "Collection order reward. No other offer is applied.",
+      type: "direct-discount",
+      title: "10% Direct Discount",
+      detail:
+        orderType === "delivery"
+          ? "Bengal direct order reward with free local delivery."
+          : "Bengal direct order reward for collection.",
       requiresSideDish: false,
     };
   }
@@ -154,18 +121,13 @@ export function getActiveReward(subtotal: number, orderType: OrderType): ActiveR
   return {
     type: "none",
     title: "No reward yet",
-    detail:
-      orderType === "delivery"
-        ? `${formatCurrency(
-            Math.max(DELIVERY_ONION_BHAJI_THRESHOLD - subtotal, 0),
-          )} more for the first delivery reward.`
-        : `${formatCurrency(Math.max(COLLECTION_DISCOUNT_THRESHOLD - subtotal, 0))} more for the first reward.`,
+    detail: "Add a dish to unlock Bengal's 10% direct offer.",
     requiresSideDish: false,
   };
 }
 
 export function getCollectionDiscount(subtotal: number, reward: ActiveReward) {
-  return reward.type === "collection-discount" ? subtotal * 0.1 : 0;
+  return reward.type === "direct-discount" ? subtotal * 0.1 : 0;
 }
 
 export function getOrderTotal(subtotal: number, reward: ActiveReward) {
@@ -174,7 +136,9 @@ export function getOrderTotal(subtotal: number, reward: ActiveReward) {
 
 export function getSideDishOptions() {
   return getCatalogItems().filter(
-    (item) => item.category === "Vegetable Side Dishes",
+    (item) =>
+      item.category === "Vegetarian Dishes" ||
+      item.category === "Vegetable Side Dishes",
   );
 }
 
@@ -219,7 +183,7 @@ export function isValidDeliveryPostcode(value: string) {
     return false;
   }
 
-  return ["OX1", "OX2", "OX3", "OX4", "OX5"].includes(
-    formatted.split(" ")[0],
+  return DELIVERY_POSTCODE_PREFIXES.includes(
+    formatted.split(" ")[0] as (typeof DELIVERY_POSTCODE_PREFIXES)[number],
   );
 }

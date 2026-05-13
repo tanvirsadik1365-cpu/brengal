@@ -53,7 +53,7 @@ export function BookingForm() {
   const today = useMemo(getTodayValue, []);
 
   useEffect(() => {
-    const savedProfile = window.localStorage.getItem("jamals-customer-profile-v1");
+    const savedProfile = window.localStorage.getItem("bengal-customer-profile-v1");
 
     if (savedProfile) {
       try {
@@ -65,7 +65,7 @@ export function BookingForm() {
           phone: profile.phone ?? current.phone,
         }));
       } catch {
-        window.localStorage.removeItem("jamals-customer-profile-v1");
+        window.localStorage.removeItem("bengal-customer-profile-v1");
       }
     }
 
@@ -143,7 +143,7 @@ export function BookingForm() {
       }
 
       window.localStorage.setItem(
-        "jamals-customer-profile-v1",
+        "bengal-customer-profile-v1",
         JSON.stringify({
           email: form.email,
           name: form.name,
@@ -153,7 +153,7 @@ export function BookingForm() {
 
       setStatus({
         message:
-          "Thank you. Your booking request has been sent to the restaurant for confirmation.",
+          "Thank you. Your booking request has been sent to Bengal for confirmation.",
         reference: result.reservationReference,
         tone: "success",
       });
@@ -325,7 +325,7 @@ export function BookingForm() {
           <option>Business Dinner</option>
           <option>Date Night</option>
           <option>Family Gathering</option>
-          <option>Student Group</option>
+          <option>Group Booking</option>
           <option>Other</option>
         </select>
       </label>
@@ -337,7 +337,7 @@ export function BookingForm() {
           value={form.requests}
           onChange={(event) => updateForm("requests", event.target.value)}
           name="requests"
-          placeholder="Allergies, high chair, BYOB group, birthday note, or anything we should know."
+          placeholder="Allergies, high chair, group booking, birthday note, or anything we should know."
         />
       </label>
 

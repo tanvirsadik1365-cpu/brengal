@@ -1,14 +1,14 @@
 {
   "id": "/merchant/orders",
-  "name": "Jamal's Merchant App",
-  "short_name": "Jamal's Merchant",
-  "description": "Merchant view for Jamal's Indian Restaurant website orders and table booking requests.",
+  "name": "Bengal Merchant App",
+  "short_name": "Bengal Merchant",
+  "description": "Merchant view for Bengal website orders and table booking requests.",
   "start_url": "/merchant/orders",
   "scope": "/merchant/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#ffffff",
-  "theme_color": "#7F2F2A",
+  "background_color": "#0B0907",
+  "theme_color": "#F8BC37",
   "icons": [
     {
       "src": "/favicon-192x192.png",

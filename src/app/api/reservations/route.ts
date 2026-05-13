@@ -9,6 +9,7 @@ import {
   rejectDisallowedOrigin,
   rejectSpamSubmission,
 } from "@/lib/request-protection";
+import { sendReservationNotificationEmail } from "@/lib/reservation-notifications";
 import { validateReservationPayload } from "@/lib/reservation-validation";
 
 export const runtime = "nodejs";
@@ -63,6 +64,19 @@ export async function POST(request: NextRequest) {
       validation.reservation,
       user,
     );
+
+    try {
+      const emailResult = await sendReservationNotificationEmail({
+        reference: reservation.reference,
+        reservation: validation.reservation,
+      });
+
+      if (!emailResult.sent && emailResult.skippedReason) {
+        console.warn(emailResult.skippedReason);
+      }
+    } catch (emailError) {
+      console.error("Reservation notification email could not be sent.", emailError);
+    }
 
     return jsonResponse({
       reservationId: reservation.id,

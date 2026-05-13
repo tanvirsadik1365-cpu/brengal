@@ -90,18 +90,6 @@ const socialLinks = [
     className: "",
   },
   {
-    label: "Facebook",
-    href: "https://www.facebook.com/jamals_saffron-631210494185120/",
-    content: <FacebookIcon />,
-    className: "text-[#1877f2]",
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/jamals_saffron/?hl=en",
-    content: <InstagramIcon />,
-    className: "text-[#e4405f]",
-  },
-  {
     label: "Google Business Profile",
     href: restaurant.mapsUrl,
     content: <GoogleIcon />,
@@ -144,7 +132,8 @@ export function SiteFooter() {
             </a>
 
             <p className="mx-auto mt-4 max-w-sm text-sm font-semibold leading-6 text-white/76 md:mx-0">
-              Indian food, takeaway, and delivery on Walton Street, Oxford.
+              Indian and Bengali food, takeaway, and free local delivery from
+              High Street, Winslow.
             </p>
           </div>
 
@@ -207,15 +196,15 @@ export function SiteFooter() {
                 className="h-auto w-full max-w-[252px] rounded-md bg-white shadow-[0_12px_24px_rgba(0,0,0,0.16)] sm:max-w-[268px] xl:max-w-[238px]"
                 loading="lazy"
               />
-              <Image
-                src={trustImages.foodHygieneRating}
-                alt="Food Hygiene Rating 5, Very Good"
-                width={280}
-                height={140}
-                sizes="(min-width: 1280px) 220px, (min-width: 768px) 236px, 72vw"
-                className="h-auto w-full max-w-[236px] shadow-[0_12px_24px_rgba(0,0,0,0.16)] xl:max-w-[220px]"
-                loading="lazy"
-              />
+              <div className="w-full max-w-[252px] rounded-md border border-white/10 bg-white p-5 text-left text-[#211A18] shadow-[0_12px_24px_rgba(0,0,0,0.16)] xl:max-w-[238px]">
+                <p className="text-xs font-black uppercase tracking-[0.14em] text-[#7A5410]">
+                  Delivery
+                </p>
+                <p className="mt-2 text-lg font-black">Free within 5 miles</p>
+                <p className="mt-1 text-sm font-semibold text-[#685C57]">
+                  MK18 and MK17 postcodes.
+                </p>
+              </div>
             </div>
           </div>
         </div>

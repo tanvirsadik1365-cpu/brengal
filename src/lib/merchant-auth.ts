@@ -2,10 +2,10 @@ import { createHmac, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
-export const merchantSessionCookieName = "jamals_merchant_session";
+export const merchantSessionCookieName = "bengal_merchant_session";
 
 const merchantSessionMaxAgeSeconds = 60 * 60 * 12;
-const merchantSessionMessage = "jamals-merchant-session-v1";
+const merchantSessionMessage = "bengal-merchant-session-v1";
 
 function getExpectedMerchantToken() {
   return process.env.MERCHANT_DASHBOARD_TOKEN?.trim() ?? "";
@@ -91,4 +91,3 @@ export function clearMerchantSessionCookie(response: NextResponse) {
     secure: process.env.NODE_ENV === "production",
   });
 }
-

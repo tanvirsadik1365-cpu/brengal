@@ -1,5 +1,5 @@
-const CACHE_VERSION = "jamals-merchant-v5";
-const CACHE_PREFIX = "jamals-";
+const CACHE_VERSION = "bengal-merchant-v1";
+const CACHE_PREFIX = "bengal-";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(self.skipWaiting());

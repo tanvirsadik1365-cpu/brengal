@@ -29,11 +29,7 @@ import {
 import { GoogleMark } from "@/components/GoogleMark";
 import { useCart } from "@/components/CartProvider";
 import {
-  COLLECTION_DISCOUNT_THRESHOLD,
   DELIVERY_MINIMUM,
-  DELIVERY_COMBO_THRESHOLD,
-  DELIVERY_ONION_BHAJI_THRESHOLD,
-  DELIVERY_SIDE_DISH_THRESHOLD,
   formatCurrency,
   formatPostcode,
   getActiveReward,
@@ -89,7 +85,7 @@ const checkoutSecondaryButtonClass =
   "inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-sm font-black text-white transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4] disabled:cursor-not-allowed disabled:opacity-40";
 const checkoutPrimaryButtonClass =
   "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-6 text-sm font-black text-[#150D08] shadow-lg shadow-[#D7A542]/20 transition hover:bg-white disabled:cursor-not-allowed disabled:bg-white/18 disabled:text-white/45 disabled:shadow-none";
-const lastOrderTrackingKey = "jamals-last-order-tracking-v1";
+const lastOrderTrackingKey = "bengal-last-order-tracking-v1";
 
 function getOrigin() {
   return window.location.origin;
@@ -197,7 +193,7 @@ export function CartPageClient() {
           ? deliveryPostcodeValid
             ? "Delivery area confirmed"
             : "Postcode check needed"
-          : "Collection from Walton Street",
+          : "Collection from Winslow High Street",
       complete: fulfilmentValid,
     },
     {
@@ -332,7 +328,7 @@ export function CartPageClient() {
     }
 
     window.localStorage.setItem(
-      "jamals-customer-profile-v1",
+      "bengal-customer-profile-v1",
       JSON.stringify({
         email: customer.email,
         name: customer.name,
@@ -602,45 +598,10 @@ export function CartPageClient() {
       };
     }
 
-    if (orderType === "delivery" && subtotal < DELIVERY_ONION_BHAJI_THRESHOLD) {
+    if (subtotal <= 0) {
       return {
-        title: "Unlock a free Onion Bhaji",
-        detail: `Add ${formatCurrency(
-          DELIVERY_ONION_BHAJI_THRESHOLD - subtotal,
-        )} more and the delivery Onion Bhaji reward is yours.`,
-        action: "Add dishes",
-        href: "/menu",
-      };
-    }
-
-    if (orderType === "delivery" && subtotal < DELIVERY_SIDE_DISH_THRESHOLD) {
-      return {
-        title: "Close to a free side dish",
-        detail: `Add ${formatCurrency(
-          DELIVERY_SIDE_DISH_THRESHOLD - subtotal,
-        )} more to choose any side dish free.`,
-        action: "Add dishes",
-        href: "/menu",
-      };
-    }
-
-    if (orderType === "delivery" && subtotal < DELIVERY_COMBO_THRESHOLD) {
-      return {
-        title: "Best reward is within reach",
-        detail: `Add ${formatCurrency(
-          DELIVERY_COMBO_THRESHOLD - subtotal,
-        )} more for Onion Bhaji plus your choice of side dish.`,
-        action: "Add dishes",
-        href: "/menu",
-      };
-    }
-
-    if (orderType === "collection" && subtotal < COLLECTION_DISCOUNT_THRESHOLD) {
-      return {
-        title: "Unlock the collection discount",
-        detail: `Add ${formatCurrency(
-          COLLECTION_DISCOUNT_THRESHOLD - subtotal,
-        )} more for 10% off collection.`,
+        title: "Unlock Bengal's direct offer",
+        detail: "Add any dish to apply the 10% direct discount.",
         action: "Add dishes",
         href: "/menu",
       };
@@ -815,8 +776,8 @@ export function CartPageClient() {
             </p>
             <h2 className="mt-1 text-2xl font-black">Review your food</h2>
             <p className="mt-2 text-sm leading-6 text-white/58">
-              Check quantities, remove anything you do not need, and claim any
-              reward before moving on.
+              Check quantities, remove anything you do not need, and review the
+              Bengal direct offer before moving on.
             </p>
           </div>
           {cartItems.length > 0 ? (
@@ -886,7 +847,7 @@ export function CartPageClient() {
         <div className="mt-5 rounded-lg border border-[#D7A542]/25 bg-[#D7A542]/10 p-4">
           <div className="flex items-center gap-2 text-[#F6DFA4]">
             <BadgePercent size={20} aria-hidden="true" />
-            <h3 className="font-black">Active reward</h3>
+            <h3 className="font-black">Active offer</h3>
           </div>
           <div className="mt-4 rounded-lg border border-white/10 bg-[#0F0B09] p-4 shadow-sm">
             <p className="font-black text-[#D7A542]">{reward.title}</p>
@@ -912,7 +873,7 @@ export function CartPageClient() {
                 </select>
                 {!selectedSideDishId ? (
                   <p className="mt-2 text-xs font-bold text-white/58">
-                    Required before checkout for this reward.
+                    Required before checkout for this offer.
                   </p>
                 ) : null}
               </label>
@@ -932,7 +893,7 @@ export function CartPageClient() {
         </p>
         <h2 className="mt-1 text-2xl font-black">Collection or delivery</h2>
         <p className={`mt-2 ${checkoutMutedClass}`}>
-          Choose collection from Walton Street or check delivery with your
+          Choose collection from Winslow High Street or check delivery with your
           postcode.
         </p>
 
@@ -968,7 +929,7 @@ export function CartPageClient() {
                 >
                   {type === "collection"
                     ? `Pick up from ${restaurant.location}.`
-                    : `${formatCurrency(DELIVERY_MINIMUM)} minimum order within the current delivery area.`}
+                    : "Free delivery within 5 miles for MK18 and MK17."}
                 </span>
               </button>
             );
@@ -991,7 +952,7 @@ export function CartPageClient() {
                 }`}
                 type="text"
                 autoComplete="postal-code"
-                placeholder="OX2 6AJ"
+                placeholder="MK18 3HB"
               />
             </label>
             <label className="text-sm font-black sm:col-span-2">
@@ -1024,7 +985,7 @@ export function CartPageClient() {
         customer.postcode &&
         !deliveryPostcodeValid ? (
           <ValidationMessage tone="error">
-            Delivery is currently available for OX1-OX5 postcodes only.
+            Delivery is currently available for MK18 and MK17 postcodes only.
           </ValidationMessage>
         ) : null}
       </div>
@@ -1040,7 +1001,7 @@ export function CartPageClient() {
         <h2 className="mt-1 text-2xl font-black">Guest checkout or sign in</h2>
         <p className={`mt-2 ${checkoutMutedClass}`}>
           Continue quickly as a guest, or sign in to save this order to your
-          Jamal&apos;s account.
+          Bengal account.
         </p>
         {accountEmail ? (
           <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm font-bold leading-6 text-emerald-900">
@@ -1452,7 +1413,7 @@ export function CartPageClient() {
           </div>
           {collectionDiscount > 0 ? (
             <div className="flex justify-between gap-4">
-              <span className="text-white/58">Collection discount</span>
+              <span className="text-white/58">Direct discount</span>
               <span className="font-black text-[#D7A542]">
                 -{formatCurrency(collectionDiscount)}
               </span>
@@ -1460,7 +1421,7 @@ export function CartPageClient() {
           ) : null}
           {reward.type !== "none" ? (
             <div className="flex justify-between gap-4">
-              <span className="text-white/58">Reward</span>
+              <span className="text-white/58">Offer</span>
               <span className="text-right font-black text-[#D7A542]">
                 {reward.title}
               </span>

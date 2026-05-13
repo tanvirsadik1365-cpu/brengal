@@ -4,7 +4,7 @@ import { OrderTrackingClient } from "@/components/OrderTrackingClient";
 export const metadata: Metadata = {
   title: "Track Your Order",
   description:
-    "Track your Jamal's Indian Restaurant order status, prep time, payment status, and estimated ready time.",
+    "Track your Bengal order status, prep time, payment status, and estimated ready time.",
 };
 
 export default function TrackOrderPage() {

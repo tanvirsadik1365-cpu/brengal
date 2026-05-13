@@ -13,12 +13,12 @@ import {
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Indian Restaurant FAQs Oxford | Jamal’s",
+    absolute: "Bengal Restaurant FAQs Winslow",
   },
   description:
-    "Find answers about ordering, delivery, offers, bookings, and Jamal's Indian Restaurant in Oxford.",
+    "Find answers about ordering, delivery, offers, bookings, and Bengal Indian and Bengali Cuisine in Winslow.",
   alternates: {
-    canonical: "https://jamals.orderdaily.uk/faqs",
+    canonical: "https://www.bengal.restaurant/faqs",
   },
 };
 
@@ -46,9 +46,9 @@ export default function FaqsPage() {
       <PageIntro
         eyebrow="FAQs"
         title="Quick answers before you order."
-        description="Ordering, delivery, rewards, bookings, student groups, and restaurant details."
+        description="Ordering, delivery, offers, bookings, buffet service, and restaurant details."
         imageSrc={foodImages.hero}
-        imageAlt="Jamal's curry and tandoori dishes"
+        imageAlt="Bengal curry and tandoori dishes"
         meta="Ordering, delivery, bookings"
       />
 

@@ -118,28 +118,12 @@ export async function POST(request: NextRequest) {
       quantity: item.quantity,
     }));
 
-  if (reward.type === "onion-bhaji" || reward.type === "combo") {
-    lineItems.push({
-      price_data: {
-        currency: "gbp",
-        product_data: {
-          name: "Free Onion Bhaji",
-          metadata: {
-            reward: reward.type,
-          },
-        },
-        unit_amount: 0,
-      },
-      quantity: 1,
-    });
-  }
-
   if (selectedSideDish) {
     lineItems.push({
       price_data: {
         currency: "gbp",
         product_data: {
-          name: `Free Side Dish - ${selectedSideDish.name}`,
+          name: `Free item - ${selectedSideDish.name}`,
           metadata: {
             menu_item_id: selectedSideDish.id,
             reward: reward.type,
@@ -154,12 +138,16 @@ export async function POST(request: NextRequest) {
   const discounts: NonNullable<SessionCreateParams["discounts"]> = [];
 
   if (collectionDiscount > 0) {
-    if (process.env.STRIPE_COLLECTION_COUPON_ID) {
-      discounts.push({ coupon: process.env.STRIPE_COLLECTION_COUPON_ID });
+    const directDiscountCouponId =
+      process.env.STRIPE_DIRECT_DISCOUNT_COUPON_ID ||
+      process.env.STRIPE_COLLECTION_COUPON_ID;
+
+    if (directDiscountCouponId) {
+      discounts.push({ coupon: directDiscountCouponId });
     } else {
       const coupon = await stripe.coupons.create({
         duration: "once",
-        name: "Jamal's 10% collection discount",
+        name: "Bengal 10% direct discount",
         percent_off: 10,
       });
       discounts.push({ coupon: coupon.id });

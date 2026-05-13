@@ -67,7 +67,7 @@ export function HomeHeroSlider({ slides }: HomeHeroSliderProps) {
 
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(33,26,24,0.02)_0%,rgba(33,26,24,0.1)_38%,rgba(33,26,24,0.92)_100%)]" />
             <div className="absolute left-4 top-4 rounded-full border border-white/16 bg-black/30 px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-white/82 backdrop-blur">
-              Since 1956
+              Winslow MK18
             </div>
             <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-6 lg:p-7">
             <div className="overflow-hidden">

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import { Phone, ShoppingBag } from "lucide-react";
+import { restaurant } from "@/lib/restaurant";
 
 type MotionProps = {
   children: ReactNode;
@@ -86,8 +87,8 @@ export function MobileStickyCta() {
           Order online
         </Link>
         <a
-          href="tel:+441865554905"
-          aria-label="Call Jamal's"
+          href={restaurant.phoneHref}
+          aria-label={`Call ${restaurant.shortName}`}
           className="inline-flex h-[52px] min-h-[52px] w-14 items-center justify-center rounded-full border border-white/16 bg-white/10 text-white"
         >
           <Phone size={18} aria-hidden="true" />

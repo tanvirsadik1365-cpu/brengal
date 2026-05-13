@@ -5,7 +5,7 @@ import { ShoppingBag } from "lucide-react";
 export const metadata: Metadata = {
   title: "Checkout Cancelled",
   description:
-    "Return to your Jamal's Indian Restaurant cart after cancelling checkout.",
+    "Return to your Bengal cart after cancelling checkout.",
 };
 
 export default function CheckoutCancelPage() {

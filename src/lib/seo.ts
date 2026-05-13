@@ -18,39 +18,39 @@ export const shouldRenderJsonLd = process.env.NODE_ENV === "production";
 export const seoPages = {
   home: {
     path: "/",
-    title: "Jamal’s Oxford | Indian Restaurant & Takeaway Since 1956",
+    title: "Bengal Winslow | Indian & Bengali Cuisine",
     description:
-      "Enjoy authentic Indian food at Jamal’s Oxford, serving Walton Street since 1956. Order online, book a table, or enjoy classic Indian curry, biryani, tandoori and grill dishes.",
+      "Order Indian and Bengali food from Bengal in Winslow. Enjoy Bengal specials, tandoori grill, biryani, free local delivery in MK18 and MK17, or book a table.",
   },
   menu: {
     path: "/menu",
-    title: "Indian Food Menu Oxford | Curry, Biryani & Tandoori | Jamal’s",
+    title: "Bengal Menu Winslow | Indian & Bengali Food",
     description:
-      "Explore Jamal’s Indian food menu in Oxford. From curry and biryani to tandoori grills and vegetarian dishes, order online or book your table today.",
+      "Explore Bengal's Indian and Bengali menu in Winslow, including Bengal specials, classic curries, tandoori grill, biryani, rice, naans and non-alcoholic drinks.",
   },
   gallery: {
     path: "/gallery",
-    title: "Indian Restaurant Food Gallery Oxford | Jamal’s",
+    title: "Bengal Food Gallery Winslow",
     description:
-      "View authentic Indian dishes, restaurant atmosphere and customer favourites at Jamal’s Oxford. Explore our Indian food gallery online.",
+      "View Bengal specials, tandoori grill, biryani, vegetarian dishes and Indian food favourites from Bengal in Winslow.",
   },
   booking: {
     path: "/booking",
-    title: "Book Indian Restaurant Table in Oxford | Jamal’s",
+    title: "Book a Table at Bengal Winslow",
     description:
-      "Reserve your table at Jamal’s Oxford. Enjoy authentic Indian cuisine, family dining and traditional curry dishes in the heart of Oxford.",
+      "Reserve a table at Bengal on High Street, Winslow for Indian and Bengali cuisine, family dining, group meals and Sunday buffet service.",
   },
   reviews: {
     path: "/reviews",
-    title: "Customer Reviews | Jamal’s Indian Restaurant Oxford",
+    title: "Customer Reviews | Bengal Winslow",
     description:
-      "Read customer reviews for Jamal’s Oxford. Discover why locals and visitors love our authentic Indian food and restaurant experience.",
+      "Read customer notes for Bengal in Winslow, from Bengal specials and tandoori grill to free local delivery and collection.",
   },
   contact: {
     path: "/contact",
-    title: "Contact Jamal’s Oxford | Indian Restaurant & Takeaway",
+    title: "Contact Bengal Winslow | Indian & Bengali Cuisine",
     description:
-      "Contact Jamal’s Oxford for bookings, takeaway orders and restaurant enquiries. Visit us on Walton Street, Oxford OX2 6AJ.",
+      "Contact Bengal in Winslow for bookings, takeaway orders, free local delivery, collection and restaurant enquiries.",
   },
 } as const;
 
@@ -104,72 +104,80 @@ export function createGlobalRestaurantJsonLd() {
       {
         "@type": ["Restaurant", "LocalBusiness"],
         "@id": `${siteUrl}/#restaurant`,
-        name: "Jamals",
+        name: restaurant.name,
         alternateName: [
-          "Jamal's Oxford",
-          "Jamal's Indian Restaurant",
-          "Jamal's Indian Restaurant & Takeaway",
+          "Bengal Winslow",
+          "Bengal Restaurant",
+          "Bengal Indian and Bengali Cuisine",
         ],
         image: [ogImageUrl, absoluteUrl(brandHeroImage)],
         url: `${siteUrl}/`,
-        telephone: "+44 1865 554905",
-        priceRange: "££",
+        telephone: "+44 1296 712222",
+        priceRange: "GBP GBP",
         menu: absoluteUrl("/menu"),
         hasMenu: {
           "@id": `${siteUrl}/menu#menu`,
         },
-        servesCuisine: ["Indian", "Curry", "Biryani", "Tandoori"],
+        servesCuisine: ["Indian", "Bengali", "Curry", "Biryani", "Tandoori"],
         acceptsReservations: true,
-        foundingDate: "1956",
-        slogan: "Serving Oxford since 1956",
+        foundingDate: restaurant.established || undefined,
+        slogan: "Flavours of India and Bangladesh in Winslow",
         description:
-          "Jamal's is an Indian restaurant and takeaway on Walton Street, Oxford, serving curry, biryani, tandoori grills, online ordering and table bookings.",
+          "Bengal is an Indian and Bengali restaurant and takeaway on High Street, Winslow, serving curry, biryani, tandoori grills, Bengal specials, free local delivery and table bookings.",
         address: {
           "@type": "PostalAddress",
-          streetAddress: "107-108 Walton St",
-          addressLocality: "Oxford",
-          postalCode: "OX2 6AJ",
+          streetAddress: "40 High St",
+          addressLocality: "Winslow",
+          postalCode: "MK18 3HB",
           addressCountry: "GB",
         },
         geo: {
           "@type": "GeoCoordinates",
-          latitude: 51.7608058,
-          longitude: -1.2669998,
+          latitude: 51.9429,
+          longitude: -0.8797,
         },
         areaServed: [
-          "Oxford",
-          "Walton Street",
-          "Jericho Oxford",
-          "Oxford University area",
-          "OX1",
-          "OX2",
-          "OX3",
-          "OX4",
-          "OX5",
+          "Winslow",
+          "Buckingham",
+          "MK18",
+          "MK17",
+          "Within 5 miles of Winslow",
         ],
         openingHoursSpecification: [
           {
             "@type": "OpeningHoursSpecification",
-            dayOfWeek: ["Monday", "Wednesday", "Thursday", "Sunday"],
-            opens: "17:00",
-            closes: "22:00",
+            dayOfWeek: [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            ],
+            opens: "12:00",
+            closes: "14:30",
           },
           {
             "@type": "OpeningHoursSpecification",
-            dayOfWeek: ["Friday", "Saturday"],
-            opens: "17:00",
-            closes: "23:00",
+            dayOfWeek: [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            ],
+            opens: "18:00",
+            closes: "22:30",
           },
         ],
-        sameAs: [
-          "https://www.facebook.com/jamals.oxford",
-          "https://www.instagram.com/jamals_oxford/",
-          `${siteUrl}/`,
-        ],
+        sameAs: [`${siteUrl}/`, restaurant.menuPdfUrl],
         potentialAction: [
           {
             "@type": "OrderAction",
-            name: "Order Direct From Jamal’s Oxford",
+            name: "Order Direct From Bengal Winslow",
             target: absoluteUrl("/menu"),
           },
           {
@@ -182,7 +190,7 @@ export function createGlobalRestaurantJsonLd() {
       {
         "@type": "WebSite",
         "@id": `${siteUrl}/#website`,
-        name: "Jamal’s Oxford",
+        name: "Bengal Winslow",
         url: `${siteUrl}/`,
         inLanguage: "en-GB",
         publisher: {
@@ -203,7 +211,7 @@ export function createMenuJsonLd() {
     "@context": "https://schema.org",
     "@type": "Menu",
     "@id": `${siteUrl}/menu#menu`,
-    name: "Indian Food Menu in Oxford",
+    name: "Bengal Indian and Bengali Food Menu in Winslow",
     url: absoluteUrl("/menu"),
     inLanguage: "en-GB",
     provider: {
@@ -213,7 +221,7 @@ export function createMenuJsonLd() {
       "@type": "MenuSection",
       "@id": `${siteUrl}/menu#${section.id}`,
       name: section.title,
-      description: `${section.description} Order Indian food online from Jamal's Oxford.`,
+      description: `${section.description} Order Indian and Bengali food online from Bengal Winslow.`,
       image: absoluteUrl(section.image),
       numberOfItems: section.items.length,
     })),
@@ -281,7 +289,7 @@ export function createGalleryJsonLd() {
     primaryImageOfPage: {
       "@type": "ImageObject",
       contentUrl: absoluteUrl(foodImages.curry),
-      caption: "Authentic Indian food served at Jamal's Oxford",
+      caption: "Authentic Indian and Bengali food served at Bengal Winslow",
     },
     image: galleryImages.map((image) => ({
       "@type": "ImageObject",

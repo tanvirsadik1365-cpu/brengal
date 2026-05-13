@@ -7,7 +7,7 @@ import type {
 type UnknownRecord = Record<string, unknown>;
 
 const fallbackPrepTimeMinutes = 20;
-const fallbackSupportPhone = "01865 554905";
+const fallbackSupportPhone = "01296 712222";
 
 export type MerchantStoreStatus = PublicStoreStatus & {
   supportPhone: string;
@@ -15,7 +15,7 @@ export type MerchantStoreStatus = PublicStoreStatus & {
 };
 
 function getRestaurantId() {
-  return process.env.RESTAURANT_ID?.trim() || "jamals-restaurant";
+  return process.env.RESTAURANT_ID?.trim() || "bengal-restaurant";
 }
 
 function readString(row: UnknownRecord | null | undefined, key: string) {

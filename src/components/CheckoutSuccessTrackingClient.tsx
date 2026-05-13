@@ -35,7 +35,7 @@ type CheckoutSyncResponse = {
 
 type PaymentSyncState = "idle" | "checking" | "confirmed" | "pending" | "error";
 
-const lastOrderTrackingKey = "jamals-last-order-tracking-v1";
+const lastOrderTrackingKey = "bengal-last-order-tracking-v1";
 const terminalStatuses = new Set(["completed", "cancelled"]);
 
 const progressSteps = [

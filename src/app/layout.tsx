@@ -92,9 +92,9 @@ export const metadata: Metadata = {
     template: "%s",
   },
   description: seoPages.home.description,
-  authors: [{ name: "Jamal's Oxford", url: siteUrl }],
-  creator: "Jamal's Oxford",
-  publisher: "Jamal's Oxford",
+  authors: [{ name: "Bengal Winslow", url: siteUrl }],
+  creator: "Bengal Winslow",
+  publisher: "Bengal Winslow",
   robots: {
     index: true,
     follow: true,
@@ -107,17 +107,17 @@ export const metadata: Metadata = {
     },
   },
   keywords: [
-    "Jamal's Oxford",
-    "Indian restaurant Oxford",
-    "Best Indian restaurant Oxford",
-    "Indian takeaway Oxford",
-    "Curry Oxford",
-    "Biryani Oxford",
-    "Tandoori Oxford",
-    "Indian food Walton Street",
-    "Book Indian restaurant Oxford",
-    "Order Indian food online Oxford",
-    "Jericho Oxford Indian restaurant",
+    "Bengal Winslow",
+    "Indian restaurant Winslow",
+    "Bengali restaurant Winslow",
+    "Indian takeaway Winslow",
+    "Curry Winslow",
+    "Biryani Winslow",
+    "Tandoori Winslow",
+    "Indian food High Street Winslow",
+    "Book Indian restaurant Winslow",
+    "Order Indian food online Winslow",
+    "MK18 Indian restaurant",
   ],
   icons: {
     icon: [
@@ -147,15 +147,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jamal’s Oxford | Indian Restaurant Since 1956",
-    description: "Authentic Indian food in Oxford since 1956.",
+    title: "Bengal Winslow | Indian & Bengali Cuisine",
+    description: "Authentic Indian and Bengali food in Winslow.",
     images: [ogImageUrl],
   },
   other: {
-    "geo.region": "GB-OXF",
-    "geo.placename": "Oxford",
-    "geo.position": "51.7649;-1.2641",
-    ICBM: "51.7649, -1.2641",
+    "geo.region": "GB-BKM",
+    "geo.placename": "Winslow",
+    "geo.position": "51.9429;-0.8797",
+    ICBM: "51.9429, -0.8797",
     "format-detection": "telephone=yes",
   },
 };
@@ -163,7 +163,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#121212",
+  themeColor: "#0B0907",
 };
 
 export default function RootLayout({
@@ -182,15 +182,15 @@ export default function RootLayout({
         <meta property="og:type" content="restaurant" />
         <meta
           property="og:title"
-          content="Jamal’s Oxford | Indian Restaurant Since 1956"
+          content="Bengal Winslow | Indian & Bengali Cuisine"
         />
         <meta
           property="og:description"
-          content="Authentic Indian food in Oxford. Order online or book your table at Jamal’s Walton Street."
+          content="Authentic Indian and Bengali food in Winslow. Order online or book your table at Bengal High Street."
         />
         <meta property="og:url" content={`${siteUrl}/`} />
         <meta property="og:image" content={ogImageUrl} />
-        <meta property="og:site_name" content="Jamal’s Oxford" />
+        <meta property="og:site_name" content="Bengal Winslow" />
         <meta property="og:locale" content="en_GB" />
         {shouldRenderJsonLd ? (
           <script

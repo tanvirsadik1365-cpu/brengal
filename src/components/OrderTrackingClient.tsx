@@ -288,7 +288,7 @@ export function OrderTrackingClient() {
                     value={orderNumber}
                     onChange={(event) => setOrderNumber(event.target.value)}
                     className="h-12 min-h-12 w-full rounded-lg border border-white/10 bg-white/8 pl-14 pr-4 text-sm font-black uppercase text-white outline-none transition placeholder:text-white/32 focus:border-[#D7A542]/70 focus:ring-4 focus:ring-[#D7A542]/12"
-                    placeholder="JAMALS-..."
+                    placeholder="BENGAL-..."
                     autoComplete="off"
                   />
                 </span>

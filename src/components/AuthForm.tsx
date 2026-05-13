@@ -48,7 +48,7 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   const title =
     mode === "sign-up"
-      ? "Create your Jamal's account"
+      ? "Create your Bengal account"
       : mode === "forgot-password"
         ? "Reset your password"
         : mode === "reset-password"

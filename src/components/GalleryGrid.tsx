@@ -64,10 +64,8 @@ const chapterOrder = [
   "From the tandoor",
   "Curry comfort",
   "Vegetarian favourites",
-  "Walton Street",
-  "Dining atmosphere",
-  "Drinks and details",
-  "Trust signals",
+  "High Street Winslow",
+  "Drinks menu",
 ];
 
 const chapterSummaries: Record<string, string> = {
@@ -76,10 +74,8 @@ const chapterSummaries: Record<string, string> = {
   "From the tandoor": "Smoke, char, and the glow of the grill.",
   "Curry comfort": "Sauces, breads, and bowls built for sharing.",
   "Vegetarian favourites": "Warm vegetable dishes with proper depth.",
-  "Walton Street": "The Oxford frontage, sign, and sense of place.",
-  "Dining atmosphere": "Tables set for relaxed BYOB dinners and groups.",
-  "Drinks and details": "The quieter touches that make dinner feel complete.",
-  "Trust signals": "Clear details before customers order or book.",
+  "High Street Winslow": "The Bengal tiger mark and sense of place.",
+  "Drinks menu": "Non-alcoholic drinks listed on the menu.",
 };
 
 function getChapterGridClass(count: number) {
@@ -99,7 +95,7 @@ function getChapterCardAspect(chapter: string) {
     return "aspect-[16/9]";
   }
 
-  if (chapter === "Walton Street" || chapter === "Dining atmosphere") {
+  if (chapter === "High Street Winslow") {
     return "aspect-[4/3]";
   }
 
@@ -328,11 +324,11 @@ export function GalleryGrid({ images }: GalleryGridProps) {
               Gallery
             </p>
             <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[0.98] text-white sm:text-6xl lg:mt-6 lg:text-[6.2rem]">
-              Jamal&rsquo;s Indian Food Gallery
+              Bengal Indian & Bengali Food Gallery
             </h1>
             <p className="mt-6 max-w-2xl text-base font-semibold leading-8 text-white/72 sm:text-lg">
-              Curry heat, tandoor smoke, warm tables, and customer favourites
-              from Jamal&apos;s Indian Restaurant in Oxford.
+              Bengal specials, tandoor smoke, biryani, vegetarian dishes and
+              customer favourites from Bengal in Winslow.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <GalleryLink
@@ -429,7 +425,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
           </div>
           <p className="max-w-2xl text-base font-semibold leading-8 text-white/62 lg:justify-self-end">
             {visibleImages.length} moments from the dishes, tables, and details
-            behind a Walton Street dinner.
+            behind a High Street Winslow dinner.
           </p>
         </div>
 
@@ -523,7 +519,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             </h2>
             <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-white/64">
               Order the dishes that caught your eye, or reserve a table for a
-              warmer Walton Street evening.
+              warmer High Street Winslow evening.
             </p>
           </div>
           <div className="mt-6 flex flex-wrap gap-3 lg:mt-0 lg:justify-end">
@@ -659,7 +655,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 </p>
                 <div className="mt-5 flex items-center gap-2 rounded-lg border border-white/10 bg-white/7 p-3 text-sm font-bold text-white/70">
                   <MapPin className="text-[#D7A542]" size={17} aria-hidden="true" />
-                  107-108 Walton Street, Oxford
+                  40 High St, Winslow
                 </div>
                 <GalleryLink
                   href={selectedImage.href ?? "/menu"}

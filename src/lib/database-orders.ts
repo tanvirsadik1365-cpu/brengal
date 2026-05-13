@@ -117,7 +117,7 @@ function getDbErrorMessage(action: string, error?: DbError | null) {
 }
 
 function getRestaurantId() {
-  return process.env.RESTAURANT_ID?.trim() || "jamals-restaurant";
+  return process.env.RESTAURANT_ID?.trim() || "bengal-restaurant";
 }
 
 function getRestaurantTimeZone() {
@@ -336,30 +336,18 @@ function getPhaseLabel(status: string, orderType: string) {
 export function createOrderReference() {
   const suffix = Math.random().toString(36).slice(2, 6).toUpperCase();
 
-  return `JAMALS-${Date.now()}-${suffix}`;
+  return `BENGAL-${Date.now()}-${suffix}`;
 }
 
 function createRewardItems(order: ValidatedOrder): CartItem[] {
   const rewardItems: CartItem[] = [];
 
-  if (order.reward.type === "onion-bhaji" || order.reward.type === "combo") {
-    rewardItems.push({
-      category: "Reward",
-      displayName: "Free Onion Bhaji",
-      id: "reward-onion-bhaji",
-      name: "Free Onion Bhaji",
-      priceLabel: "0",
-      quantity: 1,
-      unitPrice: 0,
-    });
-  }
-
   if (order.selectedSideDish) {
     rewardItems.push({
       ...order.selectedSideDish,
-      category: "Reward",
-      displayName: `Free Side Dish - ${order.selectedSideDish.displayName}`,
-      name: `Free Side Dish - ${order.selectedSideDish.name}`,
+      category: "Offer",
+      displayName: `Free item - ${order.selectedSideDish.displayName}`,
+      name: `Free item - ${order.selectedSideDish.name}`,
       priceLabel: "0",
       quantity: 1,
       unitPrice: 0,

@@ -65,7 +65,7 @@ export default function ReviewsPage() {
       <section className="relative isolate overflow-hidden px-4 pb-12 pt-52 sm:px-6 lg:px-8 lg:py-16">
         <Image
           src={foodImages.biryani}
-          alt="Aromatic Indian food served for dinner at Jamal's Oxford"
+          alt="Aromatic Indian and Bengali food served at Bengal Winslow"
           fill
           priority
           sizes="100vw"
@@ -84,14 +84,14 @@ export default function ReviewsPage() {
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#F6DFA4] shadow-[0_14px_34px_rgba(0,0,0,0.28)] backdrop-blur">
               <MessageSquare size={15} aria-hidden="true" />
-              Oxford reviews
+              Winslow reviews
             </p>
             <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">
-              What Customers Say About Jamal&rsquo;s
+              What Customers Say About Bengal
             </h1>
             <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/68">
-              Notes from local diners, takeaway regulars, students, and guests
-              who love authentic Indian food on Walton Street, Oxford.
+              Notes from local diners, takeaway regulars, families and guests
+              who love Indian and Bengali food on High Street, Winslow.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
@@ -195,11 +195,11 @@ export default function ReviewsPage() {
             <blockquote className="rounded-lg border border-[#D7A542]/24 bg-[radial-gradient(circle_at_top_left,rgba(215,165,66,0.2),transparent_34%),#15100E] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.3)] sm:p-8">
               <Quote className="text-[#D7A542]" size={32} aria-hidden="true" />
               <p className="mt-5 max-w-3xl text-2xl font-black leading-tight sm:text-4xl">
-                Warm service, generous dishes, and a Walton Street story since
-                1956.
+                Warm service, generous dishes, Bengal specials and free local
+                delivery for MK18 and MK17.
               </p>
               <footer className="mt-4 text-sm font-semibold text-white/56">
-                Jamal&apos;s Indian Restaurant, Oxford
+                Bengal - Indian &amp; Bengali Cuisine, Winslow
               </footer>
             </blockquote>
 

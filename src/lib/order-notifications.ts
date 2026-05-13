@@ -46,14 +46,14 @@ function getOrderReadyCopy(orderType: string) {
       detail:
         "Please be ready to receive your order. Our rider is on the way.",
       headline: "Your food is on the way",
-      subject: "Your Jamal's order is on the way",
+      subject: `Your ${restaurant.shortName} order is on the way`,
     };
   }
 
   return {
-    detail: "Please collect your order from Jamal's Indian Restaurant.",
+    detail: `Please collect your order from ${restaurant.name}.`,
     headline: "Your food is ready for collection",
-    subject: "Your Jamal's order is ready for collection",
+    subject: `Your ${restaurant.shortName} order is ready for collection`,
   };
 }
 

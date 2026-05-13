@@ -4,7 +4,7 @@ import { AccountDashboard } from "@/components/AccountDashboard";
 export const metadata: Metadata = {
   title: "Customer Account",
   description:
-    "Customer account for Jamal's Indian Restaurant bookings and saved details.",
+    "Customer account for Bengal bookings and saved details.",
 };
 
 export default function AccountPage() {
