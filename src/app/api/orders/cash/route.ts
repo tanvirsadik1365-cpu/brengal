@@ -76,19 +76,6 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    if (
-      error instanceof Error &&
-      error.message.includes("Supabase is not configured")
-    ) {
-      return badRequest(
-        "Database is not configured. Add the Supabase environment variables, restart the app, then try the cash order again.",
-        503,
-      );
-    }
-
-    return badRequest(
-      "Cash order could not be saved to the database. Check the Supabase project and table setup.",
-      502,
-    );
+    return badRequest("Cash order could not be placed right now.", 502);
   }
 }

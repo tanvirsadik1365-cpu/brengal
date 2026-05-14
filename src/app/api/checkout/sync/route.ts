@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
   const secretKey = process.env.STRIPE_SECRET_KEY;
 
   if (!secretKey) {
-    return badRequest("Stripe is not configured.", 503);
+    return badRequest("Payment service is temporarily unavailable.", 503);
   }
 
   const body = (await request.json().catch(() => null)) as
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    return badRequest("Paid order could not be confirmed in the database.", 502);
+    return badRequest("Payment confirmation could not be completed.", 502);
   }
 
   return jsonResponse({

@@ -62,10 +62,7 @@ export async function POST(request: NextRequest) {
   const secretKey = process.env.STRIPE_SECRET_KEY;
 
   if (!secretKey) {
-    return badRequest(
-      "Stripe is not configured. Add STRIPE_SECRET_KEY to the frontend environment.",
-      503,
-    );
+    return badRequest("Payment service is temporarily unavailable.", 503);
   }
 
   const body = await request.json().catch(() => null);
@@ -166,13 +163,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    return badRequest(
-      error instanceof Error &&
-        error.message.includes("Supabase is not configured")
-        ? "Database is not configured. Add the Supabase environment variables and restart the app."
-        : "Order could not be saved to the database.",
-      503,
-    );
+    return badRequest("Order could not be created right now.", 503);
   }
 
   const metadata = {
@@ -238,7 +229,7 @@ export async function POST(request: NextRequest) {
       "Stripe did not return a Checkout URL.",
     ).catch(console.error);
 
-    return badRequest("Stripe did not return a Checkout URL.", 502);
+    return badRequest("Checkout could not be started.", 502);
   }
 
   try {
@@ -246,7 +237,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    return badRequest("Stripe session could not be saved to the database.", 502);
+    return badRequest("Checkout could not be started.", 502);
   }
 
   return jsonResponse({

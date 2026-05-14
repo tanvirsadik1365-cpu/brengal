@@ -25,13 +25,7 @@ function jsonResponse(body: unknown, status = 200) {
 
 function validateMerchantToken(request: NextRequest) {
   if (!isMerchantAuthConfigured()) {
-    return jsonResponse(
-      {
-        error:
-          "Set MERCHANT_DASHBOARD_TOKEN in the environment, then restart the app.",
-      },
-      503,
-    );
+    return jsonResponse({ error: "Merchant access is unavailable." }, 503);
   }
 
   if (!isMerchantRequestAuthorized(request)) {
@@ -73,15 +67,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    return jsonResponse(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Store status could not be loaded.",
-      },
-      502,
-    );
+    return jsonResponse({ error: "Store status could not be loaded." }, 502);
   }
 }
 
@@ -120,14 +106,6 @@ export async function PATCH(request: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    return jsonResponse(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Store status could not be updated.",
-      },
-      422,
-    );
+    return jsonResponse({ error: "Store status could not be updated." }, 422);
   }
 }

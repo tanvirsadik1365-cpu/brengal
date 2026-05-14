@@ -52,11 +52,6 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    return badRequest(
-      error instanceof Error && error.message.includes("Supabase is not configured")
-        ? "Database is not configured. Add the Supabase environment variables and restart the app."
-        : "Customer details could not be saved.",
-      502,
-    );
+    return badRequest("Customer details could not be saved.", 502);
   }
 }

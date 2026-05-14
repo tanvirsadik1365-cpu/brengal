@@ -85,19 +85,6 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    if (
-      error instanceof Error &&
-      error.message.includes("Supabase is not configured")
-    ) {
-      return badRequest(
-        "Database is not configured. Add the Supabase environment variables, restart the app, then try booking again.",
-        503,
-      );
-    }
-
-    return badRequest(
-      "Reservation could not be saved. Check the Supabase reservations table setup.",
-      502,
-    );
+    return badRequest("Reservation could not be saved right now.", 502);
   }
 }

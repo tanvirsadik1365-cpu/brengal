@@ -21,13 +21,7 @@ function jsonResponse(body: unknown, status = 200) {
 
 export async function GET(request: NextRequest) {
   if (!isMerchantAuthConfigured()) {
-    return jsonResponse(
-      {
-        error:
-          "Set MERCHANT_DASHBOARD_TOKEN in the environment, then restart the app.",
-      },
-      503,
-    );
+    return jsonResponse({ error: "Merchant access is unavailable." }, 503);
   }
 
   if (!isMerchantRequestAuthorized(request)) {

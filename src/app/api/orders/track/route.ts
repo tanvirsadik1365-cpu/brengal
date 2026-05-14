@@ -60,11 +60,6 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    return badRequest(
-      error instanceof Error && error.message.includes("Supabase is not configured")
-        ? "Order tracking is not configured yet."
-        : "Order tracking could not load. Please try again.",
-      502,
-    );
+    return badRequest("Order tracking could not load. Please try again.", 502);
   }
 }

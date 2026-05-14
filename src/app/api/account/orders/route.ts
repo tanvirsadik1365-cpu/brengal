@@ -32,11 +32,6 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    return badRequest(
-      error instanceof Error && error.message.includes("Supabase is not configured")
-        ? "Database is not configured. Add the Supabase environment variables and restart the app."
-        : "Orders could not be loaded.",
-      502,
-    );
+    return badRequest("Orders could not be loaded.", 502);
   }
 }
