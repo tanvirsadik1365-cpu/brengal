@@ -65,7 +65,7 @@ const sections = [
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="bg-white text-[#241D1D]">
+    <main className="bg-white text-[#121212]">
       <PageIntro
         eyebrow="Privacy"
         title="Privacy Policy"
@@ -80,9 +80,9 @@ export default function PrivacyPolicyPage() {
           <div className="grid gap-4 md:grid-cols-2">
             {privacyItems.map(({ Icon, title, body }) => (
               <article key={title} className="restaurant-card rounded-lg p-5">
-                <Icon className="text-[#8A3430]" size={24} aria-hidden="true" />
+                <Icon className="text-[#2B1408]" size={24} aria-hidden="true" />
                 <h2 className="mt-4 text-xl font-black">{title}</h2>
-                <p className="mt-3 text-sm leading-7 text-[#6B5D5B]">
+                <p className="mt-3 text-sm leading-7 text-[#5F5A53]">
                   {body}
                 </p>
               </article>
@@ -94,7 +94,7 @@ export default function PrivacyPolicyPage() {
               {sections.map((section) => (
                 <section key={section.title}>
                   <h2 className="text-lg font-black">{section.title}</h2>
-                  <p className="mt-2 text-sm leading-7 text-[#6B5D5B]">
+                  <p className="mt-2 text-sm leading-7 text-[#5F5A53]">
                     {section.body}
                   </p>
                 </section>
@@ -102,23 +102,23 @@ export default function PrivacyPolicyPage() {
             </div>
           </div>
 
-          <div className="mt-8 rounded-lg border border-[#EADAC5] bg-[#FFF9EF] p-6">
+          <div className="mt-8 rounded-lg border border-[#E3D7C5] bg-[#F5F2EC] p-6">
             <h2 className="text-xl font-black">Privacy questions</h2>
-            <p className="mt-2 text-sm leading-7 text-[#6B5D5B]">
+            <p className="mt-2 text-sm leading-7 text-[#5F5A53]">
               Contact the restaurant for privacy, account, order history, or
               reservation data questions.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <a
                 href={`mailto:${restaurant.email}`}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-5 text-sm font-black text-white transition hover:bg-[#6F2926]"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#2B1408] px-5 text-sm font-black text-white transition hover:bg-[#1F0F06]"
               >
                 <Mail size={16} aria-hidden="true" />
                 {restaurant.email}
               </a>
               <Link
                 href="/terms-and-conditions"
-                className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#8A3430]/20 bg-white px-5 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430]"
+                className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#2B1408]/20 bg-white px-5 text-sm font-black text-[#2B1408] transition hover:border-[#2B1408]"
               >
                 Terms & Conditions
               </Link>
@@ -129,3 +129,4 @@ export default function PrivacyPolicyPage() {
     </main>
   );
 }
+

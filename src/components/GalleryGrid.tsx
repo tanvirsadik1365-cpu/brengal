@@ -293,7 +293,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
   }
 
   return (
-    <section className="relative overflow-hidden bg-[#0D0A08] pb-28 text-white lg:pb-20">
+    <section className="relative overflow-hidden bg-[#F5F2EC] pb-28 text-[#121212] lg:pb-20">
       <section className="relative isolate overflow-hidden px-4 pb-8 pt-52 sm:px-6 sm:py-12 lg:min-h-[calc(100svh-76px)] lg:px-8 lg:py-14">
         <Image
           src={heroImage.src}
@@ -308,7 +308,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,10,8,0.18)_0%,rgba(13,10,8,0.72)_72%,#0D0A08_100%)]"
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(18,18,18,0.2)_0%,rgba(18,18,18,0.72)_68%,rgba(18,18,18,0.9)_100%)]"
           aria-hidden="true"
         />
 
@@ -319,7 +319,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-4xl"
           >
-            <p className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#F6DFA4] shadow-[0_14px_34px_rgba(0,0,0,0.32)] backdrop-blur">
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#FDE3A0] shadow-[0_14px_34px_rgba(0,0,0,0.32)] backdrop-blur">
               <Camera size={15} aria-hidden="true" />
               Gallery
             </p>
@@ -333,7 +333,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             <div className="mt-8 flex flex-wrap gap-3">
               <GalleryLink
                 href="/menu"
-                className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-6 text-sm font-black text-[#150D08] shadow-[0_16px_38px_rgba(215,165,66,0.24)] transition hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-6 text-sm font-black text-[#121212] shadow-[0_16px_38px_rgba(215,165,66,0.24)] transition hover:-translate-y-0.5 hover:bg-white"
               >
                 <Utensils size={17} aria-hidden="true" />
                 Order online
@@ -341,7 +341,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
               </GalleryLink>
               <GalleryLink
                 href="/booking"
-                className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full border border-white/16 bg-white/10 px-6 text-sm font-black text-white shadow-[0_14px_34px_rgba(0,0,0,0.28)] backdrop-blur transition hover:border-[#D7A542] hover:text-[#F6DFA4]"
+                className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full border border-white/16 bg-white/10 px-6 text-sm font-black text-white shadow-[0_14px_34px_rgba(0,0,0,0.28)] backdrop-blur transition hover:border-[#FDBE35] hover:text-[#FDE3A0]"
               >
                 <CalendarCheck size={17} aria-hidden="true" />
                 Book a table
@@ -360,7 +360,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 key={image.title}
                 type="button"
                 onClick={() => openImage(image)}
-                className="group relative min-h-[150px] overflow-hidden rounded-lg border border-white/12 bg-white/8 text-left shadow-[0_22px_60px_rgba(0,0,0,0.34)] transition hover:-translate-y-1 hover:border-[#D7A542]/55 sm:min-h-[180px] lg:min-h-[172px]"
+                className="group relative min-h-[150px] overflow-hidden rounded-lg border border-white/12 bg-white/8 text-left shadow-[0_22px_60px_rgba(0,0,0,0.34)] transition hover:-translate-y-1 hover:border-[#FDBE35]/55 sm:min-h-[180px] lg:min-h-[172px]"
               >
                 <Image
                   src={image.src}
@@ -372,7 +372,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 />
                 <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.72)_100%)]" />
                 <span className="absolute bottom-4 left-4 right-4">
-                  <span className="text-xs font-black uppercase tracking-[0.16em] text-[#F6DFA4]">
+                  <span className="text-xs font-black uppercase tracking-[0.16em] text-[#FDE3A0]">
                     {image.mood}
                   </span>
                   <span className="mt-1 block text-xl font-black text-white">
@@ -385,7 +385,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
         </div>
       </section>
 
-      <div className="sticky top-[72px] z-30 border-y border-white/10 bg-[#0D0A08]/82 px-4 py-3 shadow-[0_16px_42px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:px-6 lg:px-8">
+      <div className="sticky top-[72px] z-30 border-y border-[#E3D7C5] bg-[#F5F2EC]/92 px-4 py-3 shadow-[0_8px_20px_rgba(43,20,8,0.12)] backdrop-blur-xl sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto scrollbar-soft">
           {availableCategories.map(({ label, Icon }) => {
             const isActive = label === activeCategory;
@@ -401,8 +401,8 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 aria-pressed={isActive}
                 className={`inline-flex h-11 min-h-11 shrink-0 items-center justify-center gap-2 rounded-full border px-4 text-sm font-black transition ${
                   isActive
-                    ? "border-[#D7A542] bg-[#D7A542] text-[#150D08] shadow-[0_10px_26px_rgba(215,165,66,0.2)]"
-                    : "border-white/12 bg-white/8 text-white/70 hover:border-[#D7A542]/55 hover:text-white"
+                    ? "border-[#FDBE35] bg-[#FDBE35] text-[#121212] shadow-[0_10px_26px_rgba(215,165,66,0.2)]"
+                    : "border-[#E3D7C5] bg-[#FFFCF7] text-[#5F5A53] hover:border-[#FDBE35]/55 hover:text-[#121212]"
                 }`}
               >
                 <Icon size={16} aria-hidden="true" />
@@ -416,14 +416,14 @@ export function GalleryGrid({ images }: GalleryGridProps) {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="grid gap-4 lg:grid-cols-[0.72fr_1fr] lg:items-end">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#D7A542]">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#FDBE35]">
               {activeCategory === "All" ? "Restaurant story" : activeCategory}
             </p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-black leading-tight text-white sm:text-5xl">
+            <h2 className="mt-3 max-w-2xl text-3xl font-black leading-tight text-[#121212] sm:text-5xl">
               The food, the room, the feeling.
             </h2>
           </div>
-          <p className="max-w-2xl text-base font-semibold leading-8 text-white/62 lg:justify-self-end">
+          <p className="max-w-2xl text-base font-semibold leading-8 text-[#5F5A53] lg:justify-self-end">
             {visibleImages.length} moments from the dishes, tables, and details
             behind a High Street Winslow dinner.
           </p>
@@ -434,14 +434,14 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             <section key={chapter} id={chapter.toLowerCase().replace(/[^a-z0-9]+/g, "-")}>
               <div className="mb-5 flex items-end justify-between gap-4">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]">
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-[#FDBE35]">
                     {chapter}
                   </p>
-                  <h3 className="mt-2 text-2xl font-black text-white sm:text-3xl">
+                  <h3 className="mt-2 text-2xl font-black text-[#121212] sm:text-3xl">
                     {chapterSummaries[chapter] ?? chapterImages[0]?.caption}
                   </h3>
                 </div>
-                <span className="hidden rounded-full border border-white/10 bg-white/8 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/62 sm:inline-flex">
+                <span className="hidden rounded-full border border-[#E3D7C5] bg-[#FFFCF7] px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#5F5A53] sm:inline-flex">
                   {chapterImages.length} photos
                 </span>
               </div>
@@ -471,10 +471,10 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                     <button
                       type="button"
                       onClick={() => openImage(image)}
-                      className="group block h-full w-full overflow-hidden rounded-lg border border-white/10 bg-white/7 text-left shadow-[0_18px_50px_rgba(0,0,0,0.28)] outline-none transition hover:-translate-y-1 hover:border-[#D7A542]/55 focus-visible:border-[#D7A542]"
+                      className="group block h-full w-full overflow-hidden rounded-xl border border-[#E3D7C5] bg-[#FFFCF7] text-left shadow-[0_10px_24px_rgba(43,20,8,0.08)] outline-none transition hover:-translate-y-1 hover:border-[#FDBE35]/55 focus-visible:border-[#FDBE35]"
                     >
                       <span
-                        className={`relative block w-full overflow-hidden bg-[#17100D] ${getChapterCardAspect(chapter)}`}
+                        className={`relative block w-full overflow-hidden bg-[#FFFCF7] ${getChapterCardAspect(chapter)}`}
                       >
                         <Image
                           src={image.src}
@@ -489,14 +489,14 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                           }`}
                         />
                         <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_34%,rgba(0,0,0,0.78)_100%)] opacity-90 transition group-hover:opacity-100" />
-                        <span className="absolute left-4 top-4 inline-flex rounded-full bg-[#D7A542] px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.08em] text-[#150D08] shadow-lg shadow-black/20">
+                        <span className="absolute left-4 top-4 inline-flex rounded-full bg-[#FDBE35] px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.08em] text-[#121212] shadow-lg shadow-black/20">
                           {image.mood ?? image.category}
                         </span>
                         <span className="absolute bottom-4 left-4 right-4">
                           <span className="text-xl font-black text-white">
                             {image.title}
                           </span>
-                          <span className="mt-2 block text-sm font-semibold leading-6 text-white/72">
+                          <span className="mt-2 block text-sm font-semibold leading-6 text-white/80">
                             {image.caption}
                           </span>
                         </span>
@@ -509,15 +509,15 @@ export function GalleryGrid({ images }: GalleryGridProps) {
           ))}
         </div>
 
-        <section className="mt-16 overflow-hidden rounded-lg border border-[#D7A542]/22 bg-[radial-gradient(circle_at_top_left,rgba(215,165,66,0.22),transparent_38%),linear-gradient(135deg,#1A100C_0%,#0D0A08_100%)] p-6 shadow-[0_26px_70px_rgba(0,0,0,0.34)] sm:p-8 lg:grid lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
+        <section className="mt-16 overflow-hidden rounded-xl border border-[#E3D7C5] bg-[radial-gradient(circle_at_top_left,rgba(253,190,53,0.16),transparent_40%),#FFFCF7] p-6 shadow-[0_26px_70px_rgba(0,0,0,0.34)] sm:p-8 lg:grid lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-[#D7A542]">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-[#FDBE35]">
               Ready for dinner
             </p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-black leading-tight text-white sm:text-5xl">
+            <h2 className="mt-3 max-w-2xl text-3xl font-black leading-tight text-[#121212] sm:text-5xl">
               Make the gallery real tonight.
             </h2>
-            <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-white/64">
+            <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-[#5F5A53]">
               Order the dishes that caught your eye, or reserve a table for a
               warmer High Street Winslow evening.
             </p>
@@ -525,14 +525,14 @@ export function GalleryGrid({ images }: GalleryGridProps) {
           <div className="mt-6 flex flex-wrap gap-3 lg:mt-0 lg:justify-end">
             <GalleryLink
               href="/menu"
-              className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-6 text-sm font-black text-[#150D08] transition hover:bg-white"
+              className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-6 text-sm font-black text-[#121212] transition hover:bg-white"
             >
               Order online
               <ArrowRight size={16} aria-hidden="true" />
             </GalleryLink>
             <GalleryLink
               href="/booking"
-              className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full border border-white/14 bg-white/8 px-6 text-sm font-black text-white transition hover:border-[#D7A542] hover:text-[#F6DFA4]"
+              className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full border border-[#E3D7C5] bg-[#FFFCF7] px-6 text-sm font-black text-[#121212] transition hover:border-[#FDBE35] hover:text-[#121212]"
             >
               Book a table
             </GalleryLink>
@@ -542,19 +542,19 @@ export function GalleryGrid({ images }: GalleryGridProps) {
 
       <nav
         aria-label="Gallery quick actions"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-white/12 bg-[#0D0A08]/92 px-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-16px_40px_rgba(0,0,0,0.42)] backdrop-blur-xl lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-[#E3D7C5] bg-[#F5F2EC]/95 px-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-16px_40px_rgba(0,0,0,0.42)] backdrop-blur-xl lg:hidden"
       >
         <div className="mx-auto grid max-w-md grid-cols-2 gap-2">
           <GalleryLink
             href="/menu"
-            className="inline-flex h-[52px] min-h-[52px] items-center justify-center gap-2 rounded-full bg-[#D7A542] px-4 text-sm font-black text-[#150D08]"
+            className="inline-flex h-[52px] min-h-[52px] items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-4 text-sm font-black text-[#121212]"
           >
             <Utensils size={17} aria-hidden="true" />
             Order
           </GalleryLink>
           <GalleryLink
             href="/booking"
-            className="inline-flex h-[52px] min-h-[52px] items-center justify-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 text-sm font-black text-white"
+            className="inline-flex h-[52px] min-h-[52px] items-center justify-center gap-2 rounded-full border border-[#E3D7C5] bg-[#FFFCF7] px-4 text-sm font-black text-[#121212]"
           >
             <CalendarCheck size={17} aria-hidden="true" />
             Book
@@ -565,14 +565,14 @@ export function GalleryGrid({ images }: GalleryGridProps) {
       <div className="fixed bottom-6 right-6 z-40 hidden flex-col gap-2 lg:flex">
         <GalleryLink
           href="/menu"
-          className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] shadow-[0_16px_38px_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5 hover:bg-white"
+          className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-5 text-sm font-black text-[#121212] shadow-[0_16px_38px_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5 hover:bg-white"
         >
           <Utensils size={17} aria-hidden="true" />
           Order
         </GalleryLink>
         <GalleryLink
           href="/booking"
-          className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full border border-white/14 bg-[#15100E]/90 px-5 text-sm font-black text-white shadow-[0_16px_38px_rgba(0,0,0,0.26)] backdrop-blur transition hover:-translate-y-0.5 hover:border-[#D7A542]"
+          className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full border border-[#E3D7C5] bg-[#FFFCF7] px-5 text-sm font-black text-[#121212] shadow-[0_16px_38px_rgba(0,0,0,0.26)] backdrop-blur transition hover:-translate-y-0.5 hover:border-[#FDBE35]"
         >
           <CalendarCheck size={17} aria-hidden="true" />
           Book
@@ -597,7 +597,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             <button
               type="button"
               onClick={() => setActiveIndex(null)}
-              className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/14 bg-white/10 text-white backdrop-blur transition hover:border-[#D7A542]"
+              className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/14 bg-white/10 text-white backdrop-blur transition hover:border-[#FDBE35]"
               aria-label="Close image"
             >
               <X size={20} aria-hidden="true" />
@@ -605,7 +605,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             <button
               type="button"
               onClick={goToPreviousImage}
-              className="absolute left-4 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/14 bg-white/10 text-white backdrop-blur transition hover:border-[#D7A542] md:flex"
+              className="absolute left-4 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/14 bg-white/10 text-white backdrop-blur transition hover:border-[#FDBE35] md:flex"
               aria-label="Previous image"
             >
               <ArrowLeft size={20} aria-hidden="true" />
@@ -613,7 +613,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             <button
               type="button"
               onClick={goToNextImage}
-              className="absolute right-4 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/14 bg-white/10 text-white backdrop-blur transition hover:border-[#D7A542] md:flex"
+              className="absolute right-4 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/14 bg-white/10 text-white backdrop-blur transition hover:border-[#FDBE35] md:flex"
               aria-label="Next image"
             >
               <ArrowRight size={20} aria-hidden="true" />
@@ -627,7 +627,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
               transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
               className="grid h-full content-center gap-4 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center"
             >
-              <div className="relative min-h-[56svh] overflow-hidden rounded-lg border border-white/12 bg-[#15100E] shadow-[0_28px_90px_rgba(0,0,0,0.42)] sm:min-h-[72svh]">
+              <div className="relative min-h-[56svh] overflow-hidden rounded-lg border border-white/12 bg-[#FFFCF7] shadow-[0_28px_90px_rgba(0,0,0,0.42)] sm:min-h-[72svh]">
                 <Image
                   src={selectedImage.src}
                   alt={getImageAlt(selectedImage)}
@@ -643,23 +643,23 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 />
               </div>
 
-              <aside className="rounded-lg border border-white/12 bg-[#15100E]/92 p-5 shadow-[0_22px_60px_rgba(0,0,0,0.34)] backdrop-blur">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]">
+              <aside className="rounded-lg border border-white/12 bg-[#FFFCF7]/92 p-5 shadow-[0_22px_60px_rgba(0,0,0,0.34)] backdrop-blur">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#FDBE35]">
                   {selectedImage.mood ?? selectedImage.category}
                 </p>
-                <h2 className="mt-3 text-3xl font-black leading-tight text-white">
+                <h2 className="mt-3 text-3xl font-black leading-tight text-[#121212]">
                   {selectedImage.title}
                 </h2>
-                <p className="mt-4 text-sm font-semibold leading-7 text-white/68">
+                <p className="mt-4 text-sm font-semibold leading-7 text-[#5F5A53]">
                   {selectedImage.caption}
                 </p>
-                <div className="mt-5 flex items-center gap-2 rounded-lg border border-white/10 bg-white/7 p-3 text-sm font-bold text-white/70">
-                  <MapPin className="text-[#D7A542]" size={17} aria-hidden="true" />
+                <div className="mt-5 flex items-center gap-2 rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-3 text-sm font-bold text-[#5F5A53]">
+                  <MapPin className="text-[#FDBE35]" size={17} aria-hidden="true" />
                   40 High St, Winslow
                 </div>
                 <GalleryLink
                   href={selectedImage.href ?? "/menu"}
-                  className="mt-5 inline-flex h-12 min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] transition hover:bg-white"
+                  className="mt-5 inline-flex h-12 min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-5 text-sm font-black text-[#121212] transition hover:bg-white"
                 >
                   {selectedImage.cta ?? "Order this tonight"}
                   <ArrowRight size={16} aria-hidden="true" />
@@ -674,7 +674,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                     key={imageIndex}
                     className={`h-1.5 rounded-full transition-all ${
                       imageIndex === activeIndex
-                        ? "w-8 bg-[#D7A542]"
+                        ? "w-8 bg-[#FDBE35]"
                         : "w-1.5 bg-white/30"
                     }`}
                   />
@@ -687,3 +687,5 @@ export function GalleryGrid({ images }: GalleryGridProps) {
     </section>
   );
 }
+
+

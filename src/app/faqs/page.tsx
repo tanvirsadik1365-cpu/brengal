@@ -30,7 +30,7 @@ const breadcrumbJsonLd = createBreadcrumbJsonLd([
 
 export default function FaqsPage() {
   return (
-    <main className="bg-white text-[#241D1D]">
+    <main className="bg-white text-[#121212]">
       {shouldRenderJsonLd ? (
         <>
           <script
@@ -57,15 +57,15 @@ export default function FaqsPage() {
           <FaqList faqs={faqs} />
 
           <div className="restaurant-card mt-10 rounded-lg p-8 text-center">
-            <HelpCircle className="mx-auto text-[#8A3430]" size={34} aria-hidden="true" />
+            <HelpCircle className="mx-auto text-[#2B1408]" size={34} aria-hidden="true" />
             <h2 className="mt-5 text-2xl font-black">Still have a question?</h2>
-            <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#6B5D5B]">
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#5F5A53]">
               The restaurant can help with orders, bookings, allergens, and
               catering.
             </p>
             <Link
               href="/contact"
-              className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-[#8A3430] px-6 text-sm font-black text-white transition hover:bg-[#6F2926]"
+              className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-[#2B1408] px-6 text-sm font-black text-white transition hover:bg-[#1F0F06]"
             >
               Contact us
             </Link>
@@ -75,3 +75,4 @@ export default function FaqsPage() {
     </main>
   );
 }
+

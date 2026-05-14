@@ -98,10 +98,10 @@ const socialLinks = [
 ];
 
 const footerLinkClass =
-  "inline-flex min-w-0 items-center gap-2 text-sm font-semibold leading-6 text-white/76 transition hover:text-[#D7A542]";
+  "inline-flex min-w-0 items-center gap-2 text-sm font-semibold leading-6 text-white/76 transition hover:text-[#FDBE35]";
 
 const footerHeadingClass =
-  "text-sm font-black uppercase tracking-[0.14em] text-[#D7A542]";
+  "text-sm font-black uppercase tracking-[0.14em] text-[#FDBE35]";
 
 export function SiteFooter() {
   return (
@@ -146,26 +146,26 @@ export function SiteFooter() {
                 rel="noreferrer"
                 className={`${footerLinkClass} justify-center md:justify-start`}
               >
-                <MapPin size={17} className="shrink-0 text-[#D7A542]" aria-hidden="true" />
+                <MapPin size={17} className="shrink-0 text-[#FDBE35]" aria-hidden="true" />
                 <span>{restaurant.address.join(", ")}</span>
               </a>
               <a
                 href={restaurant.phoneHref}
                 className={`${footerLinkClass} justify-center md:justify-start`}
               >
-                <Phone size={17} className="shrink-0 text-[#D7A542]" aria-hidden="true" />
+                <Phone size={17} className="shrink-0 text-[#FDBE35]" aria-hidden="true" />
                 {restaurant.phone}
               </a>
               <a
                 href={`mailto:${restaurant.email}`}
                 className={`${footerLinkClass} justify-center break-all md:justify-start`}
               >
-                <Mail size={17} className="shrink-0 text-[#D7A542]" aria-hidden="true" />
+                <Mail size={17} className="shrink-0 text-[#FDBE35]" aria-hidden="true" />
                 {restaurant.email}
               </a>
             </div>
 
-            <h2 className="mt-7 text-sm font-black uppercase tracking-[0.14em] text-[#D7A542]">
+            <h2 className="mt-7 text-sm font-black uppercase tracking-[0.14em] text-[#FDBE35]">
               Social Media
             </h2>
             <div className="mt-4 flex flex-wrap justify-center gap-3 md:justify-start">
@@ -176,7 +176,7 @@ export function SiteFooter() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`${link.label} opens in a new tab`}
-                  className={`flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:bg-[#8A3430] hover:text-white hover:ring-[#D7A542] ${link.className}`}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-white/10 transition hover:-translate-y-0.5 hover:bg-[#2B1408] hover:text-white hover:ring-[#FDBE35] ${link.className}`}
                 >
                   {link.content}
                 </a>
@@ -196,14 +196,30 @@ export function SiteFooter() {
                 className="h-auto w-full max-w-[252px] rounded-md bg-white shadow-[0_12px_24px_rgba(0,0,0,0.16)] sm:max-w-[268px] xl:max-w-[238px]"
                 loading="lazy"
               />
-              <div className="w-full max-w-[252px] rounded-md border border-white/10 bg-white p-5 text-left text-[#211A18] shadow-[0_12px_24px_rgba(0,0,0,0.16)] xl:max-w-[238px]">
-                <p className="text-xs font-black uppercase tracking-[0.14em] text-[#7A5410]">
-                  Delivery
-                </p>
-                <p className="mt-2 text-lg font-black">Free within 5 miles</p>
-                <p className="mt-1 text-sm font-semibold text-[#685C57]">
-                  MK18 and MK17 postcodes.
-                </p>
+              <div className="w-full max-w-[252px] overflow-hidden rounded-md border border-[#9CCB21] bg-[#97D700] text-[#121212] shadow-[0_12px_24px_rgba(0,0,0,0.16)] xl:max-w-[238px]">
+                <div className="border-b border-black/35 px-3 py-2 text-center">
+                  <p className="text-[11px] font-black uppercase tracking-[0.08em]">
+                    Food Hygiene Rating
+                  </p>
+                </div>
+                <div className="px-3 py-2">
+                  <div className="grid grid-cols-6 gap-1.5">
+                    {["0", "1", "2", "3", "4"].map((score) => (
+                      <span
+                        key={score}
+                        className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#121212] text-sm font-black"
+                      >
+                        {score}
+                      </span>
+                    ))}
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#121212] text-xl font-black text-white">
+                      5
+                    </span>
+                  </div>
+                </div>
+                <div className="border-t border-black/35 px-3 py-2 text-center">
+                  <p className="text-lg font-black uppercase tracking-wide">Very Good</p>
+                </div>
               </div>
             </div>
           </div>
@@ -240,7 +256,7 @@ export function SiteFooter() {
                   </span>
                   <Link
                     href={link.href}
-                    className="transition hover:text-[#D7A542]"
+                    className="transition hover:text-[#FDBE35]"
                   >
                     {link.label}
                   </Link>
@@ -253,3 +269,4 @@ export function SiteFooter() {
     </footer>
   );
 }
+

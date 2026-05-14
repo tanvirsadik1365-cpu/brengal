@@ -10,8 +10,8 @@ import {
 import { reservationTimes } from "@/lib/reservation-validation";
 
 const fieldClass =
-  "mt-2 h-12 w-full rounded-lg border border-white/12 bg-white/8 px-4 text-sm font-semibold text-white outline-none transition placeholder:text-white/35 focus:border-[#D7A542]/70 focus:ring-4 focus:ring-[#D7A542]/12";
-const labelClass = "text-sm font-black text-white";
+  "mt-2 h-12 w-full rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] px-4 text-sm font-semibold text-[#121212] outline-none transition placeholder:text-[#8B7B66] focus:border-[#FDBE35]/70 focus:ring-4 focus:ring-[#FDBE35]/12";
+const labelClass = "text-sm font-black text-[#121212]";
 
 type BookingFormState = {
   date: string;
@@ -179,24 +179,24 @@ export function BookingForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="h-full rounded-lg border border-white/10 bg-[#15100E] p-5 text-white shadow-[0_24px_70px_rgba(0,0,0,0.3)] sm:p-6 lg:p-7"
+      className="h-full rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-5 text-[#121212] shadow-[0_12px_28px_rgba(43,20,8,0.1)] sm:p-6 lg:p-7"
     >
       <div className="flex items-center gap-3">
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08] shadow-[0_14px_34px_rgba(215,165,66,0.22)]">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FDBE35] text-[#121212] shadow-[0_14px_34px_rgba(215,165,66,0.22)]">
           <CalendarCheck size={22} aria-hidden="true" />
         </span>
         <div className="min-w-0">
-          <h2 className="text-2xl font-black text-white">Booking details</h2>
-          <p className="mt-1 text-sm font-semibold leading-6 text-white/58">
+          <h2 className="text-2xl font-black text-[#121212]">Booking details</h2>
+          <p className="mt-1 text-sm font-semibold leading-6 text-[#5F5A53]">
             Add your date, time, guest count, and notes.
           </p>
         </div>
       </div>
 
-      <div className="mt-5 rounded-lg border border-[#D7A542]/22 bg-[#D7A542]/10 p-4 text-sm font-semibold leading-6 text-white/68">
+      <div className="mt-5 rounded-lg border border-[#FDBE35]/22 bg-[#FDBE35]/10 p-4 text-sm font-semibold leading-6 text-[#5F5A53]">
         {accountEmail ? (
           <p>
-            Signed in as <span className="font-black text-[#F6DFA4]">{accountEmail}</span>.
+            Signed in as <span className="font-black text-[#FDE3A0]">{accountEmail}</span>.
             Your booking will be saved to your account.
           </p>
         ) : accountReady ? (
@@ -204,7 +204,7 @@ export function BookingForm() {
             <span>Sign in or create an account to save bookings for next time.</span>
             <Link
               href="/account/sign-in"
-              className="inline-flex h-10 min-h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-4 text-sm font-black text-[#150D08] shadow-sm transition hover:bg-white"
+              className="inline-flex h-10 min-h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-4 text-sm font-black text-[#121212] shadow-sm transition hover:bg-white"
             >
               <LogIn size={16} aria-hidden="true" />
               Sign in
@@ -333,7 +333,7 @@ export function BookingForm() {
       <label className={`mt-5 block ${labelClass}`}>
         Special requests (optional)
         <textarea
-          className="mt-2 min-h-32 w-full rounded-lg border border-white/12 bg-white/8 px-4 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-white/35 focus:border-[#D7A542]/70 focus:ring-4 focus:ring-[#D7A542]/12"
+          className="mt-2 min-h-32 w-full rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] px-4 py-3 text-sm font-semibold text-[#121212] outline-none transition placeholder:text-[#8B7B66] focus:border-[#FDBE35]/70 focus:ring-4 focus:ring-[#FDBE35]/12"
           value={form.requests}
           onChange={(event) => updateForm("requests", event.target.value)}
           name="requests"
@@ -368,7 +368,7 @@ export function BookingForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-4 py-3 text-center text-sm font-black text-[#150D08] shadow-[0_16px_38px_rgba(215,165,66,0.18)] transition hover:bg-white disabled:opacity-60"
+        className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-4 py-3 text-center text-sm font-black text-[#121212] shadow-[0_16px_38px_rgba(215,165,66,0.18)] transition hover:bg-white disabled:opacity-60"
       >
         <Users size={18} aria-hidden="true" />
         {submitting ? "Sending booking..." : "Send booking request"}
@@ -376,3 +376,4 @@ export function BookingForm() {
     </form>
   );
 }
+

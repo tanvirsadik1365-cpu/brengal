@@ -195,16 +195,16 @@ export function MerchantStoreStatusControl() {
     <section className="restaurant-card rounded-lg p-5">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.14em] text-[#8A3430]">
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-[#2B1408]">
             Live ordering
           </p>
           <h2 className="mt-2 text-2xl font-black">
             {storeStatus ? storeStatus.label : "Store status"}
           </h2>
-          <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-[#6B5D5B]">
+          <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-[#5F5A53]">
             {storeStatus?.message ?? "Loading current status..."}
           </p>
-          <p className="mt-2 text-xs font-black uppercase tracking-[0.12em] text-[#8A3430]">
+          <p className="mt-2 text-xs font-black uppercase tracking-[0.12em] text-[#2B1408]">
             Updated {formatDateTime(storeStatus?.updatedAt ?? null)}
           </p>
         </div>
@@ -212,7 +212,7 @@ export function MerchantStoreStatusControl() {
           type="button"
           onClick={() => void refreshStoreStatus()}
           disabled={refreshing || saving}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC] disabled:opacity-60"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#2B1408]/20 bg-white px-4 text-sm font-black text-[#2B1408] transition hover:border-[#2B1408] hover:bg-[#FFF7EC] disabled:opacity-60"
         >
           <RefreshCw
             className={refreshing ? "animate-spin" : ""}
@@ -225,7 +225,7 @@ export function MerchantStoreStatusControl() {
 
       <div className="mt-5 grid gap-4 lg:grid-cols-[1fr_220px_220px_auto] lg:items-end">
         <div>
-          <span className="text-sm font-black text-[#241D1D]">Status</span>
+          <span className="text-sm font-black text-[#121212]">Status</span>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
             {statusOptions.map((option) => {
               const Icon = option.icon;
@@ -240,8 +240,8 @@ export function MerchantStoreStatusControl() {
                   disabled={saving}
                   className={`inline-flex h-11 items-center justify-center gap-2 rounded-full border px-3 text-sm font-black transition disabled:opacity-60 ${
                     active
-                      ? "border-[#8A3430] bg-[#8A3430] text-white"
-                      : "border-black/10 bg-white text-[#6B5D5B] hover:border-[#8A3430]/40 hover:text-[#8A3430]"
+                      ? "border-[#2B1408] bg-[#2B1408] text-white"
+                      : "border-black/10 bg-white text-[#5F5A53] hover:border-[#2B1408]/40 hover:text-[#2B1408]"
                   }`}
                 >
                   <Icon size={16} aria-hidden="true" />
@@ -252,10 +252,10 @@ export function MerchantStoreStatusControl() {
           </div>
         </div>
 
-        <label className="text-sm font-black text-[#241D1D]">
+        <label className="text-sm font-black text-[#121212]">
           Prep time
-          <span className="mt-2 grid h-12 grid-cols-[36px_1fr_42px] items-center rounded-lg border border-black/10 bg-white px-2 focus-within:border-[#8A3430] focus-within:ring-4 focus-within:ring-[#8A3430]/10">
-            <TimerReset className="text-[#8A3430]" size={17} aria-hidden="true" />
+          <span className="mt-2 grid h-12 grid-cols-[36px_1fr_42px] items-center rounded-lg border border-black/10 bg-white px-2 focus-within:border-[#2B1408] focus-within:ring-4 focus-within:ring-[#2B1408]/10">
+            <TimerReset className="text-[#2B1408]" size={17} aria-hidden="true" />
             <input
               value={prepTimeMinutes}
               min={5}
@@ -268,18 +268,18 @@ export function MerchantStoreStatusControl() {
               className="h-10 border-0 bg-transparent px-2 text-sm font-black outline-none"
               type="number"
             />
-            <span className="text-xs font-black uppercase text-[#6B5D5B]">
+            <span className="text-xs font-black uppercase text-[#5F5A53]">
               min
             </span>
           </span>
         </label>
 
-        <label className="text-sm font-black text-[#241D1D]">
+        <label className="text-sm font-black text-[#121212]">
           Support phone
           <input
             value={supportPhone}
             onChange={(event) => setSupportPhone(event.target.value)}
-            className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-black outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
+            className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-black outline-none transition focus:border-[#2B1408] focus:ring-4 focus:ring-[#2B1408]/10"
             type="tel"
           />
         </label>
@@ -288,7 +288,7 @@ export function MerchantStoreStatusControl() {
           type="button"
           onClick={() => void saveStoreStatus()}
           disabled={saving}
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-5 text-sm font-black text-white transition hover:bg-[#6F2926] disabled:opacity-60"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#2B1408] px-5 text-sm font-black text-white transition hover:bg-[#1F0F06] disabled:opacity-60"
         >
           <Save
             className={saving ? "animate-spin" : ""}
@@ -315,3 +315,4 @@ export function MerchantStoreStatusControl() {
     </section>
   );
 }
+

@@ -39,8 +39,8 @@ export function FaqList({ faqs }: FaqListProps) {
               aria-pressed={isActive}
               className={`h-10 rounded-full border px-4 text-sm font-black transition ${
                 isActive
-                  ? "border-[#8A3430] bg-[#8A3430] text-white"
-                  : "border-black/10 bg-white text-[#6B5D5B] hover:border-[#8A3430] hover:text-[#8A3430]"
+                  ? "border-[#2B1408] bg-[#2B1408] text-white"
+                  : "border-black/10 bg-white text-[#5F5A53] hover:border-[#2B1408] hover:text-[#2B1408]"
               }`}
             >
               {category}
@@ -58,13 +58,13 @@ export function FaqList({ faqs }: FaqListProps) {
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-black">
               <span className="break-words">{faq.question}</span>
               <span
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8A3430] text-white transition group-open:rotate-45"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#2B1408] text-white transition group-open:rotate-45"
                 aria-hidden="true"
               >
                 <Plus size={18} />
               </span>
             </summary>
-            <p className="mt-4 text-sm leading-7 text-[#6B5D5B]">
+            <p className="mt-4 text-sm leading-7 text-[#5F5A53]">
               {faq.answer}
             </p>
           </details>
@@ -73,3 +73,4 @@ export function FaqList({ faqs }: FaqListProps) {
     </>
   );
 }
+

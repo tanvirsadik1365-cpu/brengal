@@ -20,7 +20,7 @@ const breadcrumbJsonLd = createBreadcrumbJsonLd([
 
 export default function GalleryPage() {
   return (
-    <main className="bg-[#0D0A08] text-white">
+    <main className="bg-[#F5F2EC] text-[#121212]">
       {shouldRenderJsonLd ? (
         <>
           <script
@@ -37,3 +37,4 @@ export default function GalleryPage() {
     </main>
   );
 }
+

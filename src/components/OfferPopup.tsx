@@ -13,8 +13,9 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { offers } from "@/lib/restaurant";
 
-const dismissedStorageKey = "bengal-offer-popup-dismissed-at-v2";
-const popupDelayMs = 1200;
+const dismissedStorageKey = "bengal-offer-popup-dismissed-at-v3";
+const seenSessionKey = "bengal-offer-popup-seen-session-v1";
+const popupDelayMs = 900;
 const slideDelayMs = 3600;
 const dismissCooldownMs = 1000 * 60 * 60 * 6;
 
@@ -23,11 +24,18 @@ export function OfferPopup() {
   const [isVisible, setIsVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const isMerchantPage = pathname?.startsWith("/merchant");
-  const shouldSuppressPopup = isMerchantPage;
+  const isCheckoutFlow =
+    pathname?.startsWith("/checkout") || pathname?.startsWith("/cart");
+  const shouldSuppressPopup = isMerchantPage || isCheckoutFlow || pathname !== "/";
   const activeOffer = offers[activeIndex] ?? offers[0];
 
   function closePopup() {
-    window.localStorage.setItem(dismissedStorageKey, String(Date.now()));
+    try {
+      window.localStorage.setItem(dismissedStorageKey, String(Date.now()));
+      window.sessionStorage.setItem(seenSessionKey, "1");
+    } catch {
+      // Ignore storage failures (private mode / blocked storage)
+    }
     setIsVisible(false);
   }
 
@@ -45,18 +53,32 @@ export function OfferPopup() {
       return;
     }
 
-    const dismissedAtRaw = window.localStorage.getItem(dismissedStorageKey);
-    const dismissedAt = dismissedAtRaw ? Number(dismissedAtRaw) : 0;
+    let dismissedAt = 0;
+    let seenInSession = false;
+
+    try {
+      const dismissedAtRaw = window.localStorage.getItem(dismissedStorageKey);
+      dismissedAt = dismissedAtRaw ? Number(dismissedAtRaw) : 0;
+      seenInSession = window.sessionStorage.getItem(seenSessionKey) === "1";
+    } catch {
+      // If storage is blocked, still allow popup to show.
+    }
+
     const withinCooldown =
       Number.isFinite(dismissedAt) &&
       dismissedAt > 0 &&
       Date.now() - dismissedAt < dismissCooldownMs;
 
-    if (withinCooldown) {
+    if (withinCooldown || seenInSession) {
       return;
     }
 
     const timer = window.setTimeout(() => {
+      try {
+        window.sessionStorage.setItem(seenSessionKey, "1");
+      } catch {
+        // Ignore storage failures.
+      }
       setIsVisible(true);
     }, popupDelayMs);
 
@@ -99,28 +121,28 @@ export function OfferPopup() {
       aria-describedby="offer-popup-description"
       className="fixed inset-x-3 top-[86px] z-[80] mx-auto max-w-[440px] sm:inset-x-auto sm:right-5 sm:top-24 sm:w-[420px]"
     >
-      <div className="relative overflow-hidden rounded-lg border border-[#D7A542]/35 bg-[#15100E]/96 p-3.5 text-white shadow-[0_18px_48px_rgba(0,0,0,0.42)] backdrop-blur-xl">
-        <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#D7A542,#F6DFA4,#D7A542)]" />
+      <div className="relative overflow-hidden rounded-lg border border-[#FDBE35]/35 bg-[#1A1A1A]/96 p-3.5 text-white shadow-[0_18px_48px_rgba(0,0,0,0.42)] backdrop-blur-xl">
+        <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#FDBE35,#FDE3A0,#FDBE35)]" />
         <button
           type="button"
           onClick={closePopup}
           aria-label="Close offer popup"
-          className="absolute right-2.5 top-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/10 text-white transition hover:bg-white hover:text-[#150D08]"
+          className="absolute right-2.5 top-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/10 text-white transition hover:bg-white hover:text-[#121212]"
         >
           <X size={16} aria-hidden="true" />
         </button>
 
         <div className="flex min-h-[86px] items-start gap-3 pr-8">
-          <span className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08] shadow-[0_12px_28px_rgba(215,165,66,0.24)]">
+          <span className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FDBE35] text-[#121212] shadow-[0_12px_28px_rgba(215,165,66,0.24)]">
             <BadgePercent size={21} aria-hidden="true" />
           </span>
 
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#F6DFA4]">
+              <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#FDE3A0]">
                 Offer {activeIndex + 1} of {offers.length}
               </p>
-              <span className="rounded-full border border-[#D7A542]/30 bg-[#D7A542]/12 px-2 py-0.5 text-[10px] font-black uppercase text-[#F6DFA4]">
+              <span className="rounded-full border border-[#FDBE35]/30 bg-[#FDBE35]/12 px-2 py-0.5 text-[10px] font-black uppercase text-[#FDE3A0]">
                 {activeOffer.note}
               </span>
             </div>
@@ -170,7 +192,7 @@ export function OfferPopup() {
                 aria-pressed={activeIndex === index}
                 className={`h-2 rounded-full transition-all ${
                   activeIndex === index
-                    ? "w-7 bg-[#D7A542]"
+                    ? "w-7 bg-[#FDBE35]"
                     : "w-2 bg-white/28 hover:bg-white/60"
                 }`}
               />
@@ -182,7 +204,7 @@ export function OfferPopup() {
               type="button"
               onClick={showPreviousOffer}
               aria-label="Show previous offer"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/8 text-white/72 transition hover:border-[#D7A542]/45 hover:text-[#F6DFA4]"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/8 text-white/72 transition hover:border-[#FDBE35]/45 hover:text-[#FDE3A0]"
             >
               <ChevronLeft size={16} aria-hidden="true" />
             </button>
@@ -190,7 +212,7 @@ export function OfferPopup() {
               type="button"
               onClick={showNextOffer}
               aria-label="Show next offer"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/8 text-white/72 transition hover:border-[#D7A542]/45 hover:text-[#F6DFA4]"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/8 text-white/72 transition hover:border-[#FDBE35]/45 hover:text-[#FDE3A0]"
             >
               <ChevronRight size={16} aria-hidden="true" />
             </button>
@@ -200,7 +222,7 @@ export function OfferPopup() {
         <Link
           href="/menu"
           onClick={closePopup}
-          className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-4 text-sm font-black text-[#150D08] shadow-lg shadow-black/15 transition hover:bg-white"
+          className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-4 text-sm font-black text-[#121212] shadow-lg shadow-black/15 transition hover:bg-white"
         >
           <ShoppingBag size={17} aria-hidden="true" />
           Order online
@@ -210,3 +232,4 @@ export function OfferPopup() {
     </aside>
   );
 }
+

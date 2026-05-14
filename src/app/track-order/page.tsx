@@ -9,8 +9,9 @@ export const metadata: Metadata = {
 
 export default function TrackOrderPage() {
   return (
-    <main className="bg-[#0D0A08] text-white">
+    <main className="bg-[#F5F2EC] text-[#121212]">
       <OrderTrackingClient />
     </main>
   );
 }
+

@@ -48,7 +48,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-white/10 bg-[#0D0A08]/88 text-white backdrop-blur-xl transition-all duration-500 ${
+      className={`sticky top-0 z-50 border-b border-white/10 bg-[#121212]/88 text-white backdrop-blur-xl transition-all duration-500 ${
         isScrolled ? "shadow-[0_16px_42px_rgba(0,0,0,0.28)]" : "shadow-none"
       }`}
     >
@@ -82,7 +82,7 @@ export function SiteHeader() {
                 href={link.href}
                 className={`rounded-full px-3 py-2.5 transition xl:px-4 ${
                   active
-                    ? "bg-[#D7A542] text-[#150D08] shadow-sm"
+                    ? "bg-[#FDBE35] text-[#121212] shadow-sm"
                     : "hover:bg-white/10 hover:text-white"
                 }`}
                 aria-current={active ? "page" : undefined}
@@ -96,14 +96,14 @@ export function SiteHeader() {
         <div className="flex shrink-0 items-center justify-end gap-1.5 justify-self-end sm:gap-2">
           <Link
             href="/account"
-            className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/8 text-white shadow-sm transition hover:border-[#D7A542] hover:text-[#D7A542] sm:flex"
+            className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/8 text-white shadow-sm transition hover:border-[#FDBE35] hover:text-[#FDBE35] sm:flex"
             aria-label="Customer account"
           >
             <UserRound size={18} aria-hidden="true" />
           </Link>
           <Link
             href="/menu"
-            className="flex h-10 min-w-10 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#D7A542] px-2.5 text-sm font-black text-[#150D08] shadow-[0_12px_30px_rgba(215,165,66,0.22)] transition hover:-translate-y-0.5 hover:bg-white sm:h-11 sm:min-w-[132px] sm:px-4"
+            className="flex h-10 min-w-10 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#FDBE35] px-2.5 text-sm font-black text-[#121212] shadow-[0_12px_30px_rgba(215,165,66,0.22)] transition hover:-translate-y-0.5 hover:bg-white sm:h-11 sm:min-w-[132px] sm:px-4"
           >
             <ShoppingBag size={17} aria-hidden="true" />
             <span className="hidden sm:inline">Order Online</span>
@@ -113,7 +113,7 @@ export function SiteHeader() {
             onClick={() => setIsMenuOpen((current) => !current)}
             aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={isMenuOpen}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/8 text-white transition hover:border-[#D7A542] lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/8 text-white transition hover:border-[#FDBE35] lg:hidden"
           >
             {isMenuOpen ? <X size={19} aria-hidden="true" /> : <Menu size={19} aria-hidden="true" />}
           </button>
@@ -121,7 +121,7 @@ export function SiteHeader() {
       </div>
 
       {isMenuOpen ? (
-          <div className="overflow-hidden border-t border-white/10 bg-[#0D0A08]/96 lg:hidden">
+          <div className="overflow-hidden border-t border-white/10 bg-[#121212]/96 lg:hidden">
             <nav
               aria-label="Mobile navigation"
               className="mx-auto grid max-w-7xl gap-2 px-4 py-4 text-sm font-black sm:px-6"
@@ -135,7 +135,7 @@ export function SiteHeader() {
                     href={link.href}
                     className={`flex min-h-12 items-center justify-between rounded-lg border px-4 transition ${
                       active
-                        ? "border-[#D7A542] bg-[#D7A542] text-[#150D08]"
+                        ? "border-[#FDBE35] bg-[#FDBE35] text-[#121212]"
                         : "border-white/10 bg-white/6 text-white/82 hover:border-white/22 hover:text-white"
                     }`}
                     aria-current={active ? "page" : undefined}
@@ -169,3 +169,4 @@ export function SiteHeader() {
     </header>
   );
 }
+

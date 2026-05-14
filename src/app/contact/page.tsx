@@ -27,7 +27,7 @@ const breadcrumbJsonLd = createBreadcrumbJsonLd([
 ]);
 
 const fieldClass =
-  "mt-2 h-12 w-full rounded-lg border border-white/10 bg-white/8 px-4 text-sm font-semibold text-white outline-none transition placeholder:text-white/32 focus:border-[#D7A542]/70 focus:ring-4 focus:ring-[#D7A542]/12";
+  "mt-2 h-12 w-full rounded-lg border border-[#E3D7C5] bg-[#F5F2EC] px-4 text-sm font-semibold text-[#121212] outline-none transition placeholder:text-[#8B7B66] focus:border-[#FDBE35]/70 focus:ring-4 focus:ring-[#FDBE35]/12";
 
 const contactCards = [
   {
@@ -62,7 +62,7 @@ const contactCards = [
 
 export default function ContactPage() {
   return (
-    <main className="bg-[#0D0A08] text-white">
+    <main className="bg-[#F5F2EC] text-[#121212]">
       {shouldRenderJsonLd ? (
         <script
           type="application/ld+json"
@@ -76,43 +76,43 @@ export default function ContactPage() {
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-54"
+          className="object-cover opacity-5"
         />
         <div
-          className="absolute inset-0 bg-[linear-gradient(90deg,rgba(13,10,8,0.96)_0%,rgba(13,10,8,0.76)_48%,rgba(13,10,8,0.3)_100%)]"
+          className="absolute inset-0 bg-[linear-gradient(90deg,rgba(245,242,236,0.96)_0%,rgba(245,242,236,0.9)_48%,rgba(245,242,236,0.84)_100%)]"
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,10,8,0.08)_0%,rgba(13,10,8,0.82)_78%,#0D0A08_100%)]"
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(245,242,236,0.12)_0%,rgba(245,242,236,0.72)_78%,#F5F2EC_100%)]"
           aria-hidden="true"
         />
 
         <div className="relative z-10 mx-auto grid max-w-7xl gap-8 lg:grid-cols-[minmax(0,0.95fr)_390px] lg:items-end">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#F6DFA4] shadow-[0_14px_34px_rgba(0,0,0,0.28)] backdrop-blur">
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#FDE3A0] shadow-[0_14px_34px_rgba(0,0,0,0.28)] backdrop-blur">
               <MessageCircle size={15} aria-hidden="true" />
               Contact Bengal
             </p>
             <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">
               Contact Bengal Winslow
             </h1>
-            <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/68">
+            <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-[#5F5A53]">
               Speak to the restaurant for bookings, takeaway orders, delivery
               questions, and High Street directions.
             </p>
           </div>
 
-          <aside className="rounded-lg border border-[#D7A542]/24 bg-[#15100E]/88 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.34)] backdrop-blur">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]">
+          <aside className="rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-6 shadow-[0_24px_70px_rgba(52,35,28,0.12)]">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#FDBE35]">
               Direct line
             </p>
             <a
               href={restaurant.phoneHref}
-              className="mt-4 inline-flex text-3xl font-black leading-tight text-white transition hover:text-[#F6DFA4]"
+              className="mt-4 inline-flex text-3xl font-black leading-tight text-[#121212] transition hover:text-[#A97912]"
             >
               {restaurant.phone}
             </a>
-            <p className="mt-4 text-sm font-semibold leading-7 text-white/58">
+            <p className="mt-4 text-sm font-semibold leading-7 text-[#5F5A53]">
               For active orders, allergy questions, delivery timing, and booking
               changes, calling is fastest.
             </p>
@@ -126,18 +126,18 @@ export default function ContactPage() {
             {contactCards.map(({ Icon, title, body, cta, href }) => (
               <article
                 key={title}
-                className="flex min-h-[220px] flex-col rounded-lg border border-white/10 bg-[#15100E]/88 p-5 shadow-[0_18px_52px_rgba(0,0,0,0.26)]"
+                className="flex min-h-[220px] flex-col rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-5 shadow-[0_18px_52px_rgba(52,35,28,0.1)]"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08]">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FDBE35] text-[#121212]">
                   <Icon size={22} aria-hidden="true" />
                 </span>
                 <h2 className="mt-5 text-xl font-black">{title}</h2>
-                <p className="mt-3 text-sm font-semibold leading-7 text-white/58">
+                <p className="mt-3 text-sm font-semibold leading-7 text-[#5F5A53]">
                   {body}
                 </p>
                 <a
                   href={href}
-                  className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-black text-[#F6DFA4] transition hover:text-white"
+                  className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-black text-[#A97912] transition hover:text-[#121212]"
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel={href.startsWith("http") ? "noreferrer" : undefined}
                 >
@@ -155,13 +155,13 @@ export default function ContactPage() {
               )}`}
               method="post"
               encType="text/plain"
-              className="rounded-lg border border-white/10 bg-[#15100E]/88 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.32)] sm:p-8"
+              className="rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-6 shadow-[0_24px_70px_rgba(52,35,28,0.1)] sm:p-8"
             >
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#FDBE35]">
                 Message
               </p>
               <h2 className="mt-2 text-3xl font-black">Send a note.</h2>
-              <p className="mt-3 text-sm font-semibold leading-7 text-white/58">
+              <p className="mt-3 text-sm font-semibold leading-7 text-[#5F5A53]">
                 Use this for booking questions, feedback, catering, or special
                 occasions.
               </p>
@@ -214,7 +214,7 @@ export default function ContactPage() {
               <label className="mt-5 block text-sm font-black">
                 Message
                 <textarea
-                  className="mt-2 min-h-40 w-full rounded-lg border border-white/10 bg-white/8 px-4 py-3 text-sm font-semibold text-white outline-none transition placeholder:text-white/32 focus:border-[#D7A542]/70 focus:ring-4 focus:ring-[#D7A542]/12"
+                  className="mt-2 min-h-40 w-full rounded-lg border border-[#E3D7C5] bg-[#F5F2EC] px-4 py-3 text-sm font-semibold text-[#121212] outline-none transition placeholder:text-[#8B7B66] focus:border-[#FDBE35]/70 focus:ring-4 focus:ring-[#FDBE35]/12"
                   name="message"
                   required
                 />
@@ -222,29 +222,29 @@ export default function ContactPage() {
 
               <button
                 type="submit"
-                className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-4 py-3 text-center text-sm font-black text-[#150D08] transition hover:bg-white"
+                className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-4 py-3 text-center text-sm font-black text-[#121212] transition hover:bg-white"
               >
                 <Send size={18} aria-hidden="true" />
                 Send message
               </button>
             </form>
 
-            <div className="overflow-hidden rounded-lg border border-white/10 bg-[#15100E] shadow-[0_24px_70px_rgba(0,0,0,0.32)]">
+            <div className="overflow-hidden rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] shadow-[0_24px_70px_rgba(52,35,28,0.12)]">
               <div className="p-6 sm:p-8">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#FDBE35]">
                   Map
                 </p>
                 <h2 className="mt-2 text-3xl font-black">
                   40 High St, Winslow
                 </h2>
-                <p className="mt-3 text-sm font-semibold leading-7 text-white/58">
+                <p className="mt-3 text-sm font-semibold leading-7 text-[#5F5A53]">
                   Bengal is on High Street in Winslow, Buckingham MK18 3HB.
                 </p>
                 <a
                   href={restaurant.mapsUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] transition hover:bg-white"
+                  className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-5 text-sm font-black text-[#121212] transition hover:bg-white"
                 >
                   <ExternalLink size={16} aria-hidden="true" />
                   Open Google Maps
@@ -264,3 +264,4 @@ export default function ContactPage() {
     </main>
   );
 }
+

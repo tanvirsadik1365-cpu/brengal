@@ -208,14 +208,14 @@ function getSpiceLevel(name: string, detail: string) {
 
 function SpiceIndicator({ level }: { level: number }) {
   return (
-    <span className="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-[0.1em] text-white/58">
-      <span className="text-white/42">Spice</span>
+    <span className="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-[0.1em] text-[#6A5B49]">
+      <span className="text-[#8B7B66]">Spice</span>
       <span className="inline-flex gap-0.5">
         {[1, 2, 3].map((item) => (
           <span
             key={item}
             className={`h-1.5 w-1.5 rounded-full ${
-              item <= level ? "bg-[#D7A542]" : "bg-white/18"
+              item <= level ? "bg-[#FDBE35]" : "bg-[#D8CBB7]"
             }`}
           />
         ))}
@@ -462,7 +462,7 @@ export function MenuOrderClient() {
     if (quantity > 0) {
       return (
         <div
-          className={`grid h-11 shrink-0 overflow-hidden rounded-full border border-white/12 bg-white/10 text-white backdrop-blur ${
+          className={`grid h-11 shrink-0 overflow-hidden rounded-full border border-[#E3D7C5] bg-[#FFFCF7] text-[#121212] ${
             compact
               ? "min-w-[100px] grid-cols-[32px_34px_32px]"
               : "grid-cols-[38px_34px_38px]"
@@ -471,19 +471,19 @@ export function MenuOrderClient() {
           <button
             type="button"
             onClick={() => decreaseItem(id)}
-            className="flex h-full items-center justify-center text-white transition hover:bg-white/12 hover:text-[#F6DFA4]"
+            className="flex h-full items-center justify-center text-[#5F5A53] transition hover:bg-[#F5F2EC] hover:text-[#121212]"
             aria-label={`Decrease ${item.name}`}
           >
             <Minus size={15} aria-hidden="true" />
           </button>
-          <span className="flex h-full items-center justify-center text-sm font-black text-white">
+          <span className="flex h-full items-center justify-center text-sm font-black text-[#121212]">
             {quantity}
           </span>
           <button
             type="button"
             onClick={() => addItem(item)}
             disabled={!orderingAllowed}
-            className="flex h-full items-center justify-center text-white transition hover:bg-white/12 hover:text-[#F6DFA4] disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex h-full items-center justify-center text-[#5F5A53] transition hover:bg-[#F5F2EC] hover:text-[#121212] disabled:cursor-not-allowed disabled:opacity-40"
             aria-label={`Increase ${item.name}`}
           >
             <Plus size={15} aria-hidden="true" />
@@ -498,7 +498,7 @@ export function MenuOrderClient() {
         onClick={() => addItem(item)}
         disabled={!orderingAllowed}
         aria-label={`Add ${item.name}`}
-        className={`inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-[#D7A542] text-sm font-black text-[#150D08] shadow-[0_14px_34px_rgba(215,165,66,0.22)] transition hover:-translate-y-0.5 hover:bg-white disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/50 disabled:shadow-none ${
+        className={`inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-[#FDBE35] text-sm font-black text-[#121212] shadow-[0_14px_34px_rgba(215,165,66,0.22)] transition hover:-translate-y-0.5 hover:bg-[#FFEFCB] disabled:cursor-not-allowed disabled:bg-[#F5F2EC] disabled:text-[#5F5A53] disabled:shadow-none ${
           compact ? "min-w-[86px] px-3" : "px-4"
         }`}
       >
@@ -540,17 +540,17 @@ export function MenuOrderClient() {
 
     return (
       <div
-        className={`border border-white/10 bg-[#15100E]/90 shadow-[0_16px_34px_rgba(0,0,0,0.24)] backdrop-blur ${
+        className={`border border-[#E3D7C5] bg-[#FFFCF7] shadow-[0_10px_24px_rgba(43,20,8,0.08)] ${
           compact ? "rounded-full p-1" : "max-w-2xl rounded-lg p-3"
         } ${className}`}
       >
         {!compact ? (
           <div className="mb-3 flex flex-col gap-1 px-1 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#D7A542]">
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#FDBE35]">
               Order type
             </p>
             {showHelper ? (
-              <p className="text-xs font-bold text-white/56">
+              <p className="text-xs font-bold text-[#5F5A53]">
                 {activeMethod.helper}
               </p>
             ) : null}
@@ -568,8 +568,8 @@ export function MenuOrderClient() {
                 aria-pressed={active}
                 className={`flex min-h-10 items-center justify-center rounded-full px-4 text-sm font-black transition ${
                   active
-                    ? "bg-[#D7A542] text-[#150D08] shadow-md shadow-[#D7A542]/15"
-                    : "text-white/68 hover:bg-white/10 hover:text-white"
+                    ? "bg-[#FDBE35] text-[#121212] shadow-md shadow-[#FDBE35]/15"
+                    : "text-[#5F5A53] hover:bg-[#F5F2EC] hover:text-[#121212]"
                 }`}
               >
                 {method.title}
@@ -578,7 +578,7 @@ export function MenuOrderClient() {
           })}
         </div>
         {compact && showHelper ? (
-          <p className="px-3 pb-1 pt-2 text-center text-xs font-bold leading-5 text-white/56">
+          <p className="px-3 pb-1 pt-2 text-center text-xs font-bold leading-5 text-[#5F5A53]">
             {activeMethod.helper}
           </p>
         ) : null}
@@ -614,42 +614,42 @@ export function MenuOrderClient() {
               aria-pressed={active}
               className={`group ${
                 compact
-                  ? "flex h-12 w-[150px] shrink-0 snap-center items-center justify-center gap-2 rounded-full border px-3"
+                  ? "flex h-12 w-[176px] shrink-0 snap-center items-center justify-center gap-2 rounded-full border px-3"
                   : "grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-lg border px-4 py-3 text-left"
               } transition ${
                 active
-                  ? "border-[#D7A542]/90 bg-[#D7A542] text-[#150D08] shadow-[0_12px_28px_rgba(215,165,66,0.24)]"
+                  ? "border-[#FDBE35]/90 bg-[#FDBE35] text-[#121212] shadow-[0_12px_28px_rgba(215,165,66,0.24)]"
                   : compact
-                    ? "border-white/12 bg-white/8 text-white/76 backdrop-blur hover:border-[#D7A542]/45 hover:text-[#F6DFA4]"
-                    : "border-white/10 bg-white/6 text-white/68 hover:border-[#D7A542]/45 hover:text-[#F6DFA4]"
+                    ? "border-[#E3D7C5] bg-[#FFFCF7] text-[#5F5A53] hover:border-[#FDBE35]/45 hover:text-[#121212]"
+                    : "border-[#E3D7C5] bg-[#FFFCF7] text-[#5F5A53] hover:border-[#FDBE35]/45 hover:text-[#121212]"
               }`}
             >
               <span
                 className={`hidden h-8 w-8 shrink-0 items-center justify-center rounded-full text-[10px] font-black uppercase sm:inline-flex ${
-                  active ? "bg-[#150D08]/12" : "bg-white/8 text-[#D7A542]"
+                  active ? "bg-[#121212]/12" : "bg-[#F5F2EC] text-[#8F6216]"
                 }`}
               >
                 {category.icon}
               </span>
-              <span className="min-w-0">
-                <span className="block truncate text-sm font-black leading-none">
-                  {category.title}
-                </span>
-                {!compact ? (
-                  <span
-                    className={`mt-1 block truncate text-xs font-semibold ${
-                      active ? "text-[#150D08]/65" : "text-white/48"
-                    }`}
-                  >
-                    {category.detail}
+                <span className="min-w-0">
+                  <span className="block text-sm font-black leading-[1.2]">
+                    {category.title}
                   </span>
+                  {!compact ? (
+                    <span
+                      className={`mt-1 block text-xs font-semibold leading-[1.3] ${
+                        active ? "text-[#121212]/65" : "text-[#5F5A53]"
+                      }`}
+                    >
+                      {category.detail}
+                    </span>
                 ) : null}
               </span>
               <span
                 className={`rounded-full px-2 py-0.5 text-[11px] font-black ${
                   active
-                    ? "bg-[#150D08]/12 text-[#150D08]"
-                    : "bg-white/8 text-[#D7A542]"
+                    ? "bg-[#121212]/12 text-[#121212]"
+                    : "bg-[#F5F2EC] text-[#8F6216]"
                 }`}
               >
                 {category.count}
@@ -687,39 +687,39 @@ export function MenuOrderClient() {
 
     return (
       <article
-        className="group rounded-lg border border-white/10 bg-[#15100E] p-4 shadow-[0_18px_44px_rgba(0,0,0,0.28)] transition hover:-translate-y-0.5 hover:border-[#D7A542]/55 sm:p-5"
+        className="group rounded-2xl border border-[#DACCB6] bg-[#FFFCF7] p-4 shadow-[0_10px_20px_rgba(43,20,8,0.08)] transition hover:-translate-y-0.5 hover:border-[#C89626] sm:p-5"
       >
         <div className="grid min-w-0 gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-start gap-2">
-              <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#D7A542]">
+              <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#B98316]">
                 {category}
               </p>
               {tags.includes("Bestseller") ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#D7A542] px-2 py-0.5 text-[10px] font-black uppercase text-[#150D08]">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#121212] px-2 py-0.5 text-[10px] font-black uppercase text-[#FDE3A0]">
                   <Sparkles size={11} aria-hidden="true" />
                   Bestseller
                 </span>
               ) : null}
             </div>
-            <h3 className="mt-2 break-words text-xl font-black leading-tight text-white">
+            <h3 className="mt-2 break-words font-sans text-[1.72rem] font-extrabold leading-[1.18] text-[#121212]">
               {name}
             </h3>
 
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/64">
+            <p className="mt-3 max-w-3xl text-[1.02rem] leading-7 text-[#5F5A53]">
               {detail}
             </p>
 
-            <div className="mt-4 flex flex-wrap items-center gap-2 text-white/72">
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-[#5F5A53]">
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex min-h-7 items-center rounded-full border border-white/10 bg-white/6 px-2.5 text-[11px] font-black uppercase tracking-[0.06em] text-white/72"
+                  className="inline-flex min-h-7 items-center rounded-full border border-[#E3D7C5] bg-[#F5F2EC] px-2.5 text-[11px] font-black uppercase tracking-[0.06em] text-[#5F5A53]"
                 >
                   {tag}
                 </span>
               ))}
-              <span className="inline-flex min-h-7 items-center gap-1 rounded-full border border-white/10 bg-white/6 px-2.5 text-[11px] font-black uppercase tracking-[0.06em] text-white/72">
+              <span className="inline-flex min-h-7 items-center gap-1 rounded-full border border-[#E3D7C5] bg-[#F5F2EC] px-2.5 text-[11px] font-black uppercase tracking-[0.06em] text-[#5F5A53]">
                 <CheckCircle2 size={13} aria-hidden="true" />
                 Cooked to order
               </span>
@@ -728,7 +728,7 @@ export function MenuOrderClient() {
           </div>
 
           <div className="flex items-center justify-between gap-3 sm:min-w-[148px] sm:flex-col sm:items-stretch sm:justify-center">
-            <p className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#D7A542]/25 bg-[#D7A542]/12 px-4 text-lg font-black text-[#D7A542]">
+            <p className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#121212] px-5 text-xl font-black text-[#FDE3A0] shadow-[inset_0_0_0_1px_rgba(253,190,53,0.35)]">
               <Price value={priceLabel} />
             </p>
             <QuantityAction id={id} item={orderItem} quantity={quantity} compact />
@@ -743,17 +743,17 @@ export function MenuOrderClient() {
       <section
         id="popular-picks"
         ref={setSectionRef("popular-picks")}
-        className="scroll-mt-[178px] rounded-lg border border-white/10 bg-white/6 p-5 shadow-[0_22px_54px_rgba(0,0,0,0.24)] backdrop-blur sm:p-6 lg:scroll-mt-[116px]"
+        className="scroll-mt-[178px] rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-5 shadow-[0_12px_28px_rgba(43,20,8,0.08)] sm:p-6 lg:scroll-mt-[116px]"
       >
         <div className="max-w-3xl">
-          <p className="inline-flex items-center gap-2 rounded-full bg-[#D7A542] px-3 py-1.5 text-xs font-black uppercase text-[#150D08]">
+          <p className="inline-flex items-center gap-2 rounded-full bg-[#FDBE35] px-3 py-1.5 text-xs font-black uppercase text-[#121212]">
             <Sparkles size={14} aria-hidden="true" />
             Popular picks
           </p>
-          <h2 className="mt-3 text-2xl font-black text-white">
+          <h2 className="mt-3 text-[2.2rem] font-black leading-tight text-[#121212]">
             Start with a favourite
           </h2>
-          <p className="mt-2 text-sm leading-6 text-white/62">
+          <p className="mt-2 text-[1.02rem] leading-7 text-[#5F5A53]">
             Comfort curries, tandoor favourites and sharing dishes people come
             back for.
           </p>
@@ -766,23 +766,23 @@ export function MenuOrderClient() {
             return (
               <article
                 key={item.id}
-                className="group flex min-h-[238px] flex-col rounded-lg border border-white/10 bg-[#15100E] p-4 shadow-[0_18px_44px_rgba(0,0,0,0.28)] transition hover:-translate-y-1 hover:border-[#D7A542]/55"
+                className="group flex min-h-[238px] flex-col rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-4 shadow-[0_10px_24px_rgba(43,20,8,0.08)] transition hover:-translate-y-1 hover:border-[#FDBE35]/55"
               >
                 <div className="flex flex-1 flex-col">
-                  <span className="w-fit rounded-full bg-[#D7A542] px-2.5 py-1 text-[11px] font-black uppercase text-[#150D08]">
+                  <span className="w-fit rounded-full bg-[#FDBE35] px-2.5 py-1 text-[11px] font-black uppercase text-[#121212]">
                     Chef pick
                   </span>
-                  <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-[#D7A542]">
+                  <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-[#FDBE35]">
                     {item.category}
                   </p>
-                  <h3 className="mt-2 break-words text-lg font-black leading-snug text-white">
+                  <h3 className="mt-2 break-words font-sans text-[1.5rem] font-extrabold leading-snug text-[#121212]">
                     {item.name}
                   </h3>
-                  <p className="mt-2 text-sm leading-6 text-white/62">
+                  <p className="mt-2 text-[1.02rem] leading-7 text-[#5F5A53]">
                     {item.reason}
                   </p>
                   <div className="mt-auto flex items-center justify-between gap-3 pt-5">
-                    <p className="inline-flex min-h-10 items-center rounded-full border border-[#D7A542]/25 bg-[#D7A542]/12 px-4 text-lg font-black text-[#D7A542]">
+                    <p className="inline-flex min-h-10 items-center rounded-full border border-[#FDBE35]/25 bg-[#FDBE35]/12 px-4 text-lg font-black text-[#FDBE35]">
                       <Price value={item.priceLabel} />
                     </p>
                     <QuantityAction
@@ -809,19 +809,19 @@ export function MenuOrderClient() {
     return (
       <aside
         id="checkout"
-        className="hidden h-fit max-h-[calc(100vh-112px)] scroll-mt-[170px] flex-col overflow-hidden rounded-lg border border-white/10 bg-[#15100E] p-5 text-white shadow-[0_24px_70px_rgba(0,0,0,0.36)] lg:sticky lg:top-24 lg:flex lg:scroll-mt-24"
+        className="hidden h-fit max-h-[calc(100vh-112px)] scroll-mt-[170px] flex-col overflow-hidden rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-5 text-[#121212] shadow-[0_14px_34px_rgba(43,20,8,0.1)] lg:sticky lg:top-24 lg:flex lg:scroll-mt-24"
       >
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#FDBE35]">
               Basket
             </p>
             <h2 className="mt-1 text-2xl font-black">Your order</h2>
-            <p className="mt-1 text-sm font-semibold text-white/58">
+            <p className="mt-1 text-sm font-semibold text-[#5F5A53]">
               {itemCount} {itemCount === 1 ? "item" : "items"} selected
             </p>
           </div>
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08] shadow-lg shadow-[#D7A542]/20">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FDBE35] text-[#121212] shadow-lg shadow-[#FDBE35]/20">
             <ShoppingBag size={21} aria-hidden="true" />
           </span>
         </div>
@@ -829,13 +829,13 @@ export function MenuOrderClient() {
         {orderingAllowed ? (
           <Link
             href="/cart"
-            className="mt-5 grid min-h-12 grid-cols-[1fr_auto] items-center gap-3 rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] shadow-lg shadow-[#D7A542]/20 transition hover:bg-white"
+            className="mt-5 grid min-h-12 grid-cols-[1fr_auto] items-center gap-3 rounded-full bg-[#FDBE35] px-5 text-sm font-black text-[#121212] shadow-lg shadow-[#FDBE35]/20 transition hover:bg-[#FFEFCB]"
           >
             <span className="inline-flex items-center gap-2">
               <ShoppingBag size={16} aria-hidden="true" />
               Go to Cart & Pay
             </span>
-            <span className="rounded-full bg-[#150D08]/12 px-3 py-1 text-xs text-[#150D08]">
+            <span className="rounded-full bg-[#121212]/12 px-3 py-1 text-xs text-[#121212]">
               {formatCurrency(total)}
             </span>
           </Link>
@@ -843,13 +843,13 @@ export function MenuOrderClient() {
           <button
             type="button"
             disabled
-            className="mt-5 grid min-h-12 w-full grid-cols-[1fr_auto] items-center gap-3 rounded-full bg-white/16 px-5 text-sm font-black text-white/55"
+            className="mt-5 grid min-h-12 w-full grid-cols-[1fr_auto] items-center gap-3 rounded-full bg-[#F5F2EC] px-5 text-sm font-black text-[#121212]/55"
           >
             <span className="inline-flex items-center gap-2">
               <ShoppingBag size={16} aria-hidden="true" />
               Ordering unavailable
             </span>
-            <span className="rounded-full bg-white/40 px-3 py-1 text-xs text-[#241D1D]">
+            <span className="rounded-full bg-[#EEDBB2] px-3 py-1 text-xs text-[#121212]">
               {storeStatus?.label ?? "Closed"}
             </span>
           </button>
@@ -862,16 +862,16 @@ export function MenuOrderClient() {
 
         {unlockedReward ? (
           <div
-            className="mt-4 rounded-lg border border-[#D7A542]/35 bg-[#D7A542]/12 p-4"
+            className="mt-4 rounded-lg border border-[#FDBE35]/35 bg-[#FDBE35]/12 p-4"
           >
-            <p className="flex items-center gap-2 text-sm font-black text-[#F6DFA4]">
+            <p className="flex items-center gap-2 text-sm font-black text-[#FDE3A0]">
               <Sparkles size={17} aria-hidden="true" />
               Offer unlocked
             </p>
-            <p className="mt-2 text-lg font-black text-white">
+            <p className="mt-2 text-lg font-black text-[#121212]">
               {activeReward.title}
             </p>
-            <p className="mt-1 text-sm leading-6 text-white/62">
+            <p className="mt-1 text-[1.02rem] leading-7 text-[#5F5A53]">
               {activeReward.detail}
             </p>
           </div>
@@ -881,7 +881,7 @@ export function MenuOrderClient() {
           <button
             type="button"
             onClick={clearCart}
-            className="mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white/6 text-xs font-black uppercase text-white/58 transition hover:border-[#D7A542]/45 hover:text-[#F6DFA4]"
+            className="mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-full border border-[#E3D7C5] bg-[#F5F2EC] text-xs font-black uppercase text-[#5F5A53] transition hover:border-[#FDBE35]/45 hover:text-[#121212]"
           >
             <Trash2 size={14} aria-hidden="true" />
             Clear all
@@ -889,14 +889,14 @@ export function MenuOrderClient() {
         ) : null}
 
         {cartItems.length === 0 ? (
-          <div className="mt-5 rounded-lg border border-dashed border-white/18 bg-white/6 p-6 text-center">
+          <div className="mt-5 rounded-lg border border-dashed border-[#E3D7C5] bg-[#F5F2EC] p-6 text-center">
             <ShoppingBag
-              className="mx-auto text-[#D7A542]"
+              className="mx-auto text-[#FDBE35]"
               size={32}
               aria-hidden="true"
             />
             <p className="mt-3 font-black">Your cart is empty</p>
-            <p className="mt-2 text-sm leading-6 text-white/58">
+            <p className="mt-2 text-[1.02rem] leading-7 text-[#5F5A53]">
               Add dishes to see your offers and total.
             </p>
           </div>
@@ -905,21 +905,21 @@ export function MenuOrderClient() {
             {cartItems.map((item) => (
               <article
                 key={item.id}
-                className="rounded-lg border border-white/10 bg-white/6 p-4 shadow-sm"
+                className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4 shadow-sm"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
-                    <h3 className="break-words font-black text-white">
+                    <h3 className="break-words font-black text-[#121212]">
                       {item.name}
                     </h3>
-                    <p className="mt-1 text-xs font-semibold text-white/50">
+                    <p className="mt-1 text-xs font-semibold text-[#5F5A53]">
                       {item.category} | <Price value={item.priceLabel} />
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => removeItem(item.id)}
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 text-white/58 transition hover:border-[#D7A542]/45 hover:text-[#F6DFA4]"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#E3D7C5] text-[#5F5A53] transition hover:border-[#FDBE35]/45 hover:text-[#121212]"
                     aria-label={`Remove ${item.name}`}
                   >
                     <Trash2 size={16} aria-hidden="true" />
@@ -927,7 +927,7 @@ export function MenuOrderClient() {
                 </div>
                 <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
                   <QuantityAction id={item.id} item={item} quantity={item.quantity} />
-                  <p className="font-black text-[#D7A542]">
+                  <p className="font-black text-[#FDBE35]">
                     {formatCurrency(item.unitPrice * item.quantity)}
                   </p>
                 </div>
@@ -936,30 +936,30 @@ export function MenuOrderClient() {
           </div>
         )}
 
-        <div className="mt-5 rounded-lg border border-[#D7A542]/25 bg-[linear-gradient(135deg,rgba(215,165,66,0.2),rgba(138,52,48,0.2))] p-5">
+        <div className="mt-5 rounded-lg border border-[#FDBE35]/25 bg-[linear-gradient(135deg,rgba(253,190,53,0.2),rgba(43,20,8,0.08))] p-5">
           <div className="flex items-center gap-2">
-            <Sparkles className="text-[#D7A542]" size={20} aria-hidden="true" />
+            <Sparkles className="text-[#FDBE35]" size={20} aria-hidden="true" />
             <h3 className="font-black">Offer progress</h3>
           </div>
-          <p className="mt-3 text-sm leading-7 text-white/82">
+          <p className="mt-3 text-sm leading-7 text-[#2A1D12]">
             {getRewardLabel(subtotal, orderType)}
           </p>
-          <div className="mt-4 h-3 overflow-hidden rounded-full bg-white/18">
+          <div className="mt-4 h-3 overflow-hidden rounded-full bg-[#E3D7C5]">
             <div
-              className="h-full rounded-full bg-[#D7A542] transition-all duration-500"
+              className="h-full rounded-full bg-[#FDBE35] transition-all duration-500"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
-          <p className="mt-3 text-xs leading-6 text-white/58">
+          <p className="mt-3 text-xs leading-6 text-[#5F5A53]">
             {restaurant.deliveryInfo}. Bengal's 10% direct offer is applied
             before checkout.
           </p>
         </div>
 
         {recommendedAddOns.length > 0 ? (
-          <div className="mt-5 rounded-lg border border-white/10 bg-white/6 p-4">
-            <h3 className="flex items-center gap-2 font-black text-white">
-              <Flame size={18} className="text-[#D7A542]" aria-hidden="true" />
+          <div className="mt-5 rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4">
+            <h3 className="flex items-center gap-2 font-black text-[#121212]">
+              <Flame size={18} className="text-[#FDBE35]" aria-hidden="true" />
               Add something popular
             </h3>
             <div className="mt-3 grid gap-2">
@@ -969,39 +969,39 @@ export function MenuOrderClient() {
                   type="button"
                   onClick={() => addItem(item)}
                   disabled={!orderingAllowed}
-                  className="grid min-h-14 grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-white/10 bg-[#0F0B09] px-3 text-left transition hover:border-[#D7A542]/45 disabled:opacity-50"
+                  className="grid min-h-14 grid-cols-[1fr_auto] items-center gap-3 rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] px-3 text-left transition hover:border-[#FDBE35]/45 disabled:opacity-50"
                 >
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-black text-white">
+                    <span className="block truncate text-sm font-black text-[#121212]">
                       {item.name}
                     </span>
-                    <span className="mt-0.5 block text-xs font-semibold text-white/48">
+                    <span className="mt-0.5 block text-xs font-semibold text-[#5F5A53]">
                       <Price value={item.priceLabel} />
                     </span>
                   </span>
-                  <Plus size={17} className="text-[#D7A542]" aria-hidden="true" />
+                  <Plus size={17} className="text-[#FDBE35]" aria-hidden="true" />
                 </button>
               ))}
             </div>
           </div>
         ) : null}
 
-        <div className="mt-5 rounded-lg border border-white/10 bg-white/6 p-4">
-          <h3 className="flex items-center gap-2 font-black text-[#D7A542]">
+        <div className="mt-5 rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4">
+          <h3 className="flex items-center gap-2 font-black text-[#FDBE35]">
             <BadgePercent size={18} aria-hidden="true" />
             Bengal offers
           </h3>
           <div className="mt-3 grid gap-2">
             {offers.map((offer) => (
-              <div key={offer.title} className="flex gap-3 rounded-lg bg-[#0F0B09] p-3 shadow-sm">
+              <div key={offer.title} className="flex gap-3 rounded-lg bg-[#FFFCF7] p-3 shadow-sm">
                 <Gift
-                  className="mt-0.5 shrink-0 text-[#D7A542]"
+                  className="mt-0.5 shrink-0 text-[#FDBE35]"
                   size={16}
                   aria-hidden="true"
                 />
                 <div>
-                  <p className="text-sm font-black text-white">{offer.title}</p>
-                  <p className="mt-1 text-xs leading-5 text-white/55">
+                  <p className="text-sm font-black text-[#121212]">{offer.title}</p>
+                  <p className="mt-1 text-xs leading-5 text-[#5F5A53]">
                     {offer.detail}
                   </p>
                 </div>
@@ -1010,48 +1010,48 @@ export function MenuOrderClient() {
           </div>
         </div>
 
-        <div className="mt-5 space-y-3 rounded-lg border border-white/10 bg-white/6 p-4 text-sm">
+        <div className="mt-5 space-y-3 rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4 text-sm">
           <div className="flex justify-between gap-4">
-            <span className="text-white/58">Subtotal</span>
+            <span className="text-[#5F5A53]">Subtotal</span>
             <span className="font-black">{formatCurrency(subtotal)}</span>
           </div>
           {collectionDiscount > 0 ? (
             <div className="flex justify-between gap-4">
-              <span className="text-white/58">Direct discount</span>
-              <span className="font-black text-[#D7A542]">
+              <span className="text-[#5F5A53]">Direct discount</span>
+              <span className="font-black text-[#FDBE35]">
                 -{formatCurrency(collectionDiscount)}
               </span>
             </div>
           ) : orderType === "delivery" ? (
             <div className="flex justify-between gap-4">
-              <span className="text-white/58">Delivery charge</span>
-              <span className="font-black text-white">
+              <span className="text-[#5F5A53]">Delivery charge</span>
+              <span className="font-black text-[#121212]">
                 Free
               </span>
             </div>
           ) : null}
           <div className="flex justify-between gap-4">
-            <span className="text-white/58">Order type</span>
+             <span className="text-[#5F5A53]">Order type</span>
             <span className="font-black capitalize">{orderType}</span>
           </div>
           {unlockedReward ? (
             <div className="flex justify-between gap-4">
-              <span className="text-white/58">Offer</span>
-              <span className="text-right font-black text-[#D7A542]">
+              <span className="text-[#5F5A53]">Offer</span>
+              <span className="text-right font-black text-[#FDBE35]">
                 {unlockedReward}
               </span>
             </div>
           ) : null}
-          <div className="flex justify-between gap-4 border-t border-white/10 pt-3 text-base">
+          <div className="flex justify-between gap-4 border-t border-[#E3D7C5] pt-3 text-base">
             <span className="font-black">Total</span>
-            <span className="font-black text-[#D7A542]">
+            <span className="font-black text-[#FDBE35]">
               {formatCurrency(total)}
             </span>
           </div>
         </div>
 
         {needsDeliveryMinimum ? (
-          <p className="mt-3 rounded-lg border border-[#D7A542]/25 bg-[#D7A542]/10 p-3 text-xs font-bold leading-6 text-[#F6DFA4]">
+          <p className="mt-3 rounded-lg border border-[#FDBE35]/25 bg-[#FDBE35]/10 p-3 text-xs font-bold leading-6 text-[#FDE3A0]">
             Delivery requires a minimum order of &pound;20. Add{" "}
             {formatCurrency(20 - subtotal)} more to continue.
           </p>
@@ -1059,7 +1059,7 @@ export function MenuOrderClient() {
         {orderingAllowed ? (
           <Link
             href="/cart"
-            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] text-sm font-black text-[#150D08] shadow-lg shadow-[#D7A542]/20 transition hover:bg-white"
+            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#FDBE35] text-sm font-black text-[#121212] shadow-lg shadow-[#FDBE35]/20 transition hover:bg-[#FFEFCB]"
           >
             <ShoppingBag size={16} aria-hidden="true" />
             Go to Cart & Pay
@@ -1068,7 +1068,7 @@ export function MenuOrderClient() {
           <button
             type="button"
             disabled
-            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-white/16 text-sm font-black text-white/55"
+            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#F5F2EC] text-sm font-black text-[#121212]/55"
           >
             <ShoppingBag size={16} aria-hidden="true" />
             {storeStatus?.label ?? "Ordering unavailable"}
@@ -1094,23 +1094,23 @@ export function MenuOrderClient() {
               className="fixed inset-x-0 bottom-0 z-50 max-h-[86svh] overflow-hidden rounded-t-[1.5rem] border border-white/10 bg-[#120D0B] text-white shadow-[0_-24px_70px_rgba(0,0,0,0.48)] lg:hidden"
               aria-label="Cart drawer"
             >
-              <div className="mx-auto h-1.5 w-12 rounded-full bg-white/18 mt-3" />
+              <div className="mx-auto h-1.5 w-12 rounded-full bg-[#FCE8C1]/18 mt-3" />
               <div className="flex items-start justify-between gap-4 px-4 pb-3 pt-4">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[#D7A542]">
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FDBE35]">
                     Your cart
                   </p>
                   <h2 className="mt-1 text-2xl font-black">
                     {itemCount} {itemCount === 1 ? "item" : "items"} ready
                   </h2>
-                  <p className="mt-1 text-sm font-semibold text-white/58">
+                  <p className="mt-1 text-sm font-semibold text-[#5F5A53]">
                     {getRewardLabel(subtotal, orderType)}
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setMobileCartOpen(false)}
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/8 text-white"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/12 bg-[#FCE8C1]/8 text-white"
                   aria-label="Close cart"
                 >
                   <X size={18} aria-hidden="true" />
@@ -1122,9 +1122,9 @@ export function MenuOrderClient() {
               </div>
 
               <div className="px-4 pb-3">
-                <div className="h-2 overflow-hidden rounded-full bg-white/12">
+                <div className="h-2 overflow-hidden rounded-full bg-[#FCE8C1]/12">
                   <div
-                    className="h-full rounded-full bg-[#D7A542] transition-all duration-500"
+                    className="h-full rounded-full bg-[#FDBE35] transition-all duration-500"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -1134,7 +1134,7 @@ export function MenuOrderClient() {
                 {cartItems.map((item) => (
                   <article
                     key={item.id}
-                    className="rounded-lg border border-white/10 bg-white/6 p-4"
+                    className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="min-w-0">
@@ -1143,7 +1143,7 @@ export function MenuOrderClient() {
                           {item.category} | <Price value={item.priceLabel} />
                         </p>
                       </div>
-                      <p className="shrink-0 font-black text-[#D7A542]">
+                      <p className="shrink-0 font-black text-[#FDBE35]">
                         {formatCurrency(item.unitPrice * item.quantity)}
                       </p>
                     </div>
@@ -1152,7 +1152,7 @@ export function MenuOrderClient() {
                       <button
                         type="button"
                         onClick={() => removeItem(item.id)}
-                        className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/10 px-3 text-xs font-black uppercase text-white/58"
+                        className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#E3D7C5] px-3 text-xs font-black uppercase text-[#5F5A53]"
                       >
                         <Trash2 size={14} aria-hidden="true" />
                         Remove
@@ -1162,16 +1162,16 @@ export function MenuOrderClient() {
                 ))}
               </div>
 
-              <div className="border-t border-white/10 bg-[#0D0A08] px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4">
+              <div className="border-t border-white/10 bg-[#121212] px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4">
                 <div className="mb-3 flex items-center justify-between text-sm">
-                  <span className="text-white/58">Total</span>
-                  <span className="text-xl font-black text-[#D7A542]">
+                  <span className="text-[#5F5A53]">Total</span>
+                  <span className="text-xl font-black text-[#FDBE35]">
                     {formatCurrency(total)}
                   </span>
                 </div>
                 <Link
                   href="/cart"
-                  className="grid min-h-14 grid-cols-[1fr_auto] items-center rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] shadow-[0_16px_38px_rgba(215,165,66,0.24)]"
+                  className="grid min-h-14 grid-cols-[1fr_auto] items-center rounded-full bg-[#FDBE35] px-5 text-sm font-black text-[#121212] shadow-[0_16px_38px_rgba(215,165,66,0.24)]"
                 >
                   <span>Checkout</span>
                   <ArrowRight size={18} aria-hidden="true" />
@@ -1185,21 +1185,21 @@ export function MenuOrderClient() {
   }
 
   return (
-    <section className="bg-[#0D0A08] px-4 pb-28 pt-6 text-white sm:px-6 sm:pt-8 lg:px-8 lg:pb-16">
+    <section className="bg-[radial-gradient(circle_at_top,rgba(253,190,53,0.14),transparent_42%),#F5F2EC] px-4 pb-28 pt-6 text-[#121212] sm:px-6 sm:pt-8 lg:px-8 lg:pb-16">
       <div className="mx-auto max-w-[1500px]">
-        <div className="relative mb-5 overflow-hidden rounded-lg border border-white/10 bg-[#15100E] p-4 shadow-[0_24px_70px_rgba(0,0,0,0.32)] sm:p-5 lg:p-6">
-          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(215,165,66,0.14),rgba(138,52,48,0.12)_48%,rgba(21,16,14,0)_100%)]" />
+        <div className="relative mb-5 overflow-hidden rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-4 shadow-[0_14px_34px_rgba(43,20,8,0.08)] sm:p-5 lg:p-6">
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(253,190,53,0.14),rgba(43,20,8,0.06)_48%,rgba(245,242,236,0)_100%)]" />
           <div className="relative z-10">
             <div className="grid gap-5">
               <div className="min-w-0">
-                <p className="inline-flex items-center gap-2 rounded-full bg-[#D7A542] px-3 py-1.5 text-xs font-black uppercase text-[#150D08]">
+                <p className="inline-flex items-center gap-2 rounded-full bg-[#FDBE35] px-3 py-1.5 text-xs font-black uppercase text-[#121212]">
                   <Flame size={14} aria-hidden="true" />
                   Bengal menu
                 </p>
-                <h1 className="mt-3 max-w-4xl text-4xl font-black leading-tight text-white sm:text-5xl">
+                <h1 className="mt-3 max-w-4xl text-4xl font-black leading-tight text-[#121212] sm:text-5xl">
                   Order Bengal Menu Online
                 </h1>
-                <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5F5A53] sm:text-base">
                   Explore starters, curries, biryani, tandoori grill, rice and
                   fresh naan. Choose collection or free local delivery in MK17
                   and MK18.
@@ -1207,7 +1207,7 @@ export function MenuOrderClient() {
               </div>
             </div>
 
-            <div className="mt-5 grid gap-2 rounded-lg border border-white/10 bg-[#15100E]/72 p-2 shadow-[0_16px_38px_rgba(0,0,0,0.24)] backdrop-blur min-[920px]:grid-cols-[minmax(260px,1fr)_150px_150px_minmax(270px,1fr)] min-[920px]:items-stretch">
+            <div className="mt-5 grid gap-2 rounded-xl border border-[#E3D7C5] bg-[#FFFCF7] p-2 shadow-[0_10px_24px_rgba(43,20,8,0.08)] min-[920px]:grid-cols-[minmax(260px,1fr)_150px_150px_minmax(270px,1fr)] min-[920px]:items-stretch">
               <OrderMethodSelector
                 className="h-full min-h-14"
                 compact
@@ -1221,13 +1221,13 @@ export function MenuOrderClient() {
               ].map(([value, label]) => (
                 <div
                   key={label}
-                  className="flex min-h-14 items-center rounded-lg border border-white/10 bg-white/8 px-4 py-2 shadow-sm backdrop-blur"
+                  className="flex min-h-14 items-center rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] px-4 py-2 shadow-sm"
                 >
                   <div>
-                    <p className="whitespace-nowrap text-xl font-black leading-none text-[#D7A542]">
+                    <p className="whitespace-nowrap text-xl font-black leading-none text-[#FDBE35]">
                       {value}
                     </p>
-                    <p className="mt-1 whitespace-nowrap text-[10px] font-black uppercase tracking-wide text-white/55">
+                    <p className="mt-1 whitespace-nowrap text-[10px] font-black uppercase tracking-wide text-[#5F5A53]">
                       {label}
                     </p>
                   </div>
@@ -1256,10 +1256,10 @@ export function MenuOrderClient() {
         </div>
 
         <div className="menu-order-layout">
-          <aside className="hidden h-fit rounded-lg border border-white/10 bg-[#15100E] p-4 shadow-[0_22px_54px_rgba(0,0,0,0.28)] lg:sticky lg:top-24 lg:block">
+          <aside className="hidden h-fit rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-4 text-[#121212] shadow-[0_10px_24px_rgba(43,20,8,0.08)] lg:sticky lg:top-24 lg:block">
             <div className="flex items-center gap-2">
-              <ReceiptText className="text-[#D7A542]" size={20} aria-hidden="true" />
-              <h2 className="font-black">Categories</h2>
+              <ReceiptText className="text-[#FDBE35]" size={20} aria-hidden="true" />
+              <h2 className="font-black text-[#121212]">Categories</h2>
             </div>
             <div className="mt-4">
               <CategoryNav />
@@ -1267,11 +1267,11 @@ export function MenuOrderClient() {
           </aside>
 
           <div className="min-w-0">
-            <div className="sticky top-[72px] z-30 -mx-4 border-y border-white/10 bg-[#0D0A08]/96 px-4 py-3 shadow-[0_18px_34px_rgba(0,0,0,0.32)] backdrop-blur-xl sm:-mx-6 sm:px-6 lg:top-24 lg:mx-0 lg:border-0 lg:bg-transparent lg:px-0 lg:shadow-none lg:backdrop-blur-none">
-              <label className="relative block rounded-full border border-white/14 bg-[#1C1715]/96 shadow-[0_14px_34px_rgba(0,0,0,0.24)] backdrop-blur">
+            <div className="sticky top-[72px] z-30 -mx-4 border-y border-[#E3D7C5] bg-[#F5F2EC]/96 px-4 py-3 shadow-[0_8px_20px_rgba(43,20,8,0.08)] backdrop-blur-xl sm:-mx-6 sm:px-6 lg:top-24 lg:mx-0 lg:border-0 lg:bg-transparent lg:px-0 lg:shadow-none lg:backdrop-blur-none">
+              <label className="relative block rounded-full border border-[#E3D7C5] bg-white shadow-[0_6px_16px_rgba(43,20,8,0.08)]">
                 <span className="sr-only">Search menu</span>
                 <Search
-                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/50"
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#5F5A53]"
                   size={18}
                   aria-hidden="true"
                 />
@@ -1280,13 +1280,13 @@ export function MenuOrderClient() {
                   value={searchQuery}
                   onChange={(event) => setSearchQuery(event.target.value)}
                   placeholder="Search curry, biryani, naan..."
-                  className="h-12 w-full rounded-full bg-transparent pl-11 pr-11 text-sm font-semibold text-white outline-none transition placeholder:text-white/42 focus:ring-4 focus:ring-[#D7A542]/12"
+                  className="h-12 w-full rounded-full bg-transparent pl-11 pr-11 text-sm font-semibold text-[#121212] outline-none transition placeholder:text-[#5F5A53] focus:ring-4 focus:ring-[#FDBE35]/12"
                 />
                 {searchQuery ? (
                   <button
                     type="button"
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-white/58 transition hover:bg-white/10 hover:text-[#F6DFA4]"
+                    className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-[#5F5A53] transition hover:bg-[#F5F2EC] hover:text-[#121212]"
                     aria-label="Clear search"
                   >
                     <X size={16} aria-hidden="true" />
@@ -1309,24 +1309,24 @@ export function MenuOrderClient() {
             >
               <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#D7A542]">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#FDBE35]">
                     {normalizedSearch ? "Search results" : "Full menu"}
                   </p>
-                  <h2 className="mt-2 text-3xl font-black text-white">
+                  <h2 className="mt-2 text-3xl font-black text-[#121212]">
                     {normalizedSearch
                       ? "Dishes matching your search"
                       : "Browse the full menu"}
                   </h2>
-                  <p className="mt-2 text-sm leading-6 text-white/58">
+                  <p className="mt-2 text-[1.02rem] leading-7 text-[#5F5A53]">
                     {displayedItemCount} dishes shown.
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-2 text-xs font-black uppercase text-white/58">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-2">
+                <div className="flex flex-wrap gap-2 text-xs font-black uppercase text-[#5F5A53]">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[#E3D7C5] bg-[#FFFCF7] px-3 py-2">
                     <Clock size={14} aria-hidden="true" />
                     Lunch & dinner service
                   </span>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-2">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[#E3D7C5] bg-[#FFFCF7] px-3 py-2">
                     <ShoppingBag size={14} aria-hidden="true" />
                     {itemCount} in basket
                   </span>
@@ -1339,20 +1339,20 @@ export function MenuOrderClient() {
                     key={section.id}
                     id={section.id}
                     ref={setSectionRef(section.id)}
-                    className="scroll-mt-[178px] overflow-hidden rounded-lg border border-white/10 bg-white/6 shadow-[0_22px_54px_rgba(0,0,0,0.24)] backdrop-blur lg:scroll-mt-[116px]"
+                    className="scroll-mt-[178px] overflow-hidden rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] shadow-[0_12px_28px_rgba(43,20,8,0.08)] lg:scroll-mt-[116px]"
                   >
-                    <div className="border-b border-white/10 bg-[#15100E] p-5 sm:p-6">
+                    <div className="border-b border-[#E3D7C5] bg-[#FFFCF7] p-5 sm:p-6">
                       <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_150px] sm:items-stretch">
                         <div className="flex min-w-0 flex-col justify-center">
-                          <h2 className="break-words text-3xl font-black leading-tight text-white sm:text-4xl">
+                          <h2 className="break-words text-3xl font-black leading-tight text-[#121212] sm:text-4xl">
                             {section.title}
                           </h2>
-                          <p className="mt-3 max-w-2xl text-base leading-7 text-white/62">
+                          <p className="mt-3 max-w-2xl text-base leading-7 text-[#5F5A53]">
                             {section.description}
                           </p>
                         </div>
                         <div className="grid gap-2 sm:justify-items-end">
-                          <span className="grid min-h-24 w-full place-items-center rounded-lg border border-[#D7A542]/20 bg-[#D7A542]/10 px-4 text-center text-[#D7A542] sm:min-h-full">
+                          <span className="grid min-h-24 w-full place-items-center rounded-lg border border-[#FDBE35]/20 bg-[#FDBE35]/10 px-4 text-center text-[#FDBE35] sm:min-h-full">
                             <span>
                               <span className="block text-3xl font-black leading-none">
                                 {section.items.length}
@@ -1363,7 +1363,7 @@ export function MenuOrderClient() {
                             </span>
                           </span>
                           {section.priceNote ? (
-                            <span className="inline-flex min-h-10 w-full items-center justify-center rounded-lg bg-[#D7A542] px-4 text-center text-xs font-black uppercase text-[#150D08]">
+                            <span className="inline-flex min-h-10 w-full items-center justify-center rounded-lg bg-[#FDBE35] px-4 text-center text-xs font-black uppercase text-[#121212]">
                               {section.priceNote}
                             </span>
                           ) : null}
@@ -1394,20 +1394,20 @@ export function MenuOrderClient() {
               </div>
 
               {normalizedSearch && displayedItemCount === 0 ? (
-                <div className="rounded-lg border border-dashed border-white/18 bg-white/6 p-8 text-center">
+                <div className="rounded-lg border border-dashed border-[#E3D7C5] bg-[#F5F2EC] p-8 text-center">
                   <Search
-                    className="mx-auto text-[#D7A542]"
+                    className="mx-auto text-[#FDBE35]"
                     size={34}
                     aria-hidden="true"
                   />
-                  <h2 className="mt-4 text-2xl font-black text-white">No dishes found</h2>
-                  <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-white/62">
+                  <h2 className="mt-4 text-[2.2rem] font-black leading-tight text-[#121212]">No dishes found</h2>
+                  <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-[#5F5A53]">
                     Try another dish name or clear the search.
                   </p>
                   <button
                     type="button"
                     onClick={resetMenuView}
-                    className="mt-5 inline-flex h-11 items-center justify-center rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] transition hover:bg-white"
+                    className="mt-5 inline-flex h-11 items-center justify-center rounded-full bg-[#FDBE35] px-5 text-sm font-black text-[#121212] transition hover:bg-[#FFEFCB]"
                   >
                     Clear search
                   </button>
@@ -1425,32 +1425,32 @@ export function MenuOrderClient() {
           <button
             type="button"
             onClick={() => setMobileCartOpen(true)}
-            className="fixed bottom-4 left-4 right-4 z-30 grid h-14 grid-cols-[1fr_auto] items-center rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] shadow-2xl shadow-black/25 lg:hidden"
+            className="fixed bottom-4 left-4 right-4 z-30 grid h-14 grid-cols-[1fr_auto] items-center rounded-full bg-[#FDBE35] px-5 text-sm font-black text-[#121212] shadow-2xl shadow-black/25 lg:hidden"
             aria-label="Open cart"
           >
             <span>
               {itemCount} {itemCount === 1 ? "Item" : "Items"} &bull;{" "}
               {formatCurrency(total)}
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#150D08]/12 px-3 py-1 text-[#150D08]">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#121212]/12 px-3 py-1 text-[#121212]">
               Checkout
               <ArrowRight size={15} aria-hidden="true" />
             </span>
           </button>
           <Link
             href="/cart"
-            className="fixed bottom-6 right-6 z-30 hidden min-h-14 items-center gap-4 rounded-full border border-[#D7A542]/30 bg-[#D7A542] px-5 text-sm font-black text-[#150D08] shadow-[0_18px_46px_rgba(0,0,0,0.36)] transition hover:-translate-y-0.5 hover:bg-white lg:left-1/2 lg:right-auto lg:flex lg:-translate-x-1/2"
+            className="fixed bottom-6 right-6 z-30 hidden min-h-14 items-center gap-4 rounded-full border border-[#FDBE35]/30 bg-[#FDBE35] px-5 text-sm font-black text-[#121212] shadow-[0_18px_46px_rgba(0,0,0,0.36)] transition hover:-translate-y-0.5 hover:bg-[#FFEFCB] lg:left-1/2 lg:right-auto lg:flex lg:-translate-x-1/2"
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#150D08]/12">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#121212]/12">
               <ShoppingBag size={17} aria-hidden="true" />
             </span>
             <span>
               Cart
-              <span className="block text-xs font-bold text-[#150D08]/70">
+              <span className="block text-xs font-bold text-[#121212]/70">
                 {itemCount} {itemCount === 1 ? "item" : "items"}
               </span>
             </span>
-            <span className="rounded-full bg-[#150D08]/12 px-3 py-1 text-[#150D08]">
+            <span className="rounded-full bg-[#121212]/12 px-3 py-1 text-[#121212]">
               {formatCurrency(total)}
             </span>
           </Link>
@@ -1460,16 +1460,16 @@ export function MenuOrderClient() {
 
       {rewardNotice ? (
           <div
-            className="fixed inset-x-3 bottom-24 z-40 mx-auto max-w-md overflow-hidden rounded-lg border border-[#D7A542]/35 bg-[#15100E]/96 p-3 text-white shadow-[0_18px_46px_rgba(0,0,0,0.42)] backdrop-blur-xl lg:inset-x-auto lg:bottom-6 lg:right-6 lg:w-[380px]"
+            className="fixed inset-x-3 bottom-24 z-40 mx-auto max-w-md overflow-hidden rounded-lg border border-[#FDBE35]/35 bg-[#1A1A1A]/96 p-3 text-white shadow-[0_18px_46px_rgba(0,0,0,0.42)] backdrop-blur-xl lg:inset-x-auto lg:bottom-6 lg:right-6 lg:w-[380px]"
             role="status"
           >
-            <div className="absolute inset-x-0 top-0 h-1 bg-[#D7A542]" />
+            <div className="absolute inset-x-0 top-0 h-1 bg-[#FDBE35]" />
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08]">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FDBE35] text-[#121212]">
                 <Sparkles size={19} aria-hidden="true" />
               </span>
               <p className="min-w-0">
-                <span className="block text-[11px] font-black uppercase tracking-[0.14em] text-[#F6DFA4]">
+                <span className="block text-[11px] font-black uppercase tracking-[0.14em] text-[#FDE3A0]">
                   Offer unlocked
                 </span>
                 <span className="mt-0.5 block truncate text-base font-black">
@@ -1485,3 +1485,8 @@ export function MenuOrderClient() {
     </section>
   );
 }
+
+
+
+
+

@@ -58,18 +58,18 @@ export function MerchantLoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="mt-6 grid gap-4 text-left">
-      <label className="text-sm font-black text-[#241D1D]">
+      <label className="text-sm font-black text-[#121212]">
         Dashboard token
         <span className="relative mt-2 block">
           <LockKeyhole
-            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#8A3430]/60"
+            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#2B1408]/60"
             size={18}
             aria-hidden="true"
           />
           <input
             value={token}
             onChange={(event) => setToken(event.target.value)}
-            className="h-12 w-full rounded-lg border border-black/10 bg-white px-4 pl-12 text-sm font-black text-[#241D1D] outline-none transition placeholder:text-[#6B5D5B]/40 focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
+            className="h-12 w-full rounded-lg border border-black/10 bg-white px-4 pl-12 text-sm font-black text-[#121212] outline-none transition placeholder:text-[#5F5A53]/40 focus:border-[#2B1408] focus:ring-4 focus:ring-[#2B1408]/10"
             type="password"
             autoComplete="current-password"
             placeholder="Enter dashboard token"
@@ -90,7 +90,7 @@ export function MerchantLoginForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-5 text-sm font-black text-white transition hover:bg-[#6F2926] disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#2B1408] px-5 text-sm font-black text-white transition hover:bg-[#1F0F06] disabled:cursor-not-allowed disabled:opacity-60"
       >
         <LogIn size={17} aria-hidden="true" />
         {submitting ? "Checking..." : "Open merchant dashboard"}
@@ -98,4 +98,5 @@ export function MerchantLoginForm() {
     </form>
   );
 }
+
 

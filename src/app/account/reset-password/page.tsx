@@ -8,10 +8,10 @@ export const metadata: Metadata = {
 
 export default function ResetPasswordPage() {
   return (
-    <main className="bg-[#0D0A08] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-16">
+    <main className="bg-[#121212] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-16">
       <section className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.92fr_520px] lg:items-center">
         <div>
-          <p className="inline-flex rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#F6DFA4]">
+          <p className="inline-flex rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#FDE3A0]">
             Customer account
           </p>
           <h1 className="mt-5 max-w-3xl text-4xl font-black leading-[1.02] sm:text-6xl">
@@ -27,3 +27,4 @@ export default function ResetPasswordPage() {
     </main>
   );
 }
+

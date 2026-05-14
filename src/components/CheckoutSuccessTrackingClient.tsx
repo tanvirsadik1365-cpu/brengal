@@ -296,13 +296,13 @@ export function CheckoutSuccessTrackingClient() {
   const orderNumber = tracking?.orderNumber ?? manualOrderNumber;
 
   return (
-    <main className="bg-[#0D0A08] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-16">
+    <main className="bg-[#121212] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-16">
       <section className="mx-auto max-w-4xl">
-        <div className="rounded-lg border border-white/10 bg-[#15100E] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.36)] sm:p-8">
+        <div className="rounded-lg border border-white/10 bg-[#1A1A1A] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.36)] sm:p-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <CheckCircle2 className="text-[#D7A542]" size={46} aria-hidden="true" />
-              <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#D7A542]">
+              <CheckCircle2 className="text-[#FDBE35]" size={46} aria-hidden="true" />
+              <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#FDBE35]">
                 Checkout complete
               </p>
               <h1 className="mt-2 text-3xl font-black leading-tight sm:text-4xl">
@@ -315,7 +315,7 @@ export function CheckoutSuccessTrackingClient() {
                 type="button"
                 onClick={() => (lookup ? void runLookup(lookup, true) : undefined)}
                 disabled={!lookup || isRefreshing}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-sm font-black text-white transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4] disabled:opacity-60"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-sm font-black text-white transition hover:border-[#FDBE35]/55 hover:text-[#FDE3A0] disabled:opacity-60"
               >
                 <RefreshCw
                   className={isRefreshing ? "animate-spin" : ""}
@@ -334,12 +334,12 @@ export function CheckoutSuccessTrackingClient() {
                   ? "border-red-400/35 bg-red-500/10 text-red-100"
                   : paymentSyncState === "confirmed"
                     ? "border-emerald-300/30 bg-emerald-400/10 text-emerald-50"
-                    : "border-[#D7A542]/25 bg-[#D7A542]/10 text-white/70"
+                    : "border-[#FDBE35]/25 bg-[#FDBE35]/10 text-white/70"
               }`}
             >
               {paymentSyncState === "checking" ? (
                 <Loader2
-                  className="animate-spin text-[#D7A542]"
+                  className="animate-spin text-[#FDBE35]"
                   size={18}
                   aria-hidden="true"
                 />
@@ -354,7 +354,7 @@ export function CheckoutSuccessTrackingClient() {
 
           {isLoading ? (
             <div className="mt-8 flex items-center gap-3 rounded-lg border border-white/10 bg-white/6 p-4 text-sm font-black text-white/62">
-              <Loader2 className="animate-spin text-[#D7A542]" size={19} aria-hidden="true" />
+              <Loader2 className="animate-spin text-[#FDBE35]" size={19} aria-hidden="true" />
               Loading live order tracking...
             </div>
           ) : tracking ? (
@@ -363,12 +363,12 @@ export function CheckoutSuccessTrackingClient() {
                 className={`rounded-lg border p-5 ${
                   tracking.status === "cancelled"
                     ? "border-red-400/35 bg-red-500/10 text-red-100"
-                    : "border-[#D7A542]/25 bg-[#D7A542]/10"
+                    : "border-[#FDBE35]/25 bg-[#FDBE35]/10"
                 }`}
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <p className="text-sm font-black uppercase tracking-[0.16em] text-[#D7A542]">
+                    <p className="text-sm font-black uppercase tracking-[0.16em] text-[#FDBE35]">
                       Live status
                     </p>
                     <h2 className="mt-2 text-2xl font-black">
@@ -381,7 +381,7 @@ export function CheckoutSuccessTrackingClient() {
                   {tracking.status === "cancelled" ? (
                     <XCircle size={34} aria-hidden="true" />
                   ) : (
-                    <Clock size={34} className="text-[#D7A542]" aria-hidden="true" />
+                    <Clock size={34} className="text-[#FDBE35]" aria-hidden="true" />
                   )}
                 </div>
               </div>
@@ -402,14 +402,14 @@ export function CheckoutSuccessTrackingClient() {
                         key={step.id}
                         className={`rounded-lg border p-4 ${
                           complete
-                            ? "border-[#D7A542]/45 bg-[#D7A542]/10"
+                            ? "border-[#FDBE35]/45 bg-[#FDBE35]/10"
                             : "border-white/10 bg-white/6"
                         }`}
                       >
                         <span
                           className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-black ${
                             complete
-                              ? "bg-[#D7A542] text-[#150D08]"
+                              ? "bg-[#FDBE35] text-[#121212]"
                               : "bg-white/12 text-white/50"
                           }`}
                         >
@@ -419,7 +419,7 @@ export function CheckoutSuccessTrackingClient() {
                           {step.label}
                         </p>
                         {active ? (
-                          <p className="mt-1 text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                          <p className="mt-1 text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                             Current
                           </p>
                         ) : null}
@@ -431,7 +431,7 @@ export function CheckoutSuccessTrackingClient() {
 
               <div className="grid gap-3 sm:grid-cols-3">
                 <div className="rounded-lg border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                  <p className="text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                     Prep time
                   </p>
                   <p className="mt-2 text-2xl font-black">
@@ -439,7 +439,7 @@ export function CheckoutSuccessTrackingClient() {
                   </p>
                 </div>
                 <div className="rounded-lg border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                  <p className="text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                     Estimated ready
                   </p>
                   <p className="mt-2 text-xl font-black">
@@ -447,12 +447,12 @@ export function CheckoutSuccessTrackingClient() {
                   </p>
                 </div>
                 <div className="rounded-lg border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                  <p className="text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                     Restaurant support
                   </p>
                   <a
                     href={phoneHref(tracking.restaurantSupportPhone)}
-                    className="mt-2 inline-flex items-center gap-2 text-sm font-black text-[#F6DFA4]"
+                    className="mt-2 inline-flex items-center gap-2 text-sm font-black text-[#FDE3A0]"
                   >
                     <Phone size={16} aria-hidden="true" />
                     {tracking.restaurantSupportPhone}
@@ -463,7 +463,7 @@ export function CheckoutSuccessTrackingClient() {
           ) : (
             <div className="mt-8 rounded-lg border border-white/10 bg-white/6 p-5">
               <div className="flex items-start gap-3">
-                <Search className="mt-0.5 shrink-0 text-[#D7A542]" size={21} aria-hidden="true" />
+                <Search className="mt-0.5 shrink-0 text-[#FDBE35]" size={21} aria-hidden="true" />
                 <div>
                   <h2 className="text-lg font-black">
                     Open live tracking to continue
@@ -483,19 +483,19 @@ export function CheckoutSuccessTrackingClient() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href={trackingHref(orderNumber)}
-              className="inline-flex h-12 items-center justify-center rounded-full bg-[#D7A542] px-6 text-sm font-black text-[#150D08] transition hover:bg-white"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-[#FDBE35] px-6 text-sm font-black text-[#121212] transition hover:bg-white"
             >
               Open full tracking
             </Link>
             <Link
               href="/menu"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-white/12 bg-white/8 px-6 text-sm font-black text-white transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4]"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-white/12 bg-white/8 px-6 text-sm font-black text-white transition hover:border-[#FDBE35]/55 hover:text-[#FDE3A0]"
             >
               Back to menu
             </Link>
             <Link
               href="/contact"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-white/12 bg-white/8 px-6 text-sm font-black text-white transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4]"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-white/12 bg-white/8 px-6 text-sm font-black text-white transition hover:border-[#FDBE35]/55 hover:text-[#FDE3A0]"
             >
               Contact restaurant
             </Link>
@@ -505,3 +505,4 @@ export function CheckoutSuccessTrackingClient() {
     </main>
   );
 }
+

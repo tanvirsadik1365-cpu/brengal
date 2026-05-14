@@ -76,12 +76,12 @@ export function MobileStickyCta() {
   return (
     <nav
       aria-label="Quick ordering actions"
-      className="fixed inset-x-0 bottom-0 z-[70] border-t border-white/12 bg-[#0E0B09]/92 px-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-16px_40px_rgba(0,0,0,0.42)] backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-[70] border-t border-white/12 bg-[#121212]/92 px-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-16px_40px_rgba(0,0,0,0.42)] backdrop-blur-xl lg:hidden"
     >
       <div className="mx-auto grid max-w-md grid-cols-[1fr_auto] gap-2">
         <Link
           href="/menu"
-          className="inline-flex h-[52px] min-h-[52px] items-center justify-center gap-2 rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#140C08] shadow-[0_12px_30px_rgba(215,165,66,0.26)]"
+          className="inline-flex h-[52px] min-h-[52px] items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-5 text-sm font-black text-[#121212] shadow-[0_12px_30px_rgba(215,165,66,0.26)]"
         >
           <ShoppingBag size={18} aria-hidden="true" />
           Order online
@@ -97,3 +97,4 @@ export function MobileStickyCta() {
     </nav>
   );
 }
+

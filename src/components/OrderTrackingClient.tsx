@@ -78,7 +78,7 @@ function phoneHref(value: string) {
 function statusTone(status: OrderTrackingResult["status"]) {
   switch (status) {
     case "pending":
-      return "border-[#D7A542]/35 bg-[#D7A542]/12 text-[#F6DFA4]";
+      return "border-[#FDBE35]/35 bg-[#FDBE35]/12 text-[#FDE3A0]";
     case "preparing":
       return "border-sky-300/25 bg-sky-400/10 text-sky-100";
     case "ready":
@@ -93,13 +93,13 @@ function statusTone(status: OrderTrackingResult["status"]) {
 function statusAccent(status: OrderTrackingResult["status"]) {
   switch (status) {
     case "pending":
-      return "bg-[#D7A542] text-[#150D08]";
+      return "bg-[#FDBE35] text-[#121212]";
     case "preparing":
       return "bg-sky-300 text-sky-950";
     case "ready":
       return "bg-emerald-300 text-emerald-950";
     case "completed":
-      return "bg-white text-[#150D08]";
+      return "bg-white text-[#121212]";
     case "cancelled":
       return "bg-red-400 text-white";
   }
@@ -212,9 +212,9 @@ export function OrderTrackingClient() {
     : "Collection or delivery";
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#0D0A08] px-4 pb-24 pt-8 text-white sm:px-6 lg:px-8 lg:py-12">
+    <section className="relative isolate overflow-hidden bg-[#F5F2EC] px-4 pb-24 pt-8 text-[#121212] sm:px-6 lg:px-8 lg:py-12">
       <div
-        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(215,165,66,0.16),transparent_34%),radial-gradient(circle_at_80%_10%,rgba(138,52,48,0.18),transparent_30%),linear-gradient(180deg,#0D0A08_0%,#100B08_58%,#0D0A08_100%)]"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(215,165,66,0.18),transparent_34%),radial-gradient(circle_at_80%_10%,rgba(138,52,48,0.12),transparent_30%),linear-gradient(180deg,#FDF9F1_0%,#F5F2EC_58%,#F5F2EC_100%)]"
         aria-hidden="true"
       />
 
@@ -226,27 +226,27 @@ export function OrderTrackingClient() {
           className="track-order-hero-grid"
         >
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#F6DFA4] shadow-[0_14px_34px_rgba(0,0,0,0.28)] backdrop-blur">
+            <p className="inline-flex items-center gap-2 rounded-full border border-[#E3D7C5] bg-[#FFFCF7] px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#A97912] shadow-[0_14px_34px_rgba(52,35,28,0.1)]">
               <ClipboardList size={15} aria-hidden="true" />
               Live order tracking
             </p>
             <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">
               Follow your order from kitchen to your table.
             </h1>
-            <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/66">
+            <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-[#5F5A53]">
               Enter your order number and checkout contact to see the current
               status, prep time, payment status, and restaurant support details.
             </p>
           </div>
 
-          <div className="rounded-lg border border-[#D7A542]/24 bg-[#1A100C]/82 p-5 shadow-[0_24px_70px_rgba(0,0,0,0.34)] backdrop-blur">
+          <div className="rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-5 shadow-[0_24px_70px_rgba(52,35,28,0.14)]">
             <div className="flex items-start gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08]">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FDBE35] text-[#121212]">
                 <ShieldCheck size={20} aria-hidden="true" />
               </span>
               <div>
-                <p className="text-sm font-black text-white">Private lookup</p>
-                <p className="mt-1 text-sm font-semibold leading-6 text-white/60">
+                <p className="text-sm font-black text-[#121212]">Private lookup</p>
+                <p className="mt-1 text-sm font-semibold leading-6 text-[#5F5A53]">
                   Tracking opens only when the order number and phone or email
                   match the order.
                 </p>
@@ -256,15 +256,15 @@ export function OrderTrackingClient() {
         </motion.div>
 
         <div className="track-order-layout mt-8">
-          <aside className="rounded-lg border border-white/10 bg-[#15100E]/88 p-5 shadow-[0_24px_70px_rgba(0,0,0,0.32)] backdrop-blur sm:p-6 lg:sticky lg:top-28">
+          <aside className="rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-5 shadow-[0_24px_70px_rgba(52,35,28,0.12)] sm:p-6 lg:sticky lg:top-28">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#FDBE35]">
                   Find order
                 </p>
-                <h2 className="mt-2 text-2xl font-black">Track your order</h2>
+                <h2 className="mt-2 text-2xl font-black text-[#121212]">Track your order</h2>
               </div>
-              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/8 text-[#D7A542]">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-[#E3D7C5] bg-[#F5F2EC] text-[#A97912]">
                 <Search size={20} aria-hidden="true" />
               </span>
             </div>
@@ -276,36 +276,36 @@ export function OrderTrackingClient() {
                 void runLookup({ contact, orderNumber });
               }}
             >
-              <label className="grid gap-2 text-sm font-black text-white">
+              <label className="grid gap-2 text-sm font-black text-[#121212]">
                 Order number
                 <span className="relative block">
                   <Hash
-                    className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-white/38"
+                    className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[#8B7B66]"
                     size={18}
                     aria-hidden="true"
                   />
                   <input
                     value={orderNumber}
                     onChange={(event) => setOrderNumber(event.target.value)}
-                    className="h-12 min-h-12 w-full rounded-lg border border-white/10 bg-white/8 pl-14 pr-4 text-sm font-black uppercase text-white outline-none transition placeholder:text-white/32 focus:border-[#D7A542]/70 focus:ring-4 focus:ring-[#D7A542]/12"
+                    className="h-12 min-h-12 w-full rounded-lg border border-[#E3D7C5] bg-[#F5F2EC] pl-14 pr-4 text-sm font-black uppercase text-[#121212] outline-none transition placeholder:text-[#8B7B66] focus:border-[#FDBE35]/70 focus:ring-4 focus:ring-[#FDBE35]/12"
                     placeholder="BENGAL-..."
                     autoComplete="off"
                   />
                 </span>
               </label>
 
-              <label className="grid gap-2 text-sm font-black text-white">
+              <label className="grid gap-2 text-sm font-black text-[#121212]">
                 Phone or email
                 <span className="relative block">
                   <Mail
-                    className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-white/38"
+                    className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[#8B7B66]"
                     size={18}
                     aria-hidden="true"
                   />
                   <input
                     value={contact}
                     onChange={(event) => setContact(event.target.value)}
-                    className="h-12 min-h-12 w-full rounded-lg border border-white/10 bg-white/8 pl-14 pr-4 text-sm font-bold text-white outline-none transition placeholder:text-white/32 focus:border-[#D7A542]/70 focus:ring-4 focus:ring-[#D7A542]/12"
+                    className="h-12 min-h-12 w-full rounded-lg border border-[#E3D7C5] bg-[#F5F2EC] pl-14 pr-4 text-sm font-bold text-[#121212] outline-none transition placeholder:text-[#8B7B66] focus:border-[#FDBE35]/70 focus:ring-4 focus:ring-[#FDBE35]/12"
                     placeholder="Phone number or email"
                     autoComplete="email"
                   />
@@ -321,7 +321,7 @@ export function OrderTrackingClient() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-6 text-sm font-black text-[#150D08] shadow-[0_16px_36px_rgba(215,165,66,0.2)] transition hover:-translate-y-0.5 hover:bg-white disabled:cursor-not-allowed disabled:bg-white/18 disabled:text-white/46"
+                className="inline-flex h-12 min-h-12 items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-6 text-sm font-black text-[#121212] shadow-[0_16px_36px_rgba(215,165,66,0.2)] transition hover:-translate-y-0.5 hover:bg-[#f7d477] disabled:cursor-not-allowed disabled:bg-[#d9d0c2] disabled:text-[#6f6657]"
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" size={18} aria-hidden="true" />
@@ -332,11 +332,11 @@ export function OrderTrackingClient() {
               </button>
             </form>
 
-            <div className="mt-5 rounded-lg border border-white/10 bg-white/6 p-4">
-              <p className="text-sm font-black text-white">Need help?</p>
+            <div className="mt-5 rounded-lg border border-[#E3D7C5] bg-[#F5F2EC] p-4">
+              <p className="text-sm font-black text-[#121212]">Need help?</p>
               <a
                 href={restaurant.secondaryPhoneHref}
-                className="mt-2 inline-flex min-h-11 items-center gap-2 rounded-full border border-white/10 bg-white/8 px-4 text-sm font-black text-[#F6DFA4] transition hover:border-[#D7A542]/60"
+                className="mt-2 inline-flex min-h-11 items-center gap-2 rounded-full border border-[#E3D7C5] bg-[#FFFCF7] px-4 text-sm font-black text-[#A97912] transition hover:border-[#FDBE35]/60"
               >
                 <Phone size={16} aria-hidden="true" />
                 {restaurant.secondaryPhone}
@@ -345,7 +345,7 @@ export function OrderTrackingClient() {
 
             <Link
               href="/menu"
-              className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white/6 px-4 text-sm font-black text-white/76 transition hover:border-[#D7A542]/60 hover:text-[#F6DFA4]"
+              className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-[#E3D7C5] bg-[#F5F2EC] px-4 text-sm font-black text-[#3F3932] transition hover:border-[#FDBE35]/60 hover:text-[#121212]"
             >
               Back to menu
               <ArrowRight size={16} aria-hidden="true" />
@@ -390,15 +390,15 @@ export function OrderTrackingClient() {
                   </div>
                 </article>
 
-                <article className="overflow-hidden rounded-lg border border-white/10 bg-[#15100E]/88 p-5 shadow-[0_24px_70px_rgba(0,0,0,0.32)] backdrop-blur sm:p-6">
+                <article className="overflow-hidden rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-5 shadow-[0_24px_70px_rgba(52,35,28,0.12)] sm:p-6">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]">
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#FDBE35]">
                         Order progress
                       </p>
                       <h2 className="mt-2 text-2xl font-black">Kitchen timeline</h2>
                     </div>
-                    <div className="rounded-full border border-white/10 bg-white/8 px-4 py-2 text-sm font-black text-white/70">
+                    <div className="rounded-full border border-[#E3D7C5] bg-[#F5F2EC] px-4 py-2 text-sm font-black text-[#5F5A53]">
                       Auto-refreshes every 15 sec
                     </div>
                   </div>
@@ -419,11 +419,11 @@ export function OrderTrackingClient() {
                   ) : (
                     <div className="mt-6">
                       <div
-                        className="relative hidden h-2 rounded-full bg-white/10 sm:block"
+                        className="relative hidden h-2 rounded-full bg-[#E8DFD3] sm:block"
                         aria-hidden="true"
                       >
                         <span
-                          className="absolute left-0 top-0 h-full rounded-full bg-[#D7A542] transition-all duration-500"
+                          className="absolute left-0 top-0 h-full rounded-full bg-[#FDBE35] transition-all duration-500"
                           style={{ width: `${progressPercent}%` }}
                         />
                       </div>
@@ -437,27 +437,27 @@ export function OrderTrackingClient() {
                               key={step.id}
                               className={`rounded-lg border p-4 ${
                                 complete
-                                  ? "border-[#D7A542]/40 bg-[#D7A542]/10"
-                                  : "border-white/10 bg-white/6"
+                                  ? "border-[#FDBE35]/40 bg-[#FDBE35]/10"
+                                  : "border-[#E3D7C5] bg-[#F5F2EC]"
                               }`}
                             >
                               <span
                                 className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-black ${
                                   complete
                                     ? statusAccent(tracking.status)
-                                    : "bg-white/12 text-white/50"
+                                    : "bg-[#E8DFD3] text-[#7D7467]"
                                 }`}
                               >
                                 {complete ? <CheckCircle2 size={18} /> : index + 1}
                               </span>
-                              <p className="mt-3 text-sm font-black leading-5 text-white">
+                              <p className="mt-3 text-sm font-black leading-5 text-[#121212]">
                                 {step.label}
                               </p>
-                              <p className="mt-1 text-xs font-semibold leading-5 text-white/48">
+                              <p className="mt-1 text-xs font-semibold leading-5 text-[#6E6558]">
                                 {step.text}
                               </p>
                               {active ? (
-                                <p className="mt-2 text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                                <p className="mt-2 text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                                   Current
                                 </p>
                               ) : null}
@@ -470,85 +470,85 @@ export function OrderTrackingClient() {
                 </article>
 
                 <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                  <div className="rounded-lg border border-white/10 bg-white/6 p-4">
-                    <Timer className="text-[#D7A542]" size={21} aria-hidden="true" />
-                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                  <div className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4">
+                    <Timer className="text-[#FDBE35]" size={21} aria-hidden="true" />
+                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                       Prep time
                     </p>
                     <p className="mt-2 text-2xl font-black">
                       {tracking.prepTimeMinutes} min
                     </p>
                   </div>
-                  <div className="rounded-lg border border-white/10 bg-white/6 p-4">
-                    <Clock className="text-[#D7A542]" size={21} aria-hidden="true" />
-                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                  <div className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4">
+                    <Clock className="text-[#FDBE35]" size={21} aria-hidden="true" />
+                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                       Estimated ready
                     </p>
                     <p className="mt-2 text-2xl font-black">
                       {formatShortTime(tracking.estimatedReadyAt)}
                     </p>
-                    <p className="mt-1 text-xs font-semibold text-white/45">
+                    <p className="mt-1 text-xs font-semibold text-[#6E6558]">
                       {formatDateTime(tracking.estimatedReadyAt)}
                     </p>
                   </div>
-                  <div className="rounded-lg border border-white/10 bg-white/6 p-4">
-                    <Store className="text-[#D7A542]" size={21} aria-hidden="true" />
-                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                  <div className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4">
+                    <Store className="text-[#FDBE35]" size={21} aria-hidden="true" />
+                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                       Order type
                     </p>
                     <p className="mt-2 text-2xl font-black">{orderTypeLabel}</p>
                   </div>
-                  <div className="rounded-lg border border-white/10 bg-white/6 p-4">
-                    <BadgeCheck className="text-[#D7A542]" size={21} aria-hidden="true" />
-                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                  <div className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4">
+                    <BadgeCheck className="text-[#FDBE35]" size={21} aria-hidden="true" />
+                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                       Payment
                     </p>
                     <p className="mt-2 text-2xl font-black capitalize">
                       {tracking.paymentStatus.replaceAll("_", " ")}
                     </p>
                   </div>
-                  <div className="rounded-lg border border-white/10 bg-white/6 p-4">
-                    <ClipboardList className="text-[#D7A542]" size={21} aria-hidden="true" />
-                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                  <div className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4">
+                    <ClipboardList className="text-[#FDBE35]" size={21} aria-hidden="true" />
+                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                       Total
                     </p>
                     <p className="mt-2 text-2xl font-black">
                       {formatCurrencyFromPence(tracking.totalPence)}
                     </p>
                   </div>
-                  <div className="rounded-lg border border-[#D7A542]/24 bg-[#D7A542]/10 p-4">
-                    <Phone className="text-[#D7A542]" size={21} aria-hidden="true" />
-                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#D7A542]">
+                  <div className="rounded-lg border border-[#FDBE35]/24 bg-[#FDBE35]/10 p-4">
+                    <Phone className="text-[#FDBE35]" size={21} aria-hidden="true" />
+                    <p className="mt-4 text-xs font-black uppercase tracking-wide text-[#FDBE35]">
                       Restaurant support
                     </p>
                     <a
                       href={phoneHref(tracking.restaurantSupportPhone)}
-                      className="mt-2 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#D7A542] px-4 text-sm font-black text-[#150D08] transition hover:bg-white"
+                      className="mt-2 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#FDBE35] px-4 text-sm font-black text-[#121212] transition hover:bg-white"
                     >
                       {tracking.restaurantSupportPhone}
                     </a>
                   </div>
                 </div>
 
-                <article className="rounded-lg border border-white/10 bg-[#15100E]/88 p-5 shadow-[0_20px_58px_rgba(0,0,0,0.25)] sm:p-6">
+                <article className="rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-5 shadow-[0_20px_58px_rgba(52,35,28,0.1)] sm:p-6">
                   <h2 className="text-xl font-black">Order help</h2>
-                  <p className="mt-2 text-sm font-semibold leading-7 text-white/58">
+                  <p className="mt-2 text-sm font-semibold leading-7 text-[#5F5A53]">
                     For allergy, timing, delivery, or payment questions, call the
                     restaurant and quote your order number.
                   </p>
                 </article>
               </>
             ) : (
-              <article className="min-h-[520px] rounded-lg border border-white/10 bg-[#15100E]/88 p-6 shadow-[0_24px_70px_rgba(0,0,0,0.32)] backdrop-blur sm:p-8">
+              <article className="min-h-[520px] rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-6 shadow-[0_24px_70px_rgba(52,35,28,0.12)] sm:p-8">
                 <div className="flex h-full flex-col justify-between gap-8">
                   <div>
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08] shadow-[0_16px_34px_rgba(215,165,66,0.18)]">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#FDBE35] text-[#121212] shadow-[0_16px_34px_rgba(215,165,66,0.18)]">
                       <ClipboardList size={25} aria-hidden="true" />
                     </span>
                     <h2 className="mt-6 max-w-xl text-3xl font-black leading-tight sm:text-4xl">
                       Your live order status will appear here.
                     </h2>
-                    <p className="mt-4 max-w-2xl text-sm font-semibold leading-7 text-white/58">
+                    <p className="mt-4 max-w-2xl text-sm font-semibold leading-7 text-[#5F5A53]">
                       After lookup, this page updates automatically while the
                       order is active.
                     </p>
@@ -562,12 +562,12 @@ export function OrderTrackingClient() {
                     ].map(([number, label]) => (
                       <div
                         key={number}
-                        className="rounded-lg border border-white/10 bg-white/6 p-4"
+                        className="rounded-lg border border-[#E3D7C5] bg-[#F5F2EC] p-4"
                       >
-                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm font-black text-[#D7A542]">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm font-black text-[#FDBE35]">
                           {number}
                         </span>
-                        <p className="mt-3 text-sm font-black text-white">{label}</p>
+                        <p className="mt-3 text-sm font-black text-[#121212]">{label}</p>
                       </div>
                     ))}
                   </div>
@@ -580,3 +580,4 @@ export function OrderTrackingClient() {
     </section>
   );
 }
+

@@ -67,7 +67,7 @@ function buildReservationEmailHtml({
 
   return `
     <div style="font-family:Arial,sans-serif;color:#211A18;line-height:1.6">
-      <h1 style="color:#7F2F2A">New booking request</h1>
+      <h1 style="color:#2B1408">New booking request</h1>
       <p>A new table booking request has been submitted from ${escapeHtml(
         restaurant.website,
       )}.</p>
@@ -168,3 +168,4 @@ export async function sendReservationNotificationEmail(
     sent: true,
   };
 }
+

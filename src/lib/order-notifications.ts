@@ -63,7 +63,7 @@ function buildReadyEmailHtml(order: ReadyEmailOrder) {
 
   return `
     <div style="font-family:Arial,sans-serif;color:#211A18;line-height:1.6">
-      <h1 style="color:#7F2F2A">${escapeHtml(copy.headline)}</h1>
+      <h1 style="color:#2B1408">${escapeHtml(copy.headline)}</h1>
       <p>Hello ${escapeHtml(order.customerName || "there")},</p>
       <p>${escapeHtml(copy.detail)}</p>
       <p><strong>Order:</strong> ${escapeHtml(order.orderNumber)}</p>
@@ -149,3 +149,4 @@ export async function sendOrderReadyEmail(order: ReadyEmailOrder) {
     sent: true,
   };
 }
+

@@ -95,14 +95,14 @@ function MerchantNav() {
     <nav className="mt-5 flex flex-wrap gap-2">
       <Link
         href="/merchant/orders"
-        className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926]"
+        className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#2B1408] px-4 text-sm font-black text-white transition hover:bg-[#1F0F06]"
       >
         <ShoppingBag size={16} aria-hidden="true" />
         Orders
       </Link>
       <Link
         href="/merchant/reservations"
-        className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC]"
+        className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#2B1408]/20 bg-white px-4 text-sm font-black text-[#2B1408] transition hover:border-[#2B1408] hover:bg-[#FFF7EC]"
       >
         <CalendarCheck size={16} aria-hidden="true" />
         Reservations
@@ -161,14 +161,14 @@ function OrderCard({
   const actions = getOrderActions(order);
 
   return (
-    <article className="rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-5 shadow-sm">
+    <article className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-5 shadow-sm">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.14em] text-[#8A3430]">
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-[#2B1408]">
             {order.orderNumber}
           </p>
           <h2 className="mt-2 text-2xl font-black">{order.customerName}</h2>
-          <div className="mt-3 grid gap-2 text-sm font-semibold text-[#6B5D5B] sm:grid-cols-2">
+          <div className="mt-3 grid gap-2 text-sm font-semibold text-[#5F5A53] sm:grid-cols-2">
             <p className="flex items-center gap-2">
               <Clock3 size={15} aria-hidden="true" />
               Placed {formatDateTime(order.createdAt)}
@@ -180,31 +180,31 @@ function OrderCard({
           </div>
         </div>
         <div className="flex flex-wrap gap-2 lg:justify-end">
-          <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black uppercase text-[#8A3430]">
+          <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black uppercase text-[#2B1408]">
             {order.statusLabel}
           </span>
-          <span className="inline-flex rounded-full bg-[#8A3430] px-3 py-1 text-xs font-black uppercase text-white">
+          <span className="inline-flex rounded-full bg-[#2B1408] px-3 py-1 text-xs font-black uppercase text-white">
             {formatPence(order.totalPence)}
           </span>
         </div>
       </div>
 
-      <div className="mt-5 grid gap-3 text-sm leading-6 text-[#6B5D5B] md:grid-cols-4">
+      <div className="mt-5 grid gap-3 text-sm leading-6 text-[#5F5A53] md:grid-cols-4">
         <p>
-          <span className="font-black text-[#241D1D]">Type:</span>{" "}
+          <span className="font-black text-[#121212]">Type:</span>{" "}
           {displayValue(order.orderType)}
         </p>
         <p>
-          <span className="font-black text-[#241D1D]">Payment:</span>{" "}
+          <span className="font-black text-[#121212]">Payment:</span>{" "}
           {displayValue(order.paymentMethod)} / {displayValue(order.paymentStatus)}
         </p>
         <p>
-          <span className="font-black text-[#241D1D]">Prep:</span>{" "}
+          <span className="font-black text-[#121212]">Prep:</span>{" "}
           {order.prepTimeMinutes} min
         </p>
         <p className="flex gap-2">
           <Phone
-            className="mt-0.5 shrink-0 text-[#8A3430]"
+            className="mt-0.5 shrink-0 text-[#2B1408]"
             size={17}
             aria-hidden="true"
           />
@@ -217,24 +217,24 @@ function OrderCard({
       </div>
 
       {order.customerEmail ? (
-        <p className="mt-3 break-all text-sm leading-6 text-[#6B5D5B]">
-          <span className="font-black text-[#241D1D]">Email:</span>{" "}
+        <p className="mt-3 break-all text-sm leading-6 text-[#5F5A53]">
+          <span className="font-black text-[#121212]">Email:</span>{" "}
           {order.customerEmail}
         </p>
       ) : null}
 
       {order.deliveryAddress || order.notes ? (
-        <div className="mt-5 grid gap-3 text-sm leading-6 text-[#6B5D5B] md:grid-cols-2">
+        <div className="mt-5 grid gap-3 text-sm leading-6 text-[#5F5A53] md:grid-cols-2">
           {order.deliveryAddress ? (
             <p className="rounded-lg bg-white p-4">
-              <span className="font-black text-[#241D1D]">Delivery:</span>{" "}
+              <span className="font-black text-[#121212]">Delivery:</span>{" "}
               {order.deliveryAddress}
               {order.deliveryPostcode ? `, ${order.deliveryPostcode}` : ""}
             </p>
           ) : null}
           {order.notes ? (
             <p className="rounded-lg bg-white p-4">
-              <span className="font-black text-[#241D1D]">Notes:</span>{" "}
+              <span className="font-black text-[#121212]">Notes:</span>{" "}
               {order.notes}
             </p>
           ) : null}
@@ -242,31 +242,31 @@ function OrderCard({
       ) : null}
 
       <div className="mt-5 rounded-lg bg-white p-4">
-        <p className="text-sm font-black text-[#241D1D]">Items</p>
+        <p className="text-sm font-black text-[#121212]">Items</p>
         {order.items.length > 0 ? (
-          <ul className="mt-3 grid gap-2 text-sm leading-6 text-[#6B5D5B]">
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-[#5F5A53]">
             {order.items.map((item) => (
               <li
                 key={item.id}
-                className="flex flex-col gap-1 border-t border-[#E4D6C4] pt-2 first:border-t-0 first:pt-0 sm:flex-row sm:items-start sm:justify-between"
+                className="flex flex-col gap-1 border-t border-[#E3D7C5] pt-2 first:border-t-0 first:pt-0 sm:flex-row sm:items-start sm:justify-between"
               >
                 <span>
-                  <span className="font-black text-[#241D1D]">
+                  <span className="font-black text-[#121212]">
                     {item.quantity}x {item.name}
                   </span>
-                  <span className="block text-xs font-bold uppercase tracking-[0.1em] text-[#8A3430]">
+                  <span className="block text-xs font-bold uppercase tracking-[0.1em] text-[#2B1408]">
                     {item.category}
                     {item.isReward ? " / reward" : ""}
                   </span>
                 </span>
-                <span className="font-black text-[#241D1D]">
+                <span className="font-black text-[#121212]">
                   {formatPence(item.lineTotalPence)}
                 </span>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="mt-3 text-sm leading-6 text-[#6B5D5B]">
+          <p className="mt-3 text-sm leading-6 text-[#5F5A53]">
             No item rows were found for this order.
           </p>
         )}
@@ -294,7 +294,7 @@ function OrderCard({
                 className={`inline-flex h-10 items-center justify-center gap-2 rounded-full px-4 text-sm font-black transition disabled:opacity-60 ${
                   action.status === "cancelled"
                     ? "border border-red-200 bg-white text-red-800 hover:bg-red-50"
-                    : "bg-[#8A3430] text-white hover:bg-[#6F2926]"
+                    : "bg-[#2B1408] text-white hover:bg-[#1F0F06]"
                 }`}
               >
                 <Icon
@@ -333,7 +333,7 @@ function OrderSection({
     <section className="grid gap-4">
       <div>
         <h2 className="text-2xl font-black">{title}</h2>
-        <p className="mt-1 text-sm font-semibold leading-6 text-[#6B5D5B]">
+        <p className="mt-1 text-sm font-semibold leading-6 text-[#5F5A53]">
           {description}
         </p>
       </div>
@@ -494,16 +494,16 @@ export function MerchantOrdersClient({
     <>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-sm font-black uppercase tracking-[0.18em] text-[#8A3430]">
+          <p className="text-sm font-black uppercase tracking-[0.18em] text-[#2B1408]">
             Merchant App
           </p>
           <h1 className="mt-2 text-4xl font-black">Website orders</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-[#6B5D5B]">
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5F5A53]">
             Website checkout orders are stored in Supabase and shown here for
             the restaurant team.
           </p>
           <MerchantNav />
-          <p className="mt-3 text-xs font-black uppercase tracking-[0.12em] text-[#8A3430]">
+          <p className="mt-3 text-xs font-black uppercase tracking-[0.12em] text-[#2B1408]">
             {lastUpdated
               ? `Last checked ${formatDateTime(lastUpdated.toISOString())}`
               : ""}
@@ -512,24 +512,24 @@ export function MerchantOrdersClient({
         <div className="grid gap-3 sm:grid-cols-2 lg:min-w-[360px]">
           <MerchantAppClock />
           <div className="restaurant-card rounded-lg px-5 py-4">
-            <p className="text-3xl font-black text-[#8A3430]">
+            <p className="text-3xl font-black text-[#2B1408]">
               {orders.length}
             </p>
-            <p className="text-sm font-black text-[#6B5D5B]">loaded orders</p>
+            <p className="text-sm font-black text-[#5F5A53]">loaded orders</p>
           </div>
           <div className="restaurant-card rounded-lg px-5 py-4">
-            <p className="text-3xl font-black text-[#8A3430]">
+            <p className="text-3xl font-black text-[#2B1408]">
               {pendingOrders.length}
             </p>
-            <p className="text-sm font-black text-[#6B5D5B]">
+            <p className="text-sm font-black text-[#5F5A53]">
               pending acceptance
             </p>
           </div>
           <div className="restaurant-card rounded-lg px-5 py-4">
-            <p className="text-3xl font-black text-[#8A3430]">
+            <p className="text-3xl font-black text-[#2B1408]">
               {formatPence(acceptedTurnoverPence)}
             </p>
-            <p className="text-sm font-black text-[#6B5D5B]">
+            <p className="text-sm font-black text-[#5F5A53]">
               accepted turnover
             </p>
           </div>
@@ -537,7 +537,7 @@ export function MerchantOrdersClient({
             type="button"
             onClick={() => void refreshOrders()}
             disabled={refreshing}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926] disabled:opacity-60 sm:col-span-2"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#2B1408] px-4 text-sm font-black text-white transition hover:bg-[#1F0F06] disabled:opacity-60 sm:col-span-2"
           >
             <RefreshCw
               className={refreshing ? "animate-spin" : ""}
@@ -556,21 +556,21 @@ export function MerchantOrdersClient({
       <div className="restaurant-card mt-8 rounded-lg p-5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <label className="block lg:min-w-72">
-            <span className="text-sm font-black text-[#241D1D]">
+            <span className="text-sm font-black text-[#121212]">
               Filter by order date
             </span>
             <input
               type="date"
               value={selectedDate}
               onChange={(event) => setSelectedDate(event.target.value)}
-              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-black text-[#241D1D] outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
+              className="mt-2 h-12 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-black text-[#121212] outline-none transition focus:border-[#2B1408] focus:ring-4 focus:ring-[#2B1408]/10"
             />
           </label>
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => setSelectedDate(getTodayInputValue())}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC]"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#2B1408]/20 bg-white px-4 text-sm font-black text-[#2B1408] transition hover:border-[#2B1408] hover:bg-[#FFF7EC]"
             >
               <CalendarDays size={16} aria-hidden="true" />
               Today
@@ -579,13 +579,13 @@ export function MerchantOrdersClient({
               type="button"
               onClick={() => setSelectedDate("")}
               disabled={!selectedDate}
-              className="inline-flex h-10 items-center justify-center rounded-full border border-black/10 bg-white px-4 text-sm font-black text-[#6B5D5B] transition hover:border-[#8A3430] hover:text-[#8A3430] disabled:opacity-50"
+              className="inline-flex h-10 items-center justify-center rounded-full border border-black/10 bg-white px-4 text-sm font-black text-[#5F5A53] transition hover:border-[#2B1408] hover:text-[#2B1408] disabled:opacity-50"
             >
               All orders
             </button>
           </div>
         </div>
-        <p className="mt-3 text-sm font-semibold text-[#6B5D5B]">
+        <p className="mt-3 text-sm font-semibold text-[#5F5A53]">
           {selectedDate
             ? `Showing orders placed on ${formatDateInput(selectedDate)}.`
             : "Showing the latest orders across all dates."}
@@ -629,12 +629,12 @@ export function MerchantOrdersClient({
         ) : (
           <div className="restaurant-card rounded-lg p-8 text-center">
             <ReceiptText
-              className="mx-auto text-[#8A3430]"
+              className="mx-auto text-[#2B1408]"
               size={42}
               aria-hidden="true"
             />
             <h2 className="mt-5 text-2xl font-black">No orders found</h2>
-            <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#6B5D5B]">
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#5F5A53]">
               Website orders will appear here as soon as customers checkout.
             </p>
           </div>
@@ -643,3 +643,4 @@ export function MerchantOrdersClient({
     </>
   );
 }
+

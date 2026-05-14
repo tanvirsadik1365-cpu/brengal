@@ -27,7 +27,7 @@ type AuthFormProps = {
 };
 
 const fieldClass =
-  "mt-2 h-12 w-full rounded-lg border border-white/10 bg-white/8 px-4 text-sm font-semibold text-white outline-none transition placeholder:text-white/32 focus:border-[#D7A542]/70 focus:ring-4 focus:ring-[#D7A542]/12";
+  "mt-2 h-12 w-full rounded-lg border border-[#E3D7C5] bg-[#F5F2EC] px-4 text-sm font-semibold text-[#121212] outline-none transition placeholder:text-[#8B7B66] focus:border-[#FDBE35]/70 focus:ring-4 focus:ring-[#FDBE35]/12";
 
 function getOrigin() {
   return window.location.origin;
@@ -246,10 +246,10 @@ export function AuthForm({ mode }: AuthFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-lg border border-white/10 bg-[#15100E]/90 p-6 text-white shadow-[0_24px_70px_rgba(0,0,0,0.34)] backdrop-blur sm:p-8"
+      className="rounded-2xl border border-[#E3D7C5] bg-[#FFFCF7] p-6 text-[#121212] shadow-[0_24px_70px_rgba(52,35,28,0.12)] sm:p-8"
     >
       <div className="flex items-center gap-3">
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08] shadow-[0_14px_30px_rgba(215,165,66,0.18)]">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FDBE35] text-[#121212] shadow-[0_14px_30px_rgba(215,165,66,0.18)]">
           {mode === "sign-up" ? (
             <UserPlus size={22} aria-hidden="true" />
           ) : mode === "forgot-password" || mode === "reset-password" ? (
@@ -260,7 +260,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         </span>
         <div>
           <h2 className="text-2xl font-black sm:text-3xl">{title}</h2>
-          <p className="mt-1 text-sm font-semibold leading-6 text-white/58">
+          <p className="mt-1 text-sm font-semibold leading-6 text-[#5F5A53]">
             {description}
           </p>
         </div>
@@ -273,15 +273,15 @@ export function AuthForm({ mode }: AuthFormProps) {
               type="button"
               onClick={handleGoogleSignIn}
               disabled={oauthSubmitting || submitting}
-              className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full border border-white/14 bg-white px-4 py-3 text-sm font-black text-[#150D08] shadow-[0_16px_36px_rgba(0,0,0,0.18)] transition hover:bg-[#F6DFA4] disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full border border-white/14 bg-white px-4 py-3 text-sm font-black text-[#121212] shadow-[0_16px_36px_rgba(0,0,0,0.18)] transition hover:bg-[#FDE3A0] disabled:cursor-not-allowed disabled:opacity-60"
             >
               <GoogleMark />
               {oauthSubmitting ? "Opening Google..." : "Continue with Google"}
             </button>
             <div className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.14em] text-white/38">
-              <span className="h-px flex-1 bg-white/10" />
+              <span className="h-px flex-1 bg-[#E3D7C5]" />
               <span>Email</span>
-              <span className="h-px flex-1 bg-white/10" />
+              <span className="h-px flex-1 bg-[#E3D7C5]" />
             </div>
           </>
         ) : null}
@@ -292,7 +292,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               Full name
               <span className="relative block">
                 <User
-                  className="pointer-events-none absolute left-4 top-[2.05rem] text-white/38"
+                  className="pointer-events-none absolute left-4 top-[2.05rem] text-[#8B7B66]"
                   size={17}
                   aria-hidden="true"
                 />
@@ -310,7 +310,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               Phone
               <span className="relative block">
                 <Phone
-                  className="pointer-events-none absolute left-4 top-[2.05rem] text-white/38"
+                  className="pointer-events-none absolute left-4 top-[2.05rem] text-[#8B7B66]"
                   size={17}
                   aria-hidden="true"
                 />
@@ -332,7 +332,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             Email
             <span className="relative block">
               <Mail
-                className="pointer-events-none absolute left-4 top-[2.05rem] text-white/38"
+                className="pointer-events-none absolute left-4 top-[2.05rem] text-[#8B7B66]"
                 size={17}
                 aria-hidden="true"
               />
@@ -353,7 +353,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             Password
             <span className="relative block">
               <KeyRound
-                className="pointer-events-none absolute left-4 top-[2.05rem] text-white/38"
+                className="pointer-events-none absolute left-4 top-[2.05rem] text-[#8B7B66]"
                 size={17}
                 aria-hidden="true"
               />
@@ -395,7 +395,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       <button
         type="submit"
         disabled={submitting}
-        className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D7A542] px-4 py-3 text-sm font-black text-[#150D08] shadow-[0_16px_36px_rgba(215,165,66,0.2)] transition hover:bg-white disabled:opacity-60"
+        className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-4 py-3 text-sm font-black text-[#121212] shadow-[0_16px_36px_rgba(215,165,66,0.2)] transition hover:bg-white disabled:opacity-60"
       >
         {submitting
           ? "Please wait..."
@@ -409,7 +409,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         {!submitting ? <ArrowRight size={16} aria-hidden="true" /> : null}
       </button>
 
-      <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm font-black text-[#F6DFA4]">
+      <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm font-black text-[#A97912]">
         {mode !== "sign-in" ? <Link href="/account/sign-in">Sign in</Link> : null}
         {mode !== "sign-up" ? <Link href="/account/sign-up">Create account</Link> : null}
         {mode !== "forgot-password" ? (
@@ -419,3 +419,4 @@ export function AuthForm({ mode }: AuthFormProps) {
     </form>
   );
 }
+

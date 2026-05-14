@@ -30,14 +30,14 @@ function MerchantNav() {
     <nav className="mt-5 flex flex-wrap gap-2">
       <Link
         href="/merchant/orders"
-        className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC]"
+        className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#2B1408]/20 bg-white px-4 text-sm font-black text-[#2B1408] transition hover:border-[#2B1408] hover:bg-[#FFF7EC]"
       >
         <ShoppingBag size={16} aria-hidden="true" />
         Orders
       </Link>
       <Link
         href="/merchant/reservations"
-        className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926]"
+        className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#2B1408] px-4 text-sm font-black text-white transition hover:bg-[#1F0F06]"
       >
         <CalendarCheck size={16} aria-hidden="true" />
         Reservations
@@ -67,33 +67,33 @@ function formatDateTime(value: string) {
 
 function ReservationCard({ reservation }: { reservation: ReservationRow }) {
   return (
-    <article className="rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-5 shadow-sm">
+    <article className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-5 shadow-sm">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.14em] text-[#8A3430]">
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-[#2B1408]">
             {reservation.reservation_reference}
           </p>
           <h2 className="mt-2 text-2xl font-black">
             {formatDate(reservation.reservation_date)} at{" "}
             {reservation.reservation_time}
           </h2>
-          <p className="mt-2 text-sm leading-6 text-[#6B5D5B]">
+          <p className="mt-2 text-sm leading-6 text-[#5F5A53]">
             Requested by {reservation.guest_name}
           </p>
-          <p className="mt-1 flex items-center gap-2 text-xs font-black uppercase tracking-[0.12em] text-[#8A3430]">
+          <p className="mt-1 flex items-center gap-2 text-xs font-black uppercase tracking-[0.12em] text-[#2B1408]">
             <Clock3 size={15} aria-hidden="true" />
             Sent {formatDateTime(reservation.created_at)}
           </p>
         </div>
-        <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black uppercase text-[#8A3430]">
+        <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black uppercase text-[#2B1408]">
           {reservation.status}
         </span>
       </div>
 
-      <div className="mt-5 grid gap-3 text-sm leading-6 text-[#6B5D5B] sm:grid-cols-3">
+      <div className="mt-5 grid gap-3 text-sm leading-6 text-[#5F5A53] sm:grid-cols-3">
         <p className="flex gap-2">
           <Users
-            className="mt-0.5 shrink-0 text-[#8A3430]"
+            className="mt-0.5 shrink-0 text-[#2B1408]"
             size={17}
             aria-hidden="true"
           />
@@ -102,7 +102,7 @@ function ReservationCard({ reservation }: { reservation: ReservationRow }) {
         <p className="break-all">{reservation.guest_email}</p>
         <p className="flex gap-2">
           <Phone
-            className="mt-0.5 shrink-0 text-[#8A3430]"
+            className="mt-0.5 shrink-0 text-[#2B1408]"
             size={17}
             aria-hidden="true"
           />
@@ -113,16 +113,16 @@ function ReservationCard({ reservation }: { reservation: ReservationRow }) {
       </div>
 
       {reservation.occasion || reservation.special_requests ? (
-        <div className="mt-5 rounded-lg bg-white p-4 text-sm leading-6 text-[#6B5D5B]">
+        <div className="mt-5 rounded-lg bg-white p-4 text-sm leading-6 text-[#5F5A53]">
           {reservation.occasion ? (
             <p>
-              <span className="font-black text-[#241D1D]">Occasion:</span>{" "}
+              <span className="font-black text-[#121212]">Occasion:</span>{" "}
               {reservation.occasion}
             </p>
           ) : null}
           {reservation.special_requests ? (
             <p className="mt-2">
-              <span className="font-black text-[#241D1D]">Notes:</span>{" "}
+              <span className="font-black text-[#121212]">Notes:</span>{" "}
               {reservation.special_requests}
             </p>
           ) : null}
@@ -198,26 +198,26 @@ export function MerchantReservationsClient({
     <>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-sm font-black uppercase tracking-[0.18em] text-[#8A3430]">
+          <p className="text-sm font-black uppercase tracking-[0.18em] text-[#2B1408]">
             Merchant App
           </p>
           <h1 className="mt-2 text-4xl font-black">Table reservations</h1>
-          <p className="mt-3 text-sm leading-7 text-[#6B5D5B]">
+          <p className="mt-3 text-sm leading-7 text-[#5F5A53]">
             New website booking requests are stored in Supabase and shown here
             for the restaurant team.
           </p>
           <MerchantNav />
-          <p className="mt-2 text-xs font-black uppercase tracking-[0.12em] text-[#8A3430]">
+          <p className="mt-2 text-xs font-black uppercase tracking-[0.12em] text-[#2B1408]">
             {lastUpdated ? `Last checked ${formatDateTime(lastUpdated.toISOString())}` : ""}
           </p>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:min-w-[360px]">
           <MerchantAppClock />
           <div className="restaurant-card rounded-lg px-5 py-4">
-            <p className="text-3xl font-black text-[#8A3430]">
+            <p className="text-3xl font-black text-[#2B1408]">
               {reservations.length}
             </p>
-            <p className="text-sm font-black text-[#6B5D5B]">
+            <p className="text-sm font-black text-[#5F5A53]">
               loaded requests
             </p>
           </div>
@@ -225,7 +225,7 @@ export function MerchantReservationsClient({
             type="button"
             onClick={() => void refreshReservations()}
             disabled={refreshing}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926] disabled:opacity-60 sm:col-span-2"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#2B1408] px-4 text-sm font-black text-white transition hover:bg-[#1F0F06] disabled:opacity-60 sm:col-span-2"
           >
             <RefreshCw
               className={refreshing ? "animate-spin" : ""}
@@ -258,12 +258,12 @@ export function MerchantReservationsClient({
         ) : (
           <div className="restaurant-card rounded-lg p-8 text-center">
             <CalendarCheck
-              className="mx-auto text-[#8A3430]"
+              className="mx-auto text-[#2B1408]"
               size={42}
               aria-hidden="true"
             />
             <h2 className="mt-5 text-2xl font-black">No reservations yet</h2>
-            <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#6B5D5B]">
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#5F5A53]">
               Customer booking requests will appear here as soon as they are
               submitted from the booking page.
             </p>
@@ -273,3 +273,4 @@ export function MerchantReservationsClient({
     </>
   );
 }
+

@@ -190,9 +190,9 @@ export function AccountDashboard() {
     return (
       <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="restaurant-card rounded-lg p-8 text-center">
-          <UserRound className="mx-auto text-[#8A3430]" size={42} aria-hidden="true" />
+          <UserRound className="mx-auto text-[#2B1408]" size={42} aria-hidden="true" />
           <h1 className="mt-5 text-3xl font-black">Sign in to your account</h1>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#6B5D5B]">
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#5F5A53]">
             Save your details, make bookings faster, and see orders and
             reservation requests linked to your account.
           </p>
@@ -204,13 +204,13 @@ export function AccountDashboard() {
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
             <Link
               href="/account/sign-in"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-[#8A3430] px-6 text-sm font-black text-white transition hover:bg-[#6F2926]"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-[#2B1408] px-6 text-sm font-black text-white transition hover:bg-[#1F0F06]"
             >
               Sign in
             </Link>
             <Link
               href="/account/sign-up"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-black/10 bg-white px-6 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430]"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-black/10 bg-white px-6 text-sm font-black text-[#2B1408] transition hover:border-[#2B1408]"
             >
               Create account
             </Link>
@@ -230,22 +230,22 @@ export function AccountDashboard() {
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="grid gap-6 lg:items-start xl:grid-cols-[0.58fr_1fr_1fr]">
         <aside className="restaurant-card rounded-lg p-6">
-          <UserRound className="text-[#8A3430]" size={34} aria-hidden="true" />
+          <UserRound className="text-[#2B1408]" size={34} aria-hidden="true" />
           <h1 className="mt-4 text-3xl font-black">Your account</h1>
-          <p className="mt-3 break-all text-sm leading-7 text-[#6B5D5B]">
+          <p className="mt-3 break-all text-sm leading-7 text-[#5F5A53]">
             {user.email}
           </p>
           <div className="mt-7 grid gap-3">
             <Link
               href="/booking"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#8A3430] px-4 text-sm font-black text-white transition hover:bg-[#6F2926]"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#2B1408] px-4 text-sm font-black text-white transition hover:bg-[#1F0F06]"
             >
               <CalendarCheck size={17} aria-hidden="true" />
               Book a table
             </Link>
             <Link
               href="/menu"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-4 text-sm font-black text-[#8A3430] transition hover:border-[#8A3430]"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-4 text-sm font-black text-[#2B1408] transition hover:border-[#2B1408]"
             >
               <ShoppingBag size={17} aria-hidden="true" />
               Order food
@@ -253,7 +253,7 @@ export function AccountDashboard() {
             <button
               type="button"
               onClick={signOut}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-4 text-sm font-black text-[#6B5D5B] transition hover:border-[#8A3430] hover:text-[#8A3430]"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-4 text-sm font-black text-[#5F5A53] transition hover:border-[#2B1408] hover:text-[#2B1408]"
             >
               <LogOut size={17} aria-hidden="true" />
               Sign out
@@ -263,31 +263,31 @@ export function AccountDashboard() {
 
         <div className="restaurant-card rounded-lg p-6">
           <div className="flex items-center gap-2">
-            <ReceiptText className="text-[#8A3430]" size={22} aria-hidden="true" />
+            <ReceiptText className="text-[#2B1408]" size={22} aria-hidden="true" />
             <h2 className="text-2xl font-black">Your orders</h2>
           </div>
-          <p className="mt-2 text-sm leading-7 text-[#6B5D5B]">
+          <p className="mt-2 text-sm leading-7 text-[#5F5A53]">
             Food orders linked to this account appear here.
           </p>
 
           {orders.length > 0 ? (
-            <div className="mt-5 rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-4">
+            <div className="mt-5 rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4">
               <label className="block">
-                <span className="text-sm font-black text-[#241D1D]">
+                <span className="text-sm font-black text-[#121212]">
                   Filter orders by date
                 </span>
                 <input
                   type="date"
                   value={orderDateFilter}
                   onChange={(event) => setOrderDateFilter(event.target.value)}
-                  className="mt-2 h-11 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-black text-[#241D1D] outline-none transition focus:border-[#8A3430] focus:ring-4 focus:ring-[#8A3430]/10"
+                  className="mt-2 h-11 w-full rounded-lg border border-black/10 bg-white px-3 text-sm font-black text-[#121212] outline-none transition focus:border-[#2B1408] focus:ring-4 focus:ring-[#2B1408]/10"
                 />
               </label>
               <div className="mt-3 flex flex-wrap gap-2">
                 <button
                   type="button"
                   onClick={() => setOrderDateFilter(getTodayInputValue())}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#8A3430]/20 bg-white px-4 text-xs font-black uppercase text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC]"
+                  className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#2B1408]/20 bg-white px-4 text-xs font-black uppercase text-[#2B1408] transition hover:border-[#2B1408] hover:bg-[#FFF7EC]"
                 >
                   <CalendarDays size={15} aria-hidden="true" />
                   Today
@@ -296,12 +296,12 @@ export function AccountDashboard() {
                   type="button"
                   onClick={() => setOrderDateFilter("")}
                   disabled={!orderDateFilter}
-                  className="inline-flex h-10 items-center justify-center rounded-full border border-black/10 bg-white px-4 text-xs font-black uppercase text-[#6B5D5B] transition hover:border-[#8A3430] hover:text-[#8A3430] disabled:opacity-50"
+                  className="inline-flex h-10 items-center justify-center rounded-full border border-black/10 bg-white px-4 text-xs font-black uppercase text-[#5F5A53] transition hover:border-[#2B1408] hover:text-[#2B1408] disabled:opacity-50"
                 >
                   All
                 </button>
               </div>
-              <p className="mt-3 text-xs font-black uppercase tracking-[0.1em] text-[#8A3430]">
+              <p className="mt-3 text-xs font-black uppercase tracking-[0.1em] text-[#2B1408]">
                 {orderDateFilter
                   ? `${filteredOrders.length} orders on ${formatDateInput(
                       orderDateFilter,
@@ -322,37 +322,37 @@ export function AccountDashboard() {
               filteredOrders.map((order) => (
                 <article
                   key={order.id}
-                  className="rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-4"
+                  className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4"
                 >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
-                      <p className="text-xs font-black uppercase tracking-[0.14em] text-[#8A3430]">
+                      <p className="text-xs font-black uppercase tracking-[0.14em] text-[#2B1408]">
                         {order.orderNumber}
                       </p>
                       <h3 className="mt-2 text-xl font-black">
                         {order.statusLabel}
                       </h3>
-                      <p className="mt-2 text-sm leading-6 text-[#6B5D5B]">
+                      <p className="mt-2 text-sm leading-6 text-[#5F5A53]">
                         {order.phaseLabel}
                       </p>
                     </div>
-                    <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black uppercase text-[#8A3430]">
+                    <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black uppercase text-[#2B1408]">
                       {formatPence(order.totalPence)}
                     </span>
                   </div>
 
                   <div className="mt-4 grid gap-2 text-sm">
-                    <p className="flex items-center gap-2 text-[#6B5D5B]">
+                    <p className="flex items-center gap-2 text-[#5F5A53]">
                       <Clock size={15} aria-hidden="true" />
                       {order.prepTimeMinutes} min prep
                     </p>
-                    <p className="font-semibold text-[#6B5D5B]">
+                    <p className="font-semibold text-[#5F5A53]">
                       Ready: {formatDateTime(order.estimatedReadyAt)}
                     </p>
-                    <p className="font-semibold capitalize text-[#6B5D5B]">
+                    <p className="font-semibold capitalize text-[#5F5A53]">
                       {order.orderType} | {order.paymentStatus}
                     </p>
-                    <p className="font-semibold text-[#6B5D5B]">
+                    <p className="font-semibold text-[#5F5A53]">
                       Ordered: {formatDateTime(order.createdAt)}
                     </p>
                   </div>
@@ -368,18 +368,18 @@ export function AccountDashboard() {
                     href={`/track-order?order_id=${encodeURIComponent(
                       order.orderNumber,
                     )}`}
-                    className="mt-4 inline-flex h-10 items-center justify-center rounded-full border border-[#8A3430]/20 bg-white px-4 text-xs font-black uppercase text-[#8A3430] transition hover:border-[#8A3430] hover:bg-[#FFF7EC]"
+                    className="mt-4 inline-flex h-10 items-center justify-center rounded-full border border-[#2B1408]/20 bg-white px-4 text-xs font-black uppercase text-[#2B1408] transition hover:border-[#2B1408] hover:bg-[#FFF7EC]"
                   >
                     Full tracking
                   </Link>
                 </article>
               ))
             ) : orderDateFilter ? (
-              <div className="rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-6 text-sm leading-7 text-[#6B5D5B]">
+              <div className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-6 text-sm leading-7 text-[#5F5A53]">
                 No orders found for {formatDateInput(orderDateFilter)}.
               </div>
             ) : (
-              <div className="rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-6 text-sm leading-7 text-[#6B5D5B]">
+              <div className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-6 text-sm leading-7 text-[#5F5A53]">
                 No orders saved to this account yet.
               </div>
             )}
@@ -388,7 +388,7 @@ export function AccountDashboard() {
 
         <div className="restaurant-card rounded-lg p-6">
           <h2 className="text-2xl font-black">Your reservations</h2>
-          <p className="mt-2 text-sm leading-7 text-[#6B5D5B]">
+          <p className="mt-2 text-sm leading-7 text-[#5F5A53]">
             New booking requests appear here after they are sent to the restaurant.
           </p>
 
@@ -403,36 +403,36 @@ export function AccountDashboard() {
               reservations.map((reservation) => (
                 <article
                   key={reservation.id}
-                  className="rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-4"
+                  className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-4"
                 >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
-                      <p className="text-xs font-black uppercase tracking-[0.14em] text-[#8A3430]">
+                      <p className="text-xs font-black uppercase tracking-[0.14em] text-[#2B1408]">
                         {reservation.reservation_reference}
                       </p>
                       <h3 className="mt-2 text-xl font-black">
                         {formatDate(reservation.reservation_date)} at{" "}
                         {reservation.reservation_time}
                       </h3>
-                      <p className="mt-2 text-sm leading-6 text-[#6B5D5B]">
+                      <p className="mt-2 text-sm leading-6 text-[#5F5A53]">
                         {reservation.guests}{" "}
                         {reservation.guests === 1 ? "guest" : "guests"}
                         {reservation.occasion ? ` · ${reservation.occasion}` : ""}
                       </p>
                     </div>
-                    <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black uppercase text-[#8A3430]">
+                    <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black uppercase text-[#2B1408]">
                       {reservation.status}
                     </span>
                   </div>
                   {reservation.special_requests ? (
-                    <p className="mt-3 text-sm leading-6 text-[#6B5D5B]">
+                    <p className="mt-3 text-sm leading-6 text-[#5F5A53]">
                       {reservation.special_requests}
                     </p>
                   ) : null}
                 </article>
               ))
             ) : (
-              <div className="rounded-lg border border-[#E4D6C4] bg-[#FFFCF6] p-6 text-sm leading-7 text-[#6B5D5B]">
+              <div className="rounded-lg border border-[#E3D7C5] bg-[#FFFCF7] p-6 text-sm leading-7 text-[#5F5A53]">
                 No reservations saved to this account yet.
               </div>
             )}
@@ -442,3 +442,4 @@ export function AccountDashboard() {
     </section>
   );
 }
+

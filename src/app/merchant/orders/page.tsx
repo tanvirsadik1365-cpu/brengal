@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#7F2F2A",
+  themeColor: "#2B1408",
 };
 
 type MerchantOrdersPageProps = {
@@ -38,12 +38,12 @@ type MerchantOrdersPageProps = {
 
 function MerchantGate({ message }: { message: string }) {
   return (
-    <main className="bg-white px-4 py-16 text-[#241D1D] sm:px-6 lg:px-8">
+    <main className="bg-white px-4 py-16 text-[#121212] sm:px-6 lg:px-8">
       <MerchantAppUpdater />
       <section className="restaurant-card mx-auto max-w-2xl rounded-lg p-8 text-center">
-        <LockKeyhole className="mx-auto text-[#8A3430]" size={44} aria-hidden="true" />
+        <LockKeyhole className="mx-auto text-[#2B1408]" size={44} aria-hidden="true" />
         <h1 className="mt-5 text-3xl font-black">Merchant access needed</h1>
-        <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#6B5D5B]">
+        <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#5F5A53]">
           {message}
         </p>
         {isMerchantAuthConfigured() ? <MerchantLoginForm /> : null}
@@ -89,7 +89,7 @@ export default async function MerchantOrdersPage({
   }
 
   return (
-    <main className="bg-white px-4 py-10 text-[#241D1D] sm:px-6 lg:px-8">
+    <main className="bg-white px-4 py-10 text-[#121212] sm:px-6 lg:px-8">
       <MerchantAppUpdater />
       <section className="mx-auto max-w-6xl">
         <MerchantOrdersClient
@@ -101,3 +101,4 @@ export default async function MerchantOrdersPage({
     </main>
   );
 }
+

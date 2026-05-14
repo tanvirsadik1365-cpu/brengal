@@ -9,8 +9,9 @@ export const metadata: Metadata = {
 
 export default function AccountPage() {
   return (
-    <main className="bg-white text-[#241D1D]">
+    <main className="bg-white text-[#121212]">
       <AccountDashboard />
     </main>
   );
 }
+

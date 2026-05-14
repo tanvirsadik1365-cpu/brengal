@@ -1,0 +1,221 @@
+=== Classic Starters (9) ===
+- Vegetable Samosas | ?7.95
+- Meat Samosas | ?8.95
+- Sheek Kebabs | ?9.95
+- Lamb Tikka | ?9.95
+- Chicken Tikka | ?8.95
+- Tandoori Chicken | ?8.95
+- Onion Bhaji | ?5.95
+- Tandoori Lamb Chops | ?12.95
+- Prawn Puri | ?9.95
+
+=== Starters and Appetizers (12) ===
+- Scallops | ?12.95
+- Squid | ?12.95
+- Crab | ?11.95
+- Hash (Duck) | ?10.95
+- Cha-Patta Wings | ?10.95
+- Samosa Chatt | ?10.95
+- Pani Puri | ?8.95
+- Chicken Lollipop | ?8.95
+- Dhai Puri | ?9.95
+- Chicken 65 | ?9.95
+- Fish Amritsa | ?12.95
+- King Prawn Puri | ?12.95
+
+=== Vegetarian Dishes (11) ===
+- Tarka Dhaal | ?6.95
+- Bombay Aloo | ?6.95
+- Brinjal Bhaji | ?6.95
+- Broccoli Bhaji | ?6.95
+- Cauliflower Bhaji | ?6.95
+- Mushroom Bhaji | ?6.95
+- Saag Bhaji | ?6.95
+- Saag Paneer | ?7.95
+- Chana Masala | ?6.95
+- Aloo Gobi | ?6.95
+- Bhindi Bhaji | ?6.95
+
+=== Tandoori Grill (10) ===
+- Tandoori Paneer Shaslick | ?13.95
+- Tandoori Mixed Grill | ?18.95
+- Half Tandoori Chicken | ?10.95
+- Full Tandoori Chicken | ?16.95
+- Chicken Shaslick | ?16.95
+- Lamb Shaslick | ?17.95
+- Lamb Tikka Main | ?15.95
+- Chicken Tikka Main | ?14.95
+- Tandoori King Prawn | ?19.95
+- Tandoori Duck | ?18.95
+
+=== Individual and Sharing Platters (4) ===
+- Bengal Meat Feast Platter (2-4 Persons) | ?95.00
+- Set Platter 1 (2 Persons) | ?45.00
+- Set Platter 2 (2 Persons) | ?75.00
+- Set Platter for One | ?25.00
+
+=== Bengal Specials (22) ===
+- Lamb Hyderabad | ?15.95
+- Bengal Chicken Balti | ?15.95
+- Bengal Lamb Balti | ?16.95
+- Gost Kata Lamb | ?15.95
+- Barbusi Chicken | ?16.95
+- Naga Chicken | ?14.95
+- Naga Lamb | ?15.95
+- Bengal Special | ?18.95
+- Chicken/Lamb Tikka Masala | ?15.95
+- Chilli Chicken Masala | ?15.95
+- Old Delhi Butter Chicken | ?15.95
+- Lamb Shank (Served with Rice) | ?24.95
+- Bombay Railway Curry | ?18.95
+- Hyderabadi Dum Biriyani | ?18.95
+- Rajistan Laal Mass | ?16.95
+- Royal Jaipur | ?16.95
+- Goan Salon Silsila | ?16.95
+- Bengal Boat Curry | ?22.95
+- Kerwalla King Prawns | ?22.95
+- Coriander Chicken | ?13.95
+- Lamb/Chicken Khori | ?13.95
+- Nawabi King Prawn | ?22.95
+
+=== Fish Dishes (4) ===
+- Fish Bhuna | ?16.95
+- Goan Fish Curry | ?16.95
+- Kerwalla Fish Curry | ?17.95
+- Kerwalla Peri Masala | ?17.95
+
+=== Bengal Favourites (55) ===
+- Rogon Josh Chicken | ?10.99
+- Rogon Josh Lamb | ?11.99
+- Rogon Josh Prawn | ?12.99
+- Rogon Josh King Prawn | ?13.99
+- Rogon Josh Duck | ?12.99
+- Madras Chicken | ?10.99
+- Madras Lamb | ?11.99
+- Madras Prawn | ?12.99
+- Madras King Prawn | ?13.99
+- Madras Duck | ?12.99
+- Vindaloo Chicken | ?10.99
+- Vindaloo Lamb | ?11.99
+- Vindaloo Prawn | ?12.99
+- Vindaloo King Prawn | ?13.99
+- Vindaloo Duck | ?12.99
+- Bhuna Chicken | ?10.99
+- Bhuna Lamb | ?11.99
+- Bhuna Prawn | ?12.99
+- Bhuna King Prawn | ?13.99
+- Bhuna Duck | ?12.99
+- Curry Chicken | ?10.99
+- Curry Lamb | ?11.99
+- Curry Prawn | ?12.99
+- Curry King Prawn | ?13.99
+- Curry Duck | ?12.99
+- Dhansak Chicken | ?10.99
+- Dhansak Lamb | ?11.99
+- Dhansak Prawn | ?12.99
+- Dhansak King Prawn | ?13.99
+- Dhansak Duck | ?12.99
+- Dupiaza Chicken | ?10.99
+- Dupiaza Lamb | ?11.99
+- Dupiaza Prawn | ?12.99
+- Dupiaza King Prawn | ?13.99
+- Dupiaza Duck | ?12.99
+- Jalfrezi Chicken | ?10.99
+- Jalfrezi Lamb | ?11.99
+- Jalfrezi Prawn | ?12.99
+- Jalfrezi King Prawn | ?13.99
+- Jalfrezi Duck | ?12.99
+- Kurma Chicken | ?10.99
+- Kurma Lamb | ?11.99
+- Kurma Prawn | ?12.99
+- Kurma King Prawn | ?13.99
+- Kurma Duck | ?12.99
+- Pasanda Chicken | ?10.99
+- Pasanda Lamb | ?11.99
+- Pasanda Prawn | ?12.99
+- Pasanda King Prawn | ?13.99
+- Pasanda Duck | ?12.99
+- Methi Chicken | ?10.99
+- Methi Lamb | ?11.99
+- Methi Prawn | ?12.99
+- Methi King Prawn | ?13.99
+- Methi Duck | ?12.99
+
+=== Rices (8) ===
+- Boiled Rice | ?4.95
+- Pilau Rice | ?5.95
+- Mushroom Rice | ?6.95
+- Egg Rice | ?6.95
+- Vegetable Rice | ?6.95
+- Chilli Rice | ?6.95
+- Keema Rice | ?7.95
+- Coconut Rice | ?6.95
+
+=== Naans (8) ===
+- Plain Naan | ?3.95
+- Garlic Naan | ?4.95
+- Kulcha Naan | ?4.95
+- Keema Naan | ?5.00
+- Cheese Naan | ?4.95
+- Peshwari Naan | ?4.95
+- Chilli and Coriander Naan | ?4.95
+- Cinnamon Naan | ?3.95
+
+=== Extras (5) ===
+- Paratha | ?3.95
+- Chapati | ?2.25
+- Puri | ?2.35
+- Plain Papadom | ?1.25
+- Spicy Papadom | ?1.30
+
+=== Desserts (4) ===
+- Fried Ice-Cream Ball | ?5.00
+- Cheesecake (Per Portion) | ?5.00
+- Cake (Per Slice) | ?5.00
+- Gulab Jamun (Per Portion) | ?5.00
+
+=== Drinks (40) ===
+- House Mojito: Tropical Slush | ?6.50
+- House Mojito: Lychee and Elderflower Cooler | ?5.95
+- House Mojito: Strawberry Daiquiri | ?6.50
+- House Mojito: Street Colada | ?6.50
+- House Mojito: Bengal Fruit Punch | ?6.50
+- House Mojito: Strawberry Mojito | ?6.50
+- Noughty Wine (Per Bottle) | ?17.95
+- McGuigan Sauvignon Blanc (Per Bottle) | ?14.95
+- McGuigan Chardonnay (Per Bottle) | ?16.95
+- McGuigan Rose (Per Bottle) | ?15.95
+- McGuigan Shiraz (Per Bottle) | ?16.95
+- Oddbird Spumante (Per Bottle) | ?20.00
+- Thatchers Zero Cider (Bottle) | ?3.95
+- Kopparberg Mixed Fruit Cider (Bottle) | ?3.95
+- Kingfisher Half Pint | ?3.50
+- Kingfisher Pint | ?5.95
+- Cobra Half Pint | ?3.50
+- Cobra Pint | ?5.95
+- Guinness Half Pint | ?2.95
+- Guinness Pint | ?4.95
+- Spirits (Per Shot) | ?3.50
+- Spirits with Soft Drink | ?6.00
+- Gourmet Lassi (Per Glass) | ?3.99
+- Gourmet Lassi (Jug) | ?9.99
+- Fruit Juice (Per Glass) | ?3.50
+- Soft Drinks (Per Glass) | ?3.50
+- Soft Drinks (Jug) | ?8.00
+- Still Water (70cl Bottle) | ?3.50
+- Sparkling Water (330ml Bottle) | ?3.50
+- Tonic Water (200ml) | ?2.95
+- Soda Water (200ml) | ?2.95
+- Tea | ?2.95
+- Coffee | ?2.95
+- Espresso | ?2.95
+- Americano | ?3.25
+- Mocha | ?3.25
+- Latte | ?3.25
+- Cappuccino | ?3.25
+- Hot Chocolate | ?3.25
+- Karak Chai | ?3.50
+
+=== Sunday Buffet (2) ===
+- Sunday Buffet Adult | ?22.00
+- Sunday Buffet Child | ?12.00

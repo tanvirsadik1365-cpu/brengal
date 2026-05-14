@@ -75,16 +75,16 @@ const initialCustomer: CustomerDetails = {
 
 const stepOrder: CheckoutStep[] = ["food", "fulfilment", "details", "payment"];
 const checkoutCardClass =
-  "checkout-step-card rounded-lg border border-white/10 bg-[#15100E] p-5 text-white shadow-[0_22px_54px_rgba(0,0,0,0.28)] sm:p-6";
+  "checkout-step-card rounded-lg border border-white/10 bg-[#1A1A1A] p-5 text-white shadow-[0_22px_54px_rgba(0,0,0,0.28)] sm:p-6";
 const checkoutEyebrowClass =
-  "text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]";
+  "text-xs font-black uppercase tracking-[0.18em] text-[#FDBE35]";
 const checkoutMutedClass = "text-sm leading-7 text-white/58";
 const checkoutFieldClass =
-  "mt-2 w-full rounded-lg border border-white/12 bg-white/8 px-3 text-sm font-semibold text-white outline-none transition placeholder:text-white/35 focus:border-[#D7A542]/65 focus:ring-4 focus:ring-[#D7A542]/12";
+  "mt-2 w-full rounded-lg border border-white/12 bg-white/8 px-3 text-sm font-semibold text-white outline-none transition placeholder:text-white/35 focus:border-[#FDBE35]/65 focus:ring-4 focus:ring-[#FDBE35]/12";
 const checkoutSecondaryButtonClass =
-  "inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-sm font-black text-white transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4] disabled:cursor-not-allowed disabled:opacity-40";
+  "inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-sm font-black text-white transition hover:border-[#FDBE35]/55 hover:text-[#FDE3A0] disabled:cursor-not-allowed disabled:opacity-40";
 const checkoutPrimaryButtonClass =
-  "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-6 text-sm font-black text-[#150D08] shadow-lg shadow-[#D7A542]/20 transition hover:bg-white disabled:cursor-not-allowed disabled:bg-white/18 disabled:text-white/45 disabled:shadow-none";
+  "inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-6 text-sm font-black text-[#121212] shadow-lg shadow-[#FDBE35]/20 transition hover:bg-white disabled:cursor-not-allowed disabled:bg-white/18 disabled:text-white/45 disabled:shadow-none";
 const lastOrderTrackingKey = "bengal-last-order-tracking-v1";
 
 function getOrigin() {
@@ -640,7 +640,7 @@ export function CartPageClient() {
         <button
           type="button"
           onClick={() => decreaseItem(item.id)}
-          className="flex items-center justify-center transition hover:bg-white/12 hover:text-[#F6DFA4]"
+          className="flex items-center justify-center transition hover:bg-white/12 hover:text-[#FDE3A0]"
           aria-label={`Decrease ${item.name}`}
         >
           <Minus size={15} aria-hidden="true" />
@@ -651,7 +651,7 @@ export function CartPageClient() {
         <button
           type="button"
           onClick={() => addItem(item)}
-          className="flex items-center justify-center transition hover:bg-white/12 hover:text-[#F6DFA4]"
+          className="flex items-center justify-center transition hover:bg-white/12 hover:text-[#FDE3A0]"
           aria-label={`Increase ${item.name}`}
         >
           <Plus size={15} aria-hidden="true" />
@@ -672,7 +672,7 @@ export function CartPageClient() {
         className={`mt-4 flex gap-2 rounded-lg border p-3 text-xs font-bold leading-6 ${
           tone === "error"
             ? "border-red-400/35 bg-red-500/10 text-red-100"
-            : "border-[#D7A542]/35 bg-[#D7A542]/10 text-[#F6DFA4]"
+            : "border-[#FDBE35]/35 bg-[#FDBE35]/10 text-[#FDE3A0]"
         }`}
       >
         <AlertCircle className="mt-0.5 shrink-0" size={16} aria-hidden="true" />
@@ -683,7 +683,7 @@ export function CartPageClient() {
 
   function renderStepHeader() {
     return (
-      <div className="rounded-lg border border-white/10 bg-[#15100E] p-4 text-white shadow-[0_22px_54px_rgba(0,0,0,0.28)] sm:p-5">
+      <div className="rounded-lg border border-white/10 bg-[#1A1A1A] p-4 text-white shadow-[0_22px_54px_rgba(0,0,0,0.28)] sm:p-5">
         <div className="grid grid-cols-4 gap-1">
           {checkoutSteps.map((step, index) => {
             const active = step.id === activeStep;
@@ -703,23 +703,23 @@ export function CartPageClient() {
                   {index > 0 ? (
                     <span
                       className={`absolute right-1/2 top-1/2 h-0.5 w-full -translate-y-1/2 ${
-                        lineDone ? "bg-[#D7A542]" : "bg-white/12"
+                        lineDone ? "bg-[#FDBE35]" : "bg-white/12"
                       }`}
                     />
                   ) : null}
                   {index < checkoutSteps.length - 1 ? (
                     <span
                       className={`absolute left-1/2 top-1/2 h-0.5 w-full -translate-y-1/2 ${
-                        index < activeStepIndex ? "bg-[#D7A542]" : "bg-white/12"
+                        index < activeStepIndex ? "bg-[#FDBE35]" : "bg-white/12"
                       }`}
                     />
                   ) : null}
                   <span
-                    className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ring-4 ring-[#15100E] transition ${
+                    className={`relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ring-4 ring-[#1A1A1A] transition ${
                       active
-                        ? "bg-[#D7A542] text-[#150D08] shadow-lg shadow-[#D7A542]/15"
+                        ? "bg-[#FDBE35] text-[#121212] shadow-lg shadow-[#FDBE35]/15"
                         : step.complete
-                          ? "bg-[#D7A542] text-[#150D08]"
+                          ? "bg-[#FDBE35] text-[#121212]"
                           : unlocked
                             ? "bg-white/16 text-white group-hover:bg-white/24"
                             : "bg-white/8 text-white/40"
@@ -734,7 +734,7 @@ export function CartPageClient() {
                 </span>
                 <span
                   className={`mt-3 block truncate text-xs font-black sm:text-sm ${
-                    active ? "text-[#F6DFA4]" : "text-white/55"
+                    active ? "text-[#FDE3A0]" : "text-white/55"
                   }`}
                 >
                   {step.label}
@@ -756,7 +756,7 @@ export function CartPageClient() {
           </div>
           <Link
             href="/menu"
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-sm font-black text-white transition hover:border-[#D7A542] hover:text-[#F6DFA4]"
+            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-sm font-black text-white transition hover:border-[#FDBE35] hover:text-[#FDE3A0]"
           >
             <Plus size={16} aria-hidden="true" />
             Add dishes
@@ -784,7 +784,7 @@ export function CartPageClient() {
             <button
               type="button"
               onClick={clearCart}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-xs font-black uppercase text-white/58 transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4]"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 text-xs font-black uppercase text-white/58 transition hover:border-[#FDBE35]/55 hover:text-[#FDE3A0]"
             >
               <Trash2 size={14} aria-hidden="true" />
               Clear order
@@ -795,7 +795,7 @@ export function CartPageClient() {
         {cartItems.length === 0 ? (
           <div className="mt-5 rounded-lg border border-dashed border-white/18 bg-white/6 p-8 text-center">
             <ShoppingBag
-              className="mx-auto text-[#D7A542]"
+              className="mx-auto text-[#FDBE35]"
               size={34}
               aria-hidden="true"
             />
@@ -806,7 +806,7 @@ export function CartPageClient() {
             </p>
             <Link
               href="/menu#popular-picks"
-              className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#D7A542] px-5 text-sm font-black text-[#150D08] transition hover:bg-white"
+              className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#FDBE35] px-5 text-sm font-black text-[#121212] transition hover:bg-white"
             >
               <Sparkles size={16} aria-hidden="true" />
               Browse favourites
@@ -817,7 +817,7 @@ export function CartPageClient() {
             {cartItems.map((item) => (
               <article
                 key={item.id}
-                className="grid gap-4 rounded-lg border border-white/10 bg-white/6 p-4 shadow-sm transition hover:border-[#D7A542]/35 sm:grid-cols-[1fr_auto] sm:items-center"
+                className="grid gap-4 rounded-lg border border-white/10 bg-white/6 p-4 shadow-sm transition hover:border-[#FDBE35]/35 sm:grid-cols-[1fr_auto] sm:items-center"
               >
                 <div className="min-w-0">
                   <h3 className="break-words font-black">{item.name}</h3>
@@ -827,13 +827,13 @@ export function CartPageClient() {
                 </div>
                 <div className="flex items-center justify-between gap-4 sm:justify-end">
                   <QuantityControl item={item} />
-                  <p className="w-20 text-right font-black text-[#D7A542]">
+                  <p className="w-20 text-right font-black text-[#FDBE35]">
                     {formatCurrency(item.unitPrice * item.quantity)}
                   </p>
                   <button
                     type="button"
                     onClick={() => removeItem(item.id)}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/12 text-white/58 transition hover:border-[#D7A542]/55 hover:text-[#F6DFA4]"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/12 text-white/58 transition hover:border-[#FDBE35]/55 hover:text-[#FDE3A0]"
                     aria-label={`Remove ${item.name}`}
                   >
                     <Trash2 size={16} aria-hidden="true" />
@@ -844,25 +844,25 @@ export function CartPageClient() {
           </div>
         )}
 
-        <div className="mt-5 rounded-lg border border-[#D7A542]/25 bg-[#D7A542]/10 p-4">
-          <div className="flex items-center gap-2 text-[#F6DFA4]">
+        <div className="mt-5 rounded-lg border border-[#FDBE35]/25 bg-[#FDBE35]/10 p-4">
+          <div className="flex items-center gap-2 text-[#FDE3A0]">
             <BadgePercent size={20} aria-hidden="true" />
             <h3 className="font-black">Active offer</h3>
           </div>
           <div className="mt-4 rounded-lg border border-white/10 bg-[#0F0B09] p-4 shadow-sm">
-            <p className="font-black text-[#D7A542]">{reward.title}</p>
+            <p className="font-black text-[#FDBE35]">{reward.title}</p>
             <p className="mt-2 text-sm leading-6 text-white/62">
               {reward.detail}
             </p>
             {reward.requiresSideDish ? (
               <label className="mt-4 block">
-                <span className="text-xs font-black uppercase tracking-[0.14em] text-[#F6DFA4]">
+                <span className="text-xs font-black uppercase tracking-[0.14em] text-[#FDE3A0]">
                   Choose your free side dish
                 </span>
                 <select
                   value={selectedSideDishId}
                   onChange={(event) => setSelectedSideDishId(event.target.value)}
-                  className="mt-2 h-12 w-full rounded-lg border border-white/12 bg-white px-3 text-sm font-bold text-[#150D08] outline-none transition focus:border-[#D7A542] focus:ring-4 focus:ring-[#D7A542]/18"
+                  className="mt-2 h-12 w-full rounded-lg border border-white/12 bg-white px-3 text-sm font-bold text-[#121212] outline-none transition focus:border-[#FDBE35] focus:ring-4 focus:ring-[#FDBE35]/18"
                 >
                   <option value="">Select a side dish</option>
                   {sideDishOptions.map((item) => (
@@ -910,12 +910,12 @@ export function CartPageClient() {
                 aria-pressed={active}
                 className={`rounded-lg border p-4 text-left transition ${
                   active
-                    ? "border-[#D7A542]/70 bg-[#D7A542] text-[#150D08] shadow-lg shadow-[#D7A542]/15"
-                    : "border-white/10 bg-white/8 text-white hover:border-[#D7A542]/35"
+                    ? "border-[#FDBE35]/70 bg-[#FDBE35] text-[#121212] shadow-lg shadow-[#FDBE35]/15"
+                    : "border-white/10 bg-white/8 text-white hover:border-[#FDBE35]/35"
                 }`}
               >
                 <Icon
-                  className={active ? "text-[#150D08]" : "text-[#D7A542]"}
+                  className={active ? "text-[#121212]" : "text-[#FDBE35]"}
                   size={22}
                   aria-hidden="true"
                 />
@@ -924,7 +924,7 @@ export function CartPageClient() {
                 </span>
                 <span
                   className={`mt-2 block text-sm leading-6 ${
-                    active ? "text-[#150D08]/72" : "text-white/58"
+                    active ? "text-[#121212]/72" : "text-white/58"
                   }`}
                 >
                   {type === "collection"
@@ -948,7 +948,7 @@ export function CartPageClient() {
                 className={`mt-2 h-12 w-full rounded-lg border px-3 text-sm font-semibold uppercase outline-none transition placeholder:text-white/35 focus:ring-4 ${
                   customer.postcode && !deliveryPostcodeValid
                     ? "border-red-400/55 bg-red-500/10 text-white focus:border-red-400 focus:ring-red-400/15"
-                    : "border-white/12 bg-white/8 text-white placeholder:text-white/35 focus:border-[#D7A542]/65 focus:ring-[#D7A542]/12"
+                    : "border-white/12 bg-white/8 text-white placeholder:text-white/35 focus:border-[#FDBE35]/65 focus:ring-[#FDBE35]/12"
                 }`}
                 type="text"
                 autoComplete="postal-code"
@@ -1039,7 +1039,7 @@ export function CartPageClient() {
                     aria-pressed={active}
                     className={`flex min-h-11 items-center justify-center gap-2 rounded-full px-3 py-2 font-black transition ${
                       active
-                        ? "bg-[#D7A542] text-[#150D08] shadow-sm"
+                        ? "bg-[#FDBE35] text-[#121212] shadow-sm"
                         : "text-white/64 hover:bg-white/10 hover:text-white"
                     }`}
                   >
@@ -1056,7 +1056,7 @@ export function CartPageClient() {
                   type="button"
                   onClick={startGoogleCheckoutSignIn}
                   disabled={accountOAuthLoading}
-                  className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-white px-4 py-3 text-sm font-black text-[#150D08] shadow-[0_14px_32px_rgba(0,0,0,0.18)] transition hover:bg-[#F6DFA4] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-white px-4 py-3 text-sm font-black text-[#121212] shadow-[0_14px_32px_rgba(0,0,0,0.18)] transition hover:bg-[#FDE3A0] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <GoogleMark />
                   {accountOAuthLoading ? "Opening Google..." : "Continue with Google"}
@@ -1069,7 +1069,7 @@ export function CartPageClient() {
                 <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-bold leading-6 text-white/58">
                   Use your existing account password.
                   <Link
-                    className="text-[#F6DFA4] underline-offset-4 hover:underline"
+                    className="text-[#FDE3A0] underline-offset-4 hover:underline"
                     href="/account/forgot-password"
                   >
                     Forgot password?
@@ -1132,7 +1132,7 @@ export function CartPageClient() {
               className={`mt-2 h-12 w-full rounded-lg border px-3 text-sm font-semibold text-white outline-none transition placeholder:text-white/35 focus:ring-4 ${
                 customer.phone && !phoneValid
                   ? "border-red-400/55 bg-red-500/10 focus:border-red-400 focus:ring-red-400/15"
-                  : "border-white/12 bg-white/8 focus:border-[#D7A542]/65 focus:ring-[#D7A542]/12"
+                  : "border-white/12 bg-white/8 focus:border-[#FDBE35]/65 focus:ring-[#FDBE35]/12"
               }`}
               type="tel"
               autoComplete="tel"
@@ -1233,12 +1233,12 @@ export function CartPageClient() {
                 aria-pressed={active}
                 className={`rounded-lg border p-4 text-left transition ${
                   active
-                    ? "border-[#D7A542]/70 bg-[#D7A542] text-[#150D08] shadow-lg shadow-[#D7A542]/15"
-                    : "border-white/10 bg-white/8 text-white hover:border-[#D7A542]/35"
+                    ? "border-[#FDBE35]/70 bg-[#FDBE35] text-[#121212] shadow-lg shadow-[#FDBE35]/15"
+                    : "border-white/10 bg-white/8 text-white hover:border-[#FDBE35]/35"
                 }`}
               >
                 <Icon
-                  className={active ? "text-[#150D08]" : "text-[#D7A542]"}
+                  className={active ? "text-[#121212]" : "text-[#FDBE35]"}
                   size={22}
                   aria-hidden="true"
                 />
@@ -1247,7 +1247,7 @@ export function CartPageClient() {
                 </span>
                 <span
                   className={`mt-2 block text-sm leading-6 ${
-                    active ? "text-[#150D08]/72" : "text-white/58"
+                    active ? "text-[#121212]/72" : "text-white/58"
                   }`}
                 >
                   {option.detail}
@@ -1292,7 +1292,7 @@ export function CartPageClient() {
             </div>
             <div className="flex justify-between gap-4 border-t border-white/10 pt-3 text-lg">
               <span className="font-black">Total</span>
-              <span className="font-black text-[#D7A542]">
+              <span className="font-black text-[#FDBE35]">
                 {formatCurrency(total)}
               </span>
             </div>
@@ -1362,7 +1362,7 @@ export function CartPageClient() {
     }
 
     return (
-      <div className="rounded-[22px] border border-white/10 bg-[#15100E] p-4 shadow-[0_22px_54px_rgba(0,0,0,0.28)]">
+      <div className="rounded-[22px] border border-white/10 bg-[#1A1A1A] p-4 shadow-[0_22px_54px_rgba(0,0,0,0.28)]">
         <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
           <button
             type="button"
@@ -1389,13 +1389,13 @@ export function CartPageClient() {
 
   function renderOrderSummary() {
     return (
-      <aside className="h-fit rounded-lg border border-white/10 bg-[#15100E] p-5 text-white shadow-[0_22px_54px_rgba(0,0,0,0.28)] lg:sticky lg:top-24">
+      <aside className="h-fit rounded-lg border border-white/10 bg-[#1A1A1A] p-5 text-white shadow-[0_22px_54px_rgba(0,0,0,0.28)] lg:sticky lg:top-24">
         <div className="flex items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08]">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FDBE35] text-[#121212]">
             <ReceiptText size={20} aria-hidden="true" />
           </span>
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#D7A542]">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#FDBE35]">
               Your basket
             </p>
             <h2 className="text-2xl font-black">Order summary</h2>
@@ -1414,7 +1414,7 @@ export function CartPageClient() {
           {collectionDiscount > 0 ? (
             <div className="flex justify-between gap-4">
               <span className="text-white/58">Direct discount</span>
-              <span className="font-black text-[#D7A542]">
+              <span className="font-black text-[#FDBE35]">
                 -{formatCurrency(collectionDiscount)}
               </span>
             </div>
@@ -1422,7 +1422,7 @@ export function CartPageClient() {
           {reward.type !== "none" ? (
             <div className="flex justify-between gap-4">
               <span className="text-white/58">Offer</span>
-              <span className="text-right font-black text-[#D7A542]">
+              <span className="text-right font-black text-[#FDBE35]">
                 {reward.title}
               </span>
             </div>
@@ -1433,15 +1433,15 @@ export function CartPageClient() {
           </div>
           <div className="flex justify-between gap-4 border-t border-white/10 pt-3 text-lg">
             <span className="font-black">Total</span>
-            <span className="font-black text-[#D7A542]">
+            <span className="font-black text-[#FDBE35]">
               {formatCurrency(total)}
             </span>
           </div>
         </div>
 
-        <div className="smart-suggestion mt-5 rounded-lg border border-[#D7A542]/20 bg-[#D7A542]/10 p-4">
+        <div className="smart-suggestion mt-5 rounded-lg border border-[#FDBE35]/20 bg-[#FDBE35]/10 p-4">
           <h3 className="flex items-center gap-2 font-black text-white">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D7A542] text-[#150D08]">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FDBE35] text-[#121212]">
               <Sparkles size={16} aria-hidden="true" />
             </span>
             Smart suggestion
@@ -1453,7 +1453,7 @@ export function CartPageClient() {
           {"href" in smartSuggestion && smartSuggestion.href ? (
             <Link
               href={smartSuggestion.href}
-              className="mt-4 inline-flex h-10 items-center justify-center rounded-full bg-[#D7A542] px-4 text-sm font-black text-[#150D08] transition hover:bg-white"
+              className="mt-4 inline-flex h-10 items-center justify-center rounded-full bg-[#FDBE35] px-4 text-sm font-black text-[#121212] transition hover:bg-white"
             >
               {smartSuggestion.action}
             </Link>
@@ -1470,7 +1470,7 @@ export function CartPageClient() {
               <div key={step.id} className="flex items-start gap-3">
                 <CheckCircle2
                   className={`mt-0.5 shrink-0 ${
-                    step.complete ? "text-[#D7A542]" : "text-white/28"
+                    step.complete ? "text-[#FDBE35]" : "text-white/28"
                   }`}
                   size={17}
                   aria-hidden="true"
@@ -1490,7 +1490,7 @@ export function CartPageClient() {
   }
 
   return (
-    <section className="bg-[#0D0A08] px-4 pb-28 pt-6 text-white sm:px-6 sm:pt-8 lg:px-8 lg:py-10">
+    <section className="bg-[#121212] px-4 pb-28 pt-6 text-white sm:px-6 sm:pt-8 lg:px-8 lg:py-10">
       <div className="mx-auto max-w-6xl">
         {renderStepHeader()}
         <StoreStatusNotice className="mt-5" storeStatus={storeStatus} />
@@ -1520,7 +1520,7 @@ export function CartPageClient() {
                 paymentChoice === "online" ? startOnlineCheckout : placeCashOrder
               }
               disabled={!canCheckout || checkingOut}
-              className="inline-flex h-11 items-center justify-center rounded-full bg-[#D7A542] px-4 text-sm font-black text-[#241D1D] disabled:opacity-60"
+              className="inline-flex h-11 items-center justify-center rounded-full bg-[#FDBE35] px-4 text-sm font-black text-[#121212] disabled:opacity-60"
             >
               Pay
             </button>
@@ -1531,7 +1531,7 @@ export function CartPageClient() {
               disabled={
                 !checkoutSteps.find((step) => step.id === activeStep)?.complete
               }
-              className="inline-flex h-11 items-center justify-center rounded-full bg-[#D7A542] px-4 text-sm font-black text-[#241D1D] disabled:opacity-60"
+              className="inline-flex h-11 items-center justify-center rounded-full bg-[#FDBE35] px-4 text-sm font-black text-[#121212] disabled:opacity-60"
             >
               Continue
             </button>
@@ -1541,3 +1541,4 @@ export function CartPageClient() {
     </section>
   );
 }
+

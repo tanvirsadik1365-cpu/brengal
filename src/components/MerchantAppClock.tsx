@@ -25,13 +25,14 @@ export function MerchantAppClock() {
 
   return (
     <div className="restaurant-card rounded-lg px-5 py-4">
-      <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.12em] text-[#8A3430]">
+      <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.12em] text-[#2B1408]">
         <Clock3 size={15} aria-hidden="true" />
         Current time
       </p>
-      <p className="mt-2 text-lg font-black text-[#241D1D]">
+      <p className="mt-2 text-lg font-black text-[#121212]">
         {now ? formatNow(now) : "Loading time..."}
       </p>
     </div>
   );
 }
+
